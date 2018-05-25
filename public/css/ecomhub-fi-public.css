@@ -1,0 +1,77 @@
+/**
+ * All of the CSS for your public-facing functionality should be
+ * included in this file.
+ */
+
+.ecomhub-fi {
+    border: black solid 1px;
+    padding: 1em;
+    margin-top: 2em;
+    margin-bottom: 2em;
+}
+
+.ecomhub-fi div.ecomhub-fi-html{
+    margin-bottom: 1em;
+}
+
+.ecomhub-fi .ecomhub-fi-custom-header {
+    margin-bottom: 1em;
+}
+
+.ecomhub-fi .ecomhub-fi-customized-header {
+    margin-bottom: 1em;
+}
+
+.ecomhub-fi .ecomhub-fi-questions-list {
+    font-size: 100%;
+}
+
+.ecomhub-fi .ecomhub-fi-question-block {
+
+}
+
+.ecomhub-fi .ecomhub-fi-question {
+    font-weight: bold;
+}
+
+.ecomhub-fi fieldset.ecomhub-fi-error {
+    border: red solid 1px;
+}
+
+.ecomhub-fi .ecomhub-fi-question-block .ecomhub-fi-question-number {
+    font-style: italic;
+    border-radius: 50%;
+    padding: 0.20em;
+    min-width: 2em;
+    background-color: rgba(14, 19, 255, 0.22);
+    display: inline-block;
+    text-align: center;
+}
+
+.ecomhub-fi .ecomhub-fi-question-bloc fieldset {
+    padding: 0;
+}
+
+.ecomhub-fi .ecomhub-fi-question-block .ecomhub-fi-actual-question {
+
+}
+
+.ecomhub-fi .ecomhub-fi-question-block .ecomhub-fi-answer-line {
+
+}
+
+.ecomhub-fi .ecomhub-fi-question-block .ecomhub-fi-radio:not(:first-child) {
+
+}
+
+.ecomhub-fi .ecomhub-fi-question-block .ecomhub-fi-radio-label {
+    display: inline-block;
+}
+
+.ecomhub-fi .ecomhub-fi-question-block .ecomhub-fi-radio-and-label {
+    display: inline-block;
+}
+
+.ecomhub-fi .ecomhub-fi-question-block .ecomhub-fi-radio-and-label:not(:first-child) {
+    margin-left: 2em;
+}

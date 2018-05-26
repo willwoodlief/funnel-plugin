@@ -1,0 +1,14 @@
+{
+    "name": "will/ecomhub-fi",
+    "authors": [
+        {
+            "name": "willwoodlief",
+            "email": "willwoodlief@gmail.com"
+        }
+    ],
+    "require": {
+        "monolog/monolog": "^1.23",
+        "aws/aws-sdk-php": "^3.57",
+        "neitanod/forceutf8": "~2.0"
+    }
+}

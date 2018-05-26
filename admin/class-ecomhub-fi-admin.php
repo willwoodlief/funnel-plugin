@@ -113,16 +113,7 @@ class Ecomhub_Fi_Admin {
 	}
 
     public function my_admin_menu() {
-//        add_menu_page( 'Funnel Integration and Responses', 'Funnels',
-//	        'manage_options', 'ecomhub-fi-admin-page', array( $this, 'create_admin_interface' ), 'dashicons-chart-line', null  );
-	    //add a new options page
-//	    add_options_page(
-//		    'Funnels Integration Options',
-//		    'Funnel',
-//		    'manage_options',
-//		    'funnels',
-//		    ''
-//	    );
+
 	    add_options_page( 'Funnels Integration Option', 'Funnels', 'manage_options',
 		    'ecomhub-fi-funnels', array( $this, 'create_admin_interface') );//
 	}
@@ -136,7 +127,7 @@ class Ecomhub_Fi_Admin {
      */
     public function create_admin_interface(){
 
-	    $this->options = get_option( 'my_option_name' );
+	    $this->options = get_option( 'ecomhub_fi_options' );
         /** @noinspection PhpIncludeInspection */
         require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/ecomhub-fi-admin-display.php';
 
@@ -144,38 +135,28 @@ class Ecomhub_Fi_Admin {
 
     public function add_settings() {
 
-
-
-
-
 	    register_setting(
 		    'ecomhub-fi-options-group', // Option group
-		    'my_option_name', // Option name
+		    'ecomhub_fi_options', // Option name
 		    array( $this, 'sanitize' ) // Sanitize
 	    );
 
 	    add_settings_section(
 		    'setting_section_id', // ID
-		    'My Custom Settings', // Title
+		    'Click Funnel Integration Settings', // Title
 		    array( $this, 'print_section_info' ), // Callback
 		    'comhub-fi-funnels' // Page
 	    );
 
 	    add_settings_field(
-		    'id_number', // ID
-		    'ID Number', // Title
-		    array( $this, 'id_number_callback' ), // Callback
+		    'log_name', // ID
+		    'Log Name For Debugging', // Title
+		    array( $this, 'log_name_callback' ), // Callback
 		    'comhub-fi-funnels', // Page
 		    'setting_section_id' // Section
 	    );
 
-	    add_settings_field(
-		    'title',
-		    'Title',
-		    array( $this, 'title_callback' ),
-		    'comhub-fi-funnels',
-		    'setting_section_id'
-	    );
+
 
 	    add_settings_field(
 		    'is_listening',
@@ -186,68 +167,8 @@ class Ecomhub_Fi_Admin {
 	    );
 
 
-//	    add_settings_field(
-//		    'ecomhub-fi-is-listening',
-//		    'Is This Listening?',
-//		    function() {
-//                // get the value of the setting we've registered with register_setting()
-//                $setting = get_option('ecombhub_fi_on_switch');
-//                // output the field
-//	            $html = '<input type="checkbox" id="ecombhub_fi_on_switch" name="ecombhub_fi_on_switch" value="1"' . checked( 1, $setting, false ) . '/>';
-//	            $html .= '<label for="ecombhub_fi_on_switch">Is this Running to Process Funnels?</label>';
-//
-//	            echo $html;
-//
-//            },
-//		    'comhub-fi-funnels',
-//		    'setting_section_id'
-//	    );
-
-
-
-
-//        // register settings  for "reading" page
-//        $args = array(
-//            'type' => 'bool',
-//            'sanitize_callback' => null,
-//            'default' => '',
-//        );
-//
-//        $args['default'] = true;
-//        //for vitacheck header
-//        register_setting('ecomhub-fi-funnels', 'ecombhub_fi_on_switch',$args);
-//
-//
-//	    add_settings_section(
-//		    'setting_section_id', // ID
-//		    'My Custom Settings', // Title
-//		    array( $this, 'print_section_info' ), // Callback
-//		    'my-setting-admin' // Page
-//	    );
-//	    //ecomhub-fi-funnels is the page slug
-//
-//	    // register vitacheck field in the "ecombhub_fi_settings_section" section, inside the "reading" page
-//        add_settings_field(
-//            'ecombhub_fi_on_switch',
-//            'Process Funnel Callbacks',
-//            function() {
-//                // get the value of the setting we've registered with register_setting()
-//                $setting = get_option('ecombhub_fi_on_switch');
-//                // output the field
-//	            $html = '<input type="checkbox" id="ecombhub_fi_on_switch" name="ecombhub_fi_on_switch" value="1"' . checked( 1, $setting, false ) . '/>';
-//	            $html .= '<label for="ecombhub_fi_on_switch">Is this Running to Process Funnels?</label>';
-//
-//	            echo $html;
-//
-//            },
-//            'reading',
-//            'ecombhub_fi_settings_section'
-//        );
-
-
     }
 
-    //todo remove this block
 
 	/**
 	 * Holds the values to be used in the fields callbacks
@@ -265,19 +186,18 @@ class Ecomhub_Fi_Admin {
 	public function sanitize( $input )
 	{
 		$new_input = array();
-		if( isset( $input['id_number'] ) )
-			$new_input['id_number'] = absint( $input['id_number'] );
+		if( isset( $input['log_name'] ) ) {
+			$new_input['log_name'] = sanitize_text_field( $input['log_name'] );
+		}
 
-		if( isset( $input['title'] ) )
-			$new_input['title'] = sanitize_text_field( $input['title'] );
+
+
 
 		if( isset( $input['is_listening'] ) ) {
 			$new_input['is_listening'] = sanitize_text_field( $input['is_listening'] );
 		} else {
 			$new_input['is_listening'] = '0' ;
 		}
-
-
 
 
 		return $new_input;
@@ -294,11 +214,11 @@ class Ecomhub_Fi_Admin {
 	/**
 	 * Get the settings option array and print one of its values
 	 */
-	public function id_number_callback()
+	public function log_name_callback()
 	{
 		printf(
-			'<input type="text" id="id_number" name="my_option_name[id_number]" value="%s" />',
-			isset( $this->options['id_number'] ) ? esc_attr( $this->options['id_number']) : ''
+			'<input type="text" id="log_name" name="ecomhub_fi_options[log_name]" value="%s" />',
+			isset( $this->options['log_name'] ) ? esc_attr( $this->options['log_name']) : ''
 		);
 	}
 
@@ -308,23 +228,14 @@ class Ecomhub_Fi_Admin {
 		$checked = checked( 1, $setting, false );
 
 		printf(
-			'<input type="checkbox" id="is_listening" name="my_option_name[is_listening]" value="1" %s />',
+			'<input type="checkbox" id="is_listening" name="ecomhub_fi_options[is_listening]" value="1" %s />',
 			$checked
 		);
 
 	}
 
-	/**
-	 * Get the settings option array and print one of its values
-	 */
-	public function title_callback()
-	{
-		printf(
-			'<input type="text" id="title" name="my_option_name[title]" value="%s" />',
-			isset( $this->options['title'] ) ? esc_attr( $this->options['title']) : ''
-		);
-	}
-	//end todo remove block above
+
+
 
     public function query_survey_ajax_handler() {
 

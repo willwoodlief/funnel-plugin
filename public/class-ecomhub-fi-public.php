@@ -80,10 +80,10 @@ class Ecomhub_Fi_Public
 
         wp_enqueue_script($this->plugin_name, plugin_dir_url(__DIR__) . 'lib/Chart.min.js', array('jquery'), $this->version, false);
         wp_enqueue_script($this->plugin_name. 'a', plugin_dir_url(__FILE__) . 'js/ecomhub-fi-public.js', array('jquery'), $this->version, false);
-        $title_nonce = wp_create_nonce('ecombhub_fi_chart');
+        $title_nonce = wp_create_nonce('ecombhub_fi_public');
         wp_localize_script('ecomhub-fi', 'ecombhub_fi_chart_ajax_obj', array(
             'ajax_url' => admin_url('admin-ajax.php'),
-            'action' => 'ecombhub_fi_submit_chart_step',
+            'action' => 'ecombhub_fi_public',
             'nonce' => $title_nonce,
         ));
 
@@ -92,88 +92,8 @@ class Ecomhub_Fi_Public
     //JSON
     function send_survey_ajax_handler()
     {
-        global $survey_obj;
 
-
-
-        check_ajax_referer('ecombhub_fi_chart');
-        $dob = null;
-        if (array_key_exists('dob_ts',$_POST) && !empty($_POST['dob_ts'])) {
-            $dob = intval($_POST['dob_ts']);
-        }
-        $code = null;
-        if (array_key_exists( 'code',$_POST) && !empty($_POST['code'])) {
-            $code = sanitize_text_field($_POST['code']);
-        }
-
-        if (array_key_exists( 'state',$_POST) && $_POST['state'] == 'start') {
-
-            if ($code && $dob) {
-                //try to find a completed survey
-                $survey_obj = new ChiSurveyCompleted($dob, $code);
-                ob_start();
-
-                $html = ob_get_contents();
-                ob_end_clean();
-                wp_send_json(['is_valid' => true, 'html' => $html, 'message' => 'finished survey page', "state" => "finished_survey_page"]);
-                die();
-            } else if ($code) {
-                $text = get_option('ecombhub_fi_not_found_text');
-                wp_send_json(['is_valid' => false, 'html' => $text, "state" => "missing_dob"]);
-                die();
-            } elseif(!$dob) {
-                wp_send_json(['is_valid' => false, 'message' => "start without dob"]);
-            } else {
-                try {
-                    $survey_obj = new ChiSurvey($dob);
-                    $survey_obj->load_questions_of_section('vitacheck');
-                } catch (Exception $e) {
-                    wp_send_json(['is_valid' => false, 'message' => $e->getMessage(), 'trace'=>$e->getTrace(), ]);
-                    die();
-                }
-                ob_start();
-
-                $html = ob_get_contents();
-                ob_end_clean();
-                wp_send_json(['is_valid' => true, 'html' => $html, 'message' => 'starting survey vitacheck', "state" => "survey_page"]);
-                die();
-            }
-
-
-        } elseif (array_key_exists( 'state',$_POST) && $_POST['state'] == 'vitacheck') {
-
-            try {
-                $survey_obj = new ChiSurvey(null, $code);
-                $answers =$survey_obj->save_answers_from_post();
-                $survey_obj->load_questions_of_section('psychologische');
-            } catch (Exception $e) {
-                wp_send_json(['is_valid' => false, 'message' => $e->getMessage(), 'trace'=>$e->getTrace(), ]);
-                die();
-            }
-            ob_start();
-
-            $html = ob_get_contents();
-            ob_end_clean();
-            wp_send_json(['is_valid' => true, 'html' => $html, 'message' => 'starting survey psychologische', "state" => "survey_page",'processed_answers'=>$answers]);
-            die();
-        } elseif (array_key_exists( 'state',$_POST) && $_POST['state'] == 'psychologische') {
-
-            try {
-                $survey_obj = new ChiSurvey(null, $code);
-                $answers = $survey_obj->save_answers_from_post();
-                $survey_obj->calculate_and_close_survey();
-            } catch (Exception $e) {
-                wp_send_json(['is_valid' => false, 'message' => $e->getMessage(), 'trace'=>$e->getTrace(), ]);
-                die();
-            }
-            $survey_obj = new ChiSurveyCompleted(null, $code,true);
-            ob_start();
-
-            $html = ob_get_contents();
-            ob_end_clean();
-            wp_send_json(['is_valid' => true, 'html' => $html, 'message' => 'finished survey page', "state" => "finished_survey_page",'processed_answers'=>$answers]);
-            die();
-        }
+        check_ajax_referer('ecombhub_fi_public');
 
         wp_send_json(['is_valid' => true, 'message' => "hi", 'test' => $_POST['test']]);
     }
@@ -215,9 +135,7 @@ class Ecomhub_Fi_Public
             $ecombhub_fi_custom_header .= apply_filters('the_content', $expanded__other_shortcodes);
 
         }
-
-
-
+	    require_once plugin_dir_path(dirname(__FILE__)) . 'public/partials/ecomhub-fi-shortcode.php';
         // return output
         return $o;
     }

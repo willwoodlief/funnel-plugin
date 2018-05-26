@@ -1,0 +1,1094 @@
+Delivered-To: willwoodlief@gmail.com
+Received: by 2002:a50:f5e4:0:0:0:0:0 with SMTP id x33-v6csp622268edm;
+        Thu, 24 May 2018 05:05:08 -0700 (PDT)
+X-Google-Smtp-Source: AB8JxZp60HwrLjhvVFNLn6EiPgJQMgheMVZtAvF7mBkzTaoRWU5TZvYzq5FTjlk7NRKH177tdCYh
+X-Received: by 2002:a1c:ea1a:: with SMTP id i26-v6mr7695007wmh.11.1527163507945;
+        Thu, 24 May 2018 05:05:07 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1527163507; cv=none;
+        d=google.com; s=arc-20160816;
+        b=tg+uoJwz1JtifL30tdvLufRFqqhTYRz0/33QDxjn9V+xbTfN5bla2Xv4oQIgYOzJlo
+         4j4HWuAXn/pzlsTOm8nOnfioUZOC9ruWJ+p6XNwG2z1a6ssOv8pPygJSOMK1ef+ICAiT
+         dPSdyAPu2F+ETzbpSn7PAsf/5CHW5BmRrJhKsuj/iA/JyF9vRKXI9Aj8kmkd3pNOUO6l
+         YTF9gHjh+e2Obtlk48PeaDCdmz1pa+0KkhsPsIUoHIrIGqdgUMZdeRJvw0cZcLhVIQDW
+         YoOkal9gE1MKoDOQ1KQGrsQrO12HGcrxS62EQft8i9d7fooYmR7v9N4gr8heUiV6JCCh
+         8LfQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:mime-version:subject:message-id:to:reply-to:from
+         :date:dkim-signature:dkim-signature:arc-authentication-results;
+        bh=93gEALH4ouwI+nUpiIv+d4n9UJhFZXciY1O41L2hIyI=;
+        b=kHdXaCmrNDbRmbGo+WGOdmOedu3wRvHzGDzbwGLq8WnSUJbwA50Mxc1bRAstcplt4i
+         Gv+kWx0Q7jpiRtxGh3sRYIKz8WrLdCjxP4+WIi5bF/pdSpHxUQFQ1Wp8/w83S/72OvpK
+         WrFoF5++Pg8bqbyynk/7xkwIPaCK3DsDW/VNg4xuFdXQwHwbRnWHK5homMWdW1X5L4dD
+         LIzoSQ+bhAYlGBsgVL6n+dBxBfIpasNd5m38E94gc29A5X9WBS/X1RsveVlFqiGe6+89
+         6q1jGBH6Zeqe0L5KR0Umn/h3V4QQ/Ki39sIwD/9TWNI3MGBnvlXuGI32K2Cyoow4LR7P
+         SF2Q==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@jetbrains.com header.s=m1 header.b=1D0vFkhn;
+       dkim=pass header.i=@mktdns.com header.s=m1 header.b=qVbpoT9y;
+       spf=pass (google.com: domain of 426-qvd-114.0.28634.0.0.22024.9.11088817@mkto-mailer.jetbrains.com designates 185.28.196.44 as permitted sender) smtp.mailfrom=426-QVD-114.0.28634.0.0.22024.9.11088817@mkto-mailer.jetbrains.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=jetbrains.com
+Return-Path: <426-QVD-114.0.28634.0.0.22024.9.11088817@mkto-mailer.jetbrains.com>
+Received: from mkto-mailer.jetbrains.com (mkto-mailer.jetbrains.com. [185.28.196.44])
+        by mx.google.com with ESMTPS id k184-v6si3248741wmk.47.2018.05.24.05.05.07
+        for <willwoodlief@gmail.com>
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 24 May 2018 05:05:07 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 426-qvd-114.0.28634.0.0.22024.9.11088817@mkto-mailer.jetbrains.com designates 185.28.196.44 as permitted sender) client-ip=185.28.196.44;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@jetbrains.com header.s=m1 header.b=1D0vFkhn;
+       dkim=pass header.i=@mktdns.com header.s=m1 header.b=qVbpoT9y;
+       spf=pass (google.com: domain of 426-qvd-114.0.28634.0.0.22024.9.11088817@mkto-mailer.jetbrains.com designates 185.28.196.44 as permitted sender) smtp.mailfrom=426-QVD-114.0.28634.0.0.22024.9.11088817@mkto-mailer.jetbrains.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=jetbrains.com
+X-MSFBL: d2lsbHdvb2RsaWVmQGdtYWlsLmNvbUBkdnAtMTg1LTI4LTE5Ni00NEBiZy1sb25k
+	LTMwQDQyNi1RVkQtMTE0OjIwOTYzOjE0ODI2OjU5NjI0OjI6MjIwMjQ6OToyODYz
+	NDoxMTA4ODgxNw==
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1527163502;
+	s=m1; d=jetbrains.com; i=@jetbrains.com;
+	h=Date:From:To:Subject:MIME-Version:Content-Type;
+	bh=93gEALH4ouwI+nUpiIv+d4n9UJhFZXciY1O41L2hIyI=;
+	b=1D0vFkhn+80HuR9VIcyzR/2/af7tHkde+c4Nb0tvDl89rIZsuziBAKVuO+NX0n/j
+	+OqIDrsFg+bNCJIT4JpgVxf6j31eV7YSoCLWOh+Vjh/GQO97Me/d/bgi1ReTNKz/PSW
+	qJq0Fpb9807ldDP6Qs8K5KAHHKrAHlsJ5vsNSuPw=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1527163502;
+	s=m1; d=mktdns.com; i=@mktdns.com;
+	h=Date:From:To:Subject:MIME-Version:Content-Type;
+	bh=93gEALH4ouwI+nUpiIv+d4n9UJhFZXciY1O41L2hIyI=;
+	b=qVbpoT9yibdAN2l0mRh+O5hBqexKUJyARlT/koaDn1f9/3x5vynA7PHXEe4rGLXz
+	M7Jdlo++w8RcRD0I60mURhyPTP4QW3Rx8f6+XVdx8dUC0rMpHX9iptc5FQPIdtyR+6w
+	Xpp3kq0bnXbFduXIBP3IkVC4bCmm0si809QLkVH4=
+Date: Thu, 24 May 2018 07:05:02 -0500 (CDT)
+From: JetBrains <news@jetbrains.com>
+Reply-To: news@jetbrains.com
+To: willwoodlief@gmail.com
+Message-ID: <607511375.105148008.1527163502645.JavaMail.root@lon-mas2.marketo.org>
+Subject: Please confirm you still want news from JetBrains
+MIME-Version: 1.0
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_105148007_818131001.1527163502645"
+X-Binding: bg-lond-30
+X-MarketoID: 426-QVD-114:20963:14826:59624:2:22024:9:28634:11088817
+X-MktArchive: false
+List-Unsubscribe: <mailto:GFJUM4CRLJLE6RTWMZ3U6RL2GQ2VEYK7KNAT2PI.28634.22024.9@unsub-lon.mktomail.com>
+X-Mailfrom: 426-QVD-114.0.28634.0.0.22024.9.11088817@mkto-mailer.jetbrains.com
+X-MSYS-API: {"options":{"open_tracking":false,"click_tracking":false}}
+X-MktMailDKIM: true
+
+------=_Part_105148007_818131001.1527163502645
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+Dear Will,
+
+You are currently subscribed to certain email communications from JetBrains=
+.
+
+We know things change and we don't want to clog up your email with things y=
+ou don't want to read anymore, so we need to know if you still want to stay=
+ connected with us. Without your confirmation we will have to stop sending =
+you any information after May 25th, 2018.
+
+So, to keep receiving further useful information from us, please confirm yo=
+ur preferences.
+--important part start--
+
+According to the new General Data Protection Regulation (GDPR), sending you=
+ any information after May 25, 2018, will require your explicit consent. We=
+ also need to provide you with additional information about the ways in whi=
+ch we process your data.
+
+We may use your name, email address, and location data (country) to send yo=
+u these communications. We employ certain third-party services <http://go.j=
+etbrains.com/GKV0DH10H4KYQ0MO0000TQw> subject to the JetBrains Privacy Poli=
+cy <http://go.jetbrains.com/K00wKQV00OHZ15MHT0KQ0D0> for that.
+
+To unsubscribe from receiving marketing emails from JetBrains, you can revo=
+ke your consent at any time by using the unsubscribe link inside every sing=
+le email you receive from us.
+
+--important part end--
+If you have questions, feel free to reach out to us at=C2=A0privacy@jetbrai=
+ns.com <http://go.jetbrains.com/O0I0TKwD0100QQO0070MKHV>.
+
+We=E2=80=99re looking forward to delivering the right content to you to hel=
+p you be more productive.
+
+The JetBrains Team
+
+------=_Part_105148007_818131001.1527163502645
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.=
+w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns=3D"http://www.w3.org/1999/xhtml" style=3D"width: 100%;">
+<head>=20
+<!-- Marketo Variable Definitions -->=20
+<!--img-text-button-->  =20
+<!--spacer-->  =20
+<!--text-editor-->     =20
+<!--cta-->            =20
+<!--CTA 2 buttons variables-->         =20
+<!--Speaker variables-->   =20
+<!--logo-with-3-links.html variables-->       =20
+<!--button-with-text-right.html-->       =20
+<!--separator.html--> =20
+<!--kotlin-conf-footer.html-->  =20
+<!-- footer.html -->  =20
+<!-- img70x70-text.html -->        =20
+<!-- Other Meta Tags -->=20
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DUTF-8" />=
+=20
+<meta name=3D"viewport" content=3D"width=3Ddevice-width, initial-scale=3D1,=
+ minimum-scale=3D1, maximum-scale=3D1" />=20
+<meta name=3D"robots" content=3D"noindex,nofollow" />=20
+<meta http-equiv=3D"X-UA-Compatible" content=3D"IE=3Dedge" />=20
+<link href=3D"https://fonts.googleapis.com/css?family=3DRaleway:300,400,700=
+" rel=3D"stylesheet" type=3D"text/css" />=20
+<link href=3D"https://fonts.googleapis.com/css?family=3DLato:300,400,700" r=
+el=3D"stylesheet" type=3D"text/css" />=20
+<style type=3D"text/css">
+    /*trying to apply Lato font with fallback to standard fonts*/
+    [style*=3D"Lato"] {
+      font-family: 'Lato', Arial, sans-serif !important
+    }
+  </style>=20
+</head>=20
+<body style=3D"margin-bottom: 0; -webkit-text-size-adjust: 100%; padding-bo=
+ttom: 0; min-width: 100%; margin-top: 0; margin-right: 0; -ms-text-size-adj=
+ust: 100%; margin-left: 0; padding-top: 0; padding-right: 0; padding-left: =
+0; width: 100%;"><style type=3D"text/css">div#emailPreHeader{ display: none=
+ !important; }</style><div id=3D"emailPreHeader" style=3D"mso-hide:all; vis=
+ibility:hidden; opacity:0; color:transparent; mso-line-height-rule:exactly;=
+ line-height:0; font-size:0px; overflow:hidden; border-width:0; display:non=
+e !important;">You are currently subscribed to certain email communications=
+ from JetBrains.  We need to know if you still want to stay connected with =
+us.</div>=20
+<div style=3D"display:none; white-space:nowrap; font:15px courier; line-hei=
+ght:0;">
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp=
+; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
+sp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+</div>=20
+<!-- Outer table START -->=20
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"100%" styl=
+e=3D"-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-=
+lspace: 0pt; mso-table-rspace: 0pt; border-spacing: 0; border-collapse: col=
+lapse;">=20
+<tbody>=20
+<tr>=20
+<td class=3D"outer" valign=3D"top" style=3D"-webkit-text-size-adjust: 100%;=
+ -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; =
+word-break: break-word; -webkit-hyphens: none; -moz-hyphens: none; hyphens:=
+ none; min-width: 600px; border-collapse: collapse; background-color: #eeee=
+ee;">=20
+<center data-parsed=3D"" style=3D"min-width:650px;width:100%">=20
+<table width=3D"650" align=3D"center" id=3D"boxing" border=3D"0" cellpaddin=
+g=3D"0" cellspacing=3D"0" style=3D"-webkit-text-size-adjust: 100%; -ms-text=
+-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-sp=
+acing: 0; border-collapse: collapse;">=20
+<tbody>=20
+<tr>=20
+<td class=3D"mktoContainer boxedbackground" id=3D"template-wrapper" style=
+=3D"-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-l=
+space: 0pt; mso-table-rspace: 0pt; word-break: break-word; -webkit-hyphens:=
+ none; -moz-hyphens: none; hyphens: none; border-collapse: collapse;">
+<table class=3D"body mktoModule" id=3D"img-banner-650-170ae29060c-da0e-4676=
+-8b81-2f3eb0d520a8" style=3D"Margin:0;background:#eee;border-collapse:colla=
+pse;border-spacing:0;color:#0a0a0a;font-family:Helvetica,Arial,sans-serif;f=
+ont-size:16px;font-weight:400;height:100%;line-height:1.3;margin:0 auto;pad=
+ding:0;table-layout:fixed;text-align:left;vertical-align:top;width:100%">=
+=20
+<tbody>=20
+<tr style=3D"padding:0;text-align:left;vertical-align:top">=20
+<td class=3D"center" align=3D"center" valign=3D"top" style=3D"-moz-hyphens:=
+auto;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;color=
+:#0a0a0a;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:=
+400;hyphens:auto;line-height:1.3;margin:0;padding:0;text-align:left;vertica=
+l-align:top;word-wrap:break-word">=20
+<center data-parsed=3D"" style=3D"min-width:650px;width:100%">=20
+<table align=3D"center" class=3D"container email-container float-center" st=
+yle=3D"Margin:0 auto;background:#fff;border-collapse:collapse;border-spacin=
+g:0;float:none;margin:0 auto;padding:0;text-align:center;vertical-align:top=
+;width:650px">=20
+<tbody>=20
+<tr style=3D"padding:0;text-align:left;vertical-align:top">=20
+<td style=3D"-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border-collaps=
+e:collapse!important;color:#0a0a0a;font-family:Helvetica,Arial,sans-serif;f=
+ont-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding=
+:0;text-align:left;vertical-align:top;word-wrap:break-word">=20
+<table class=3D"row" style=3D"border-collapse:collapse;border-spacing:0;dis=
+play:table;padding:0;position:relative;text-align:left;vertical-align:top;w=
+idth:100%">=20
+<tbody>=20
+<tr style=3D"padding:0;text-align:left;vertical-align:top">=20
+<th class=3D"small-12 large-12 columns first last" style=3D"Margin:0 auto;c=
+olor:#0a0a0a;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-wei=
+ght:400;line-height:1.3;margin:0 auto;padding:0;padding-bottom:0;padding-le=
+ft:0;padding-right:0;text-align:left;width:650px">=20
+<table style=3D"border-collapse:collapse;border-spacing:0;padding:0;text-al=
+ign:left;vertical-align:top;width:100%">=20
+<tbody>=20
+<tr style=3D"padding:0;text-align:left;vertical-align:top">=20
+<th style=3D"Margin:0;color:#0a0a0a;font-family:Helvetica,Arial,sans-serif;=
+font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-alig=
+n:left">=20
+<!--image container start-->=20
+<div class=3D"mktoImg" id=3D"banner-650x170ae29060c-da0e-4676-8b81-2f3eb0d5=
+20a8" mktolockimgsize=3D"true">=20
+<a href=3D
+"http://go.jetbrains.com/dc/k2oLQLl4sOXaMfj4PBQzO3wDn9nkosA546MpEebrSd4zmV-=
+HcuRcyTvTsSfT41iyCMXq0HnHfbsoIbAB5rdG0d7fvAhjx5tzt8X1z7vaZTw=3D/FKHVO00X30Q=
+0T1Hw000DMQK" target=3D"_blank"
+> <img class=3D"contest-banner-img" width=3D"650" height=3D"170" style=3D"-=
+ms-interpolation-mode:bicubic;clear:both;display:block;height:auto!importan=
+t;max-height:170px;max-width:650px!important;outline:0;text-decoration:none=
+;width:100%!important" src=3D"https://info.jetbrains.com/rs/426-QVD-114/ima=
+ges/650x170_newsletter%402xJB_2018_new.png" /> </a>=20
+</div>=20
+<!--image container end--> </th>=20
+<th class=3D"expander" style=3D"Margin:0;color:#0a0a0a;font-family:Helvetic=
+a,Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;=
+padding:0!important;text-align:left;visibility:hidden;width:0"></th>=20
+</tr>=20
+</tbody>=20
+</table> </th>=20
+</tr>=20
+</tbody>=20
+</table> </td>=20
+</tr>=20
+</tbody>=20
+</table>=20
+</center> </td>=20
+</tr>=20
+</tbody>=20
+</table>
+<table class=3D"body mktoModule" id=3D"custom-text-wrapper" style=3D"Margin=
+:0;background:#eee;border-collapse:collapse;border-spacing:0;color:#000000;=
+font-family:Arial,sans-serif,Lato;font-size:16px;font-weight:400;height:100=
+%;line-height:1.3;margin:0 auto;padding:0;table-layout:fixed;text-align:lef=
+t;vertical-align:top;width:100%">=20
+<tbody>=20
+<tr style=3D"padding:0;text-align:left;vertical-align:top">=20
+<td class=3D"center" align=3D"center" valign=3D"top" style=3D"-moz-hyphens:=
+auto;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;color=
+:#000000;font-family:Arial,sans-serif,Lato;font-size:16px;font-weight:400;h=
+yphens:auto;line-height:1.3;margin:0;padding:0;text-align:left;vertical-ali=
+gn:top;word-wrap:break-word">=20
+<center data-parsed=3D"" style=3D"min-width:650px;width:100%">=20
+<table align=3D"center" class=3D"container email-container float-center" st=
+yle=3D"Margin:0 auto;background:#FFFFFF;border-collapse:collapse;border-spa=
+cing:0;float:none;margin:0 auto;padding:0;text-align:center;vertical-align:=
+top;width:650px">=20
+<tbody>=20
+<tr style=3D"padding:0;text-align:left;vertical-align:top">=20
+<td style=3D"-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border-collaps=
+e:collapse!important;color:#000000;font-family:Arial,sans-serif,Lato;font-s=
+ize:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0;te=
+xt-align:left;vertical-align:top;word-wrap:break-word">=20
+<table class=3D"row" style=3D"border-collapse:collapse;border-spacing:0;dis=
+play:table;padding:0;position:relative;text-align:left;vertical-align:top;w=
+idth:100%">=20
+<tbody>=20
+<tr style=3D"padding:0;text-align:left;vertical-align:top">=20
+<th class=3D"text-editor small-12 large-12 columns first last" style=3D"Mar=
+gin:0 auto;background-color:#FFFFFF;color:#FFFFFF;font-family:Arial,sans-se=
+rif,Lato;font-size:16px;font-weight:400;line-height:1.3;margin:0 auto;paddi=
+ng:0;padding-bottom:0;padding-left:20px;padding-right:20px;text-align:left;=
+width:650px">=20
+<table style=3D"border-collapse:collapse;border-spacing:0;padding:0;text-al=
+ign:left;vertical-align:top;width:100%">=20
+<tbody>=20
+<tr style=3D"padding:0;text-align:left;vertical-align:top">=20
+<th style=3D"Margin:0;color:#000000;font-family:Arial,sans-serif,Lato;font-=
+size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:lef=
+t">=20
+<!--spacer start-->=20
+<table class=3D"spacer" style=3D"border-collapse:collapse;border-spacing:0;=
+padding:0;text-align:left;vertical-align:top;width:100%">=20
+<tbody>=20
+<tr style=3D"padding:0;text-align:left;vertical-align:top">=20
+<td height=3D"20px" style=3D"-moz-hyphens:auto;-webkit-hyphens:auto;Margin:=
+0;border-collapse:collapse!important;color:#0a0a0a;font-family:Arial,sans-s=
+erif,Lato;font-size:20px;font-weight:400;hyphens:auto;line-height:20px;marg=
+in:0;mso-line-height-rule:exactly;padding:0;text-align:left;vertical-align:=
+top;word-wrap:break-word"> &nbsp;</td>=20
+</tr>=20
+</tbody>=20
+</table>=20
+<!--spacer end-->=20
+<div class=3D"mktoText" id=3D"text-editor-content">=20
+<p>Dear Will,
+</p>=20
+<p>You are currently subscribed to certain email communications from JetBra=
+ins.</p>=20
+<p>We know things change and we don't want to clog up your email with thing=
+s you don't want to read anymore, so we need to know if you still want to s=
+tay connected with us. Without your confirmation <strong>we will have to st=
+op</strong> sending you any information after May 25th, 2018.</p>=20
+<p>So, to keep receiving further useful information from us, please confirm=
+ your preferences.</p>=20
+</div>=20
+<!--spacer start-->=20
+<table class=3D"spacer" style=3D"border-collapse:collapse;border-spacing:0;=
+padding:0;text-align:left;vertical-align:top;width:100%">=20
+<tbody>=20
+<tr style=3D"padding:0;text-align:left;vertical-align:top">=20
+<td height=3D"10px" style=3D"-moz-hyphens:auto;-webkit-hyphens:auto;Margin:=
+0;border-collapse:collapse!important;color:#000000;font-family:Arial,sans-s=
+erif,Lato;font-size:10px;font-weight:400;hyphens:auto;line-height:10px;marg=
+in:0;mso-line-height-rule:exactly;padding:0;text-align:left;vertical-align:=
+top;word-wrap:break-word"> &nbsp;</td>=20
+</tr>=20
+</tbody>=20
+</table>=20
+<!--spacer end--> </th>=20
+<th class=3D"expander" style=3D"Margin:0;color:#0a0a0a;font-family:Arial,sa=
+ns-serif,Lato;font-size:16px;font-weight:400;line-height:1.3;margin:0;paddi=
+ng:0!important;text-align:left;visibility:hidden;width:0"></th>=20
+</tr>=20
+</tbody>=20
+</table> </th>=20
+</tr>=20
+</tbody>=20
+</table> </td>=20
+</tr>=20
+</tbody>=20
+</table>=20
+</center> </td>=20
+</tr>=20
+</tbody>=20
+</table>
+<table class=3D"body mktoModule" id=3D"custom-cta3b882c48-b6e8-4d00-a83f-87=
+f15282da48" style=3D"Margin:0;background:#eee;border-collapse:collapse;bord=
+er-spacing:0;color:#0a0a0a;font-family:Helvetica,Arial,sans-serif;font-size=
+:16px;font-weight:400;height:100%;line-height:1.3;margin:0 auto;padding:0;t=
+able-layout:fixed;text-align:left;vertical-align:top;width:100%">=20
+<tbody>=20
+<tr style=3D"padding:0;text-align:left;vertical-align:top">=20
+<td class=3D"center" align=3D"center" valign=3D"top" style=3D"-moz-hyphens:=
+auto;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;color=
+:#0a0a0a;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:=
+400;hyphens:auto;line-height:1.3;margin:0;padding:0;text-align:left;vertica=
+l-align:top;word-wrap:break-word">=20
+<center data-parsed=3D"" style=3D"min-width:650px;width:100%">=20
+<table align=3D"center" class=3D"container email-container float-center" st=
+yle=3D"Margin:0 auto;background:#FFFFFF;border-collapse:collapse;border-spa=
+cing:0;float:none;margin:0 auto;padding:0;text-align:center;vertical-align:=
+top;width:650px">=20
+<tbody>=20
+<tr style=3D"padding:0;text-align:left;vertical-align:top">=20
+<td style=3D"-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border-collaps=
+e:collapse!important;color:#0a0a0a;font-family:Helvetica,Arial,sans-serif;f=
+ont-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding=
+:0;text-align:left;vertical-align:top;word-wrap:break-word">=20
+<table class=3D"row" style=3D"border-collapse:collapse;border-spacing:0;dis=
+play:table;padding:0;position:relative;text-align:left;vertical-align:top;w=
+idth:100%">=20
+<tbody>=20
+<tr style=3D"padding:0;text-align:left;vertical-align:top">=20
+<th class=3D"small-12 large-12 columns first last" style=3D"Margin:0 auto;c=
+olor:#0a0a0a;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-wei=
+ght:400;line-height:1.3;margin:0 auto;padding:0;padding-bottom:0;padding-le=
+ft:0;padding-right:0;text-align:left;width:650px">=20
+<table style=3D"border-collapse:collapse;border-spacing:0;padding:0;text-al=
+ign:left;vertical-align:top;width:100%">=20
+<tbody>=20
+<tr style=3D"padding:0;text-align:left;vertical-align:top">=20
+<th style=3D"Margin:0;color:#0a0a0a;font-family:Helvetica,Arial,sans-serif;=
+font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-alig=
+n:left">=20
+<center data-parsed=3D"" style=3D"min-width:650px;width:100%">=20
+<table class=3D"button float-center" style=3D"Margin:0 0 0 0;border-collaps=
+e:collapse;border-spacing:0;float:none;margin:0 0 0 0;padding:0;text-align:=
+center;vertical-align:top;width:auto">=20
+<tbody>=20
+<tr style=3D"padding:0;text-align:left;vertical-align:top">=20
+<td style=3D"-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border-collaps=
+e:collapse!important;color:#0a0a0a;font-family:Helvetica,Arial,sans-serif;f=
+ont-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding=
+:0;text-align:left;vertical-align:top;word-wrap:break-word">=20
+<table style=3D"border-collapse:collapse;border-spacing:0;padding:0;text-al=
+ign:left;vertical-align:top;width:100%">=20
+<tbody>=20
+<tr style=3D"padding:0;text-align:left;vertical-align:top">=20
+<td style=3D"-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;background:#18=
+A3FA;border-collapse:collapse!important;color:#FFFFFF;font-family:Helvetica=
+,Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1=
+.3;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-wo=
+rd;border-radius: 500px;"> <a href=3D
+"http://go.jetbrains.com/dc/oZkb5IUc2Y-gs3UFyHbi_648UZlTtWl0GMX0O7p8MBc_goB=
+2vh_mE1e5J06CZ3Lsnhj7CHizZBiYGHZ_AfNfp_WIyBx2o1jrYWHqiA_PVrA=3D/FKHVO00X30Q=
+0T1Hw000DMQK" class=3D"" style=3D"Margin:0;border:1px solid #18A3FA;border-=
+radius:20px;color:#FFFFFF;display:inline-block;font-family:Helvetica,Arial,=
+'Lato';font-size:17px;font-weight:700;line-height:1.3;margin:0;padding:8px =
+30px 8px 30px;text-align:left;text-decoration:none"
+> REVIEW AND CONFIRM</a> </td>=20
+</tr>=20
+</tbody>=20
+</table> </td>=20
+</tr>=20
+</tbody>=20
+</table>=20
+</center> </th>=20
+<th class=3D"expander" style=3D"Margin:0;color:#0a0a0a;font-family:Helvetic=
+a,Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;=
+padding:0!important;text-align:left;visibility:hidden;width:0"></th>=20
+</tr>=20
+</tbody>=20
+</table> </th>=20
+</tr>=20
+</tbody>=20
+</table> </td>=20
+</tr>=20
+</tbody>=20
+</table>=20
+</center> </td>=20
+</tr>=20
+</tbody>=20
+</table>
+<table class=3D"body mktoModule" id=3D"custom-text-wrapperd7e8dcc8-d633-43f=
+a-af14-4ebc4c0b053b" style=3D"Margin:0;background:#eee;border-collapse:coll=
+apse;border-spacing:0;color:#000000;font-family:Arial,sans-serif,Lato;font-=
+size:16px;font-weight:400;height:100%;line-height:1.3;margin:0 auto;padding=
+:0;table-layout:fixed;text-align:left;vertical-align:top;width:100%">=20
+<tbody>=20
+<tr style=3D"padding:0;text-align:left;vertical-align:top">=20
+<td class=3D"center" align=3D"center" valign=3D"top" style=3D"-moz-hyphens:=
+auto;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;color=
+:#000000;font-family:Arial,sans-serif,Lato;font-size:16px;font-weight:400;h=
+yphens:auto;line-height:1.3;margin:0;padding:0;text-align:left;vertical-ali=
+gn:top;word-wrap:break-word">=20
+<center data-parsed=3D"" style=3D"min-width:650px;width:100%">=20
+<table align=3D"center" class=3D"container email-container float-center" st=
+yle=3D"Margin:0 auto;background:#FFFFFF;border-collapse:collapse;border-spa=
+cing:0;float:none;margin:0 auto;padding:0;text-align:center;vertical-align:=
+top;width:650px">=20
+<tbody>=20
+<tr style=3D"padding:0;text-align:left;vertical-align:top">=20
+<td style=3D"-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border-collaps=
+e:collapse!important;color:#000000;font-family:Arial,sans-serif,Lato;font-s=
+ize:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0;te=
+xt-align:left;vertical-align:top;word-wrap:break-word">=20
+<table class=3D"row" style=3D"border-collapse:collapse;border-spacing:0;dis=
+play:table;padding:0;position:relative;text-align:left;vertical-align:top;w=
+idth:100%">=20
+<tbody>=20
+<tr style=3D"padding:0;text-align:left;vertical-align:top">=20
+<th class=3D"text-editor small-12 large-12 columns first last" style=3D"Mar=
+gin:0 auto;background-color:#FFFFFF;color:#FFFFFF;font-family:Arial,sans-se=
+rif,Lato;font-size:16px;font-weight:400;line-height:1.3;margin:0 auto;paddi=
+ng:0;padding-bottom:0;padding-left:20px;padding-right:20px;text-align:left;=
+width:650px">=20
+<table style=3D"border-collapse:collapse;border-spacing:0;padding:0;text-al=
+ign:left;vertical-align:top;width:100%">=20
+<tbody>=20
+<tr style=3D"padding:0;text-align:left;vertical-align:top">=20
+<th style=3D"Margin:0;color:#000000;font-family:Arial,sans-serif,Lato;font-=
+size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:lef=
+t">=20
+<!--spacer start-->=20
+<table class=3D"spacer" style=3D"border-collapse:collapse;border-spacing:0;=
+padding:0;text-align:left;vertical-align:top;width:100%">=20
+<tbody>=20
+<tr style=3D"padding:0;text-align:left;vertical-align:top">=20
+<td height=3D"10px" style=3D"-moz-hyphens:auto;-webkit-hyphens:auto;Margin:=
+0;border-collapse:collapse!important;color:#0a0a0a;font-family:Arial,sans-s=
+erif,Lato;font-size:10px;font-weight:400;hyphens:auto;line-height:10px;marg=
+in:0;mso-line-height-rule:exactly;padding:0;text-align:left;vertical-align:=
+top;word-wrap:break-word"> &nbsp;</td>=20
+</tr>=20
+</tbody>=20
+</table>=20
+<!--spacer end-->=20
+<div class=3D"mktoText" id=3D"text-editor-contentd7e8dcc8-d633-43fa-af14-4e=
+bc4c0b053b">=20
+<p><strong>--important part start--</strong></p>=20
+<p>According to the new General Data Protection Regulation (GDPR), sending =
+you any information after May 25, 2018, will require your explicit consent.=
+ We also need to provide you with additional information about the ways in =
+which we process your data.</p>=20
+<p>We may use your name, email address, and location data (country) to send=
+ you these communications. We employ certain <a href=3D
+"http://go.jetbrains.com/GKV0DH10H4KYQ0MO0000TQw" target=3D"_blank" id=3D""=
+ style=3D"color: #18a3fa;"
+>third-party services</a> subject to the <a href=3D
+"http://go.jetbrains.com/K00wKQV00OHZ15MHT0KQ0D0" target=3D"_blank" id=3D""=
+ style=3D"color: #18a3fa;"
+>JetBrains Privacy Policy</a> for that.</p>=20
+<p>To unsubscribe from receiving marketing emails from JetBrains, you can r=
+evoke your consent at any time by using the unsubscribe link inside every s=
+ingle email you receive from us.</p>=20
+<p><strong>--important part end--</strong></p>=20
+</div>=20
+<!--spacer start-->=20
+<table class=3D"spacer" style=3D"border-collapse:collapse;border-spacing:0;=
+padding:0;text-align:left;vertical-align:top;width:100%">=20
+<tbody>=20
+<tr style=3D"padding:0;text-align:left;vertical-align:top">=20
+<td height=3D"10px" style=3D"-moz-hyphens:auto;-webkit-hyphens:auto;Margin:=
+0;border-collapse:collapse!important;color:#000000;font-family:Arial,sans-s=
+erif,Lato;font-size:10px;font-weight:400;hyphens:auto;line-height:10px;marg=
+in:0;mso-line-height-rule:exactly;padding:0;text-align:left;vertical-align:=
+top;word-wrap:break-word"> &nbsp;</td>=20
+</tr>=20
+</tbody>=20
+</table>=20
+<!--spacer end--> </th>=20
+<th class=3D"expander" style=3D"Margin:0;color:#0a0a0a;font-family:Arial,sa=
+ns-serif,Lato;font-size:16px;font-weight:400;line-height:1.3;margin:0;paddi=
+ng:0!important;text-align:left;visibility:hidden;width:0"></th>=20
+</tr>=20
+</tbody>=20
+</table> </th>=20
+</tr>=20
+</tbody>=20
+</table> </td>=20
+</tr>=20
+</tbody>=20
+</table>=20
+</center> </td>=20
+</tr>=20
+</tbody>=20
+</table>
+<table class=3D"body mktoModule" id=3D"custom-cta93448d2a-50e6-4220-bcb6-3a=
+7b9a79fab5" style=3D"Margin:0;background:#eee;border-collapse:collapse;bord=
+er-spacing:0;color:#0a0a0a;font-family:Helvetica,Arial,sans-serif;font-size=
+:16px;font-weight:400;height:100%;line-height:1.3;margin:0 auto;padding:0;t=
+able-layout:fixed;text-align:left;vertical-align:top;width:100%">=20
+<tbody>=20
+<tr style=3D"padding:0;text-align:left;vertical-align:top">=20
+<td class=3D"center" align=3D"center" valign=3D"top" style=3D"-moz-hyphens:=
+auto;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;color=
+:#0a0a0a;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:=
+400;hyphens:auto;line-height:1.3;margin:0;padding:0;text-align:left;vertica=
+l-align:top;word-wrap:break-word">=20
+<center data-parsed=3D"" style=3D"min-width:650px;width:100%">=20
+<table align=3D"center" class=3D"container email-container float-center" st=
+yle=3D"Margin:0 auto;background:#fff;border-collapse:collapse;border-spacin=
+g:0;float:none;margin:0 auto;padding:0;text-align:center;vertical-align:top=
+;width:650px">=20
+<tbody>=20
+<tr style=3D"padding:0;text-align:left;vertical-align:top">=20
+<td style=3D"-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border-collaps=
+e:collapse!important;color:#0a0a0a;font-family:Helvetica,Arial,sans-serif;f=
+ont-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding=
+:0;text-align:left;vertical-align:top;word-wrap:break-word">=20
+<table class=3D"row" style=3D"border-collapse:collapse;border-spacing:0;dis=
+play:table;padding:0;position:relative;text-align:left;vertical-align:top;w=
+idth:100%">=20
+<tbody>=20
+<tr style=3D"padding:0;text-align:left;vertical-align:top">=20
+<th class=3D"small-12 large-12 columns first last" style=3D"Margin:0 auto;c=
+olor:#0a0a0a;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-wei=
+ght:400;line-height:1.3;margin:0 auto;padding:0;padding-bottom:0;padding-le=
+ft:0;padding-right:0;text-align:left;width:650px">=20
+<table style=3D"border-collapse:collapse;border-spacing:0;padding:0;text-al=
+ign:left;vertical-align:top;width:100%">=20
+<tbody>=20
+<tr style=3D"padding:0;text-align:left;vertical-align:top">=20
+<th style=3D"Margin:0;color:#0a0a0a;font-family:Helvetica,Arial,sans-serif;=
+font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-alig=
+n:left">=20
+<center data-parsed=3D"" style=3D"min-width:650px;width:100%">=20
+<table class=3D"button float-center" style=3D"Margin:0 0 0 0;border-collaps=
+e:collapse;border-spacing:0;float:none;margin:0 0 0 0;padding:0;text-align:=
+center;vertical-align:top;width:auto">=20
+<tbody>=20
+<tr style=3D"padding:0;text-align:left;vertical-align:top">=20
+<td style=3D"-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border-collaps=
+e:collapse!important;color:#0a0a0a;font-family:Helvetica,Arial,sans-serif;f=
+ont-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding=
+:0;text-align:left;vertical-align:top;word-wrap:break-word">=20
+<table style=3D"border-collapse:collapse;border-spacing:0;padding:0;text-al=
+ign:left;vertical-align:top;width:100%">=20
+<tbody>=20
+<tr style=3D"padding:0;text-align:left;vertical-align:top">=20
+<td style=3D"-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;background:#18=
+A3FA;border-collapse:collapse!important;color:#fff;font-family:Helvetica,Ar=
+ial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;=
+margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word;=
+border-radius: 500px;"> <a href=3D
+"http://go.jetbrains.com/dc/oZkb5IUc2Y-gs3UFyHbi_648UZlTtWl0GMX0O7p8MBc_goB=
+2vh_mE1e5J06CZ3Lsnhj7CHizZBiYGHZ_AfNfp_WIyBx2o1jrYWHqiA_PVrA=3D/FKHVO00X30Q=
+0T1Hw000DMQK" class=3D"" style=3D"Margin:0;border:1px solid #18A3FA;border-=
+radius:20px;color:#fff;display:inline-block;font-family:Helvetica,Arial,'La=
+to';font-size:17px;font-weight:700;line-height:1.3;margin:0;padding:8px 30p=
+x 8px 30px;text-align:left;text-decoration:none"
+> REVIEW AND CONFIRM</a> </td>=20
+</tr>=20
+</tbody>=20
+</table> </td>=20
+</tr>=20
+</tbody>=20
+</table>=20
+</center> </th>=20
+<th class=3D"expander" style=3D"Margin:0;color:#0a0a0a;font-family:Helvetic=
+a,Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;=
+padding:0!important;text-align:left;visibility:hidden;width:0"></th>=20
+</tr>=20
+</tbody>=20
+</table> </th>=20
+</tr>=20
+</tbody>=20
+</table> </td>=20
+</tr>=20
+</tbody>=20
+</table>=20
+</center> </td>=20
+</tr>=20
+</tbody>=20
+</table>
+<table class=3D"body mktoModule" id=3D"custom-text-wrappera5406a59-fb63-4b6=
+3-8d23-26f18b24a0f4" style=3D"Margin:0;background:#eee;border-collapse:coll=
+apse;border-spacing:0;color:#000000;font-family:Arial,sans-serif,Lato;font-=
+size:16px;font-weight:400;height:100%;line-height:1.3;margin:0 auto;padding=
+:0;table-layout:fixed;text-align:left;vertical-align:top;width:100%">=20
+<tbody>=20
+<tr style=3D"padding:0;text-align:left;vertical-align:top">=20
+<td class=3D"center" align=3D"center" valign=3D"top" style=3D"-moz-hyphens:=
+auto;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;color=
+:#000000;font-family:Arial,sans-serif,Lato;font-size:16px;font-weight:400;h=
+yphens:auto;line-height:1.3;margin:0;padding:0;text-align:left;vertical-ali=
+gn:top;word-wrap:break-word">=20
+<center data-parsed=3D"" style=3D"min-width:650px;width:100%">=20
+<table align=3D"center" class=3D"container email-container float-center" st=
+yle=3D"Margin:0 auto;background:#FFFFFF;border-collapse:collapse;border-spa=
+cing:0;float:none;margin:0 auto;padding:0;text-align:center;vertical-align:=
+top;width:650px">=20
+<tbody>=20
+<tr style=3D"padding:0;text-align:left;vertical-align:top">=20
+<td style=3D"-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border-collaps=
+e:collapse!important;color:#000000;font-family:Arial,sans-serif,Lato;font-s=
+ize:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0;te=
+xt-align:left;vertical-align:top;word-wrap:break-word">=20
+<table class=3D"row" style=3D"border-collapse:collapse;border-spacing:0;dis=
+play:table;padding:0;position:relative;text-align:left;vertical-align:top;w=
+idth:100%">=20
+<tbody>=20
+<tr style=3D"padding:0;text-align:left;vertical-align:top">=20
+<th class=3D"text-editor small-12 large-12 columns first last" style=3D"Mar=
+gin:0 auto;background-color:#FFFFFF;color:#FFFFFF;font-family:Arial,sans-se=
+rif,Lato;font-size:16px;font-weight:400;line-height:1.3;margin:0 auto;paddi=
+ng:0;padding-bottom:0;padding-left:20px;padding-right:20px;text-align:left;=
+width:650px">=20
+<table style=3D"border-collapse:collapse;border-spacing:0;padding:0;text-al=
+ign:left;vertical-align:top;width:100%">=20
+<tbody>=20
+<tr style=3D"padding:0;text-align:left;vertical-align:top">=20
+<th style=3D"Margin:0;color:#000000;font-family:Arial,sans-serif,Lato;font-=
+size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:lef=
+t">=20
+<!--spacer start-->=20
+<table class=3D"spacer" style=3D"border-collapse:collapse;border-spacing:0;=
+padding:0;text-align:left;vertical-align:top;width:100%">=20
+<tbody>=20
+<tr style=3D"padding:0;text-align:left;vertical-align:top">=20
+<td height=3D"10px" style=3D"-moz-hyphens:auto;-webkit-hyphens:auto;Margin:=
+0;border-collapse:collapse!important;color:#0a0a0a;font-family:Arial,sans-s=
+erif,Lato;font-size:10px;font-weight:400;hyphens:auto;line-height:10px;marg=
+in:0;mso-line-height-rule:exactly;padding:0;text-align:left;vertical-align:=
+top;word-wrap:break-word"> &nbsp;</td>=20
+</tr>=20
+</tbody>=20
+</table>=20
+<!--spacer end-->=20
+<div class=3D"mktoText" id=3D"text-editor-contenta5406a59-fb63-4b63-8d23-26=
+f18b24a0f4">=20
+<p>If you have questions, feel free to reach out to us at&nbsp;<a href=3D
+"http://go.jetbrains.com/O0I0TKwD0100QQO0070MKHV" target=3D"_blank" style=
+=3D"color: #18a3fa;"
+>privacy@jetbrains.com</a>.</p>=20
+<p>We=E2=80=99re looking forward to delivering the right content to you to =
+help you be more productive.</p>=20
+<p><em>The JetBrains Team</em></p>=20
+</div>=20
+<!--spacer start-->=20
+<table class=3D"spacer" style=3D"border-collapse:collapse;border-spacing:0;=
+padding:0;text-align:left;vertical-align:top;width:100%">=20
+<tbody>=20
+<tr style=3D"padding:0;text-align:left;vertical-align:top">=20
+<td height=3D"20px" style=3D"-moz-hyphens:auto;-webkit-hyphens:auto;Margin:=
+0;border-collapse:collapse!important;color:#000000;font-family:Arial,sans-s=
+erif,Lato;font-size:20px;font-weight:400;hyphens:auto;line-height:20px;marg=
+in:0;mso-line-height-rule:exactly;padding:0;text-align:left;vertical-align:=
+top;word-wrap:break-word"> &nbsp;</td>=20
+</tr>=20
+</tbody>=20
+</table>=20
+<!--spacer end--> </th>=20
+<th class=3D"expander" style=3D"Margin:0;color:#0a0a0a;font-family:Arial,sa=
+ns-serif,Lato;font-size:16px;font-weight:400;line-height:1.3;margin:0;paddi=
+ng:0!important;text-align:left;visibility:hidden;width:0"></th>=20
+</tr>=20
+</tbody>=20
+</table> </th>=20
+</tr>=20
+</tbody>=20
+</table> </td>=20
+</tr>=20
+</tbody>=20
+</table>=20
+</center> </td>=20
+</tr>=20
+</tbody>=20
+</table>
+<table class=3D"body mktoModule" id=3D"generic-footer" style=3D"Margin:0;ba=
+ckground:#eee;border-collapse:collapse;border-spacing:0;color:#0a0a0a;font-=
+family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;height:100=
+%;line-height:1.3;margin:0 auto;padding:0;table-layout:fixed;text-align:lef=
+t;vertical-align:top;width:100%">=20
+<tbody>=20
+<tr style=3D"padding:0;text-align:left;vertical-align:top">=20
+<td class=3D"center" align=3D"center" valign=3D"top" style=3D"-moz-hyphens:=
+auto;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;color=
+:#0a0a0a;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:=
+400;hyphens:auto;line-height:1.3;margin:0;padding:0;text-align:left;vertica=
+l-align:top;word-wrap:break-word">=20
+<center data-parsed=3D"" style=3D"min-width:650px;width:100%">=20
+<table align=3D"center" class=3D"container email-container float-center" st=
+yle=3D"Margin:0 auto;background:#fff;border-collapse:collapse;border-spacin=
+g:0;float:none;margin:0 auto;padding:0;text-align:center;vertical-align:top=
+;width:650px">=20
+<tbody>=20
+<tr style=3D"padding:0;text-align:left;vertical-align:top">=20
+<td style=3D"-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border-collaps=
+e:collapse!important;color:#0a0a0a;font-family:Helvetica,Arial,sans-serif;f=
+ont-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding=
+:0;text-align:left;vertical-align:top;word-wrap:break-word">=20
+<table class=3D"row generic-footer" style=3D"background-color:#eee;border-c=
+ollapse:collapse;border-spacing:0;display:table;height:240px;padding:0;posi=
+tion:relative;text-align:left;vertical-align:top;width:100%">=20
+<tbody>=20
+<tr style=3D"padding:0;text-align:left;vertical-align:top">=20
+<th class=3D"small-12 large-12 columns first last" style=3D"Margin:0 auto;c=
+olor:#0a0a0a;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-wei=
+ght:400;line-height:1.3;margin:0 auto;padding:0;padding-bottom:0;padding-le=
+ft:0;padding-right:0;text-align:left;width:650px">=20
+<table style=3D"border-collapse:collapse;border-spacing:0;padding:0;text-al=
+ign:left;vertical-align:top;width:100%">=20
+<tbody>=20
+<tr style=3D"padding:0;text-align:left;vertical-align:top">=20
+<th style=3D"Margin:0;color:#0a0a0a;font-family:Helvetica,Arial,sans-serif;=
+font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-alig=
+n:left">=20
+<table class=3D"row generic-footer-section" style=3D"background-color:#eee;=
+border-collapse:collapse;border-spacing:0;display:table;padding:0;position:=
+relative;text-align:left;vertical-align:top;width:100%">=20
+<tbody>=20
+<tr style=3D"padding:0;text-align:left;vertical-align:top">=20
+<th class=3D"small-6 large-4 columns first" style=3D"Margin:0 auto;color:#0=
+a0a0a;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400=
+;line-height:1.3;margin:0 auto;padding:0;padding-bottom:0;padding-left:0!im=
+portant;padding-right:0!important;text-align:left;width:33.33333%">=20
+<table style=3D"border-collapse:collapse;border-spacing:0;padding:0;text-al=
+ign:left;vertical-align:top;width:100%">=20
+<tbody>=20
+<tr style=3D"padding:0;text-align:left;vertical-align:top">=20
+<th style=3D"Margin:0;color:#0a0a0a;font-family:Helvetica,Arial,sans-serif;=
+font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-alig=
+n:left">=20
+<table class=3D"spacer" style=3D"border-collapse:collapse;border-spacing:0;=
+padding:0;text-align:left;vertical-align:top;width:100%">=20
+<tbody>=20
+<tr style=3D"padding:0;text-align:left;vertical-align:top">=20
+<td height=3D"30px" style=3D"-moz-hyphens:auto;-webkit-hyphens:auto;Margin:=
+0;border-collapse:collapse!important;color:#0a0a0a;font-family:Helvetica,Ar=
+ial,sans-serif;font-size:30px;font-weight:400;hyphens:auto;line-height:30px=
+;margin:0;mso-line-height-rule:exactly;padding:0;text-align:left;vertical-a=
+lign:top;word-wrap:break-word"> &nbsp;</td>=20
+</tr>=20
+</tbody>=20
+</table> <img width=3D"200" class=3D"generic-footer-logo" src=3D"https://in=
+fo.jetbrains.com/rs/426-QVD-114/images/logo-footer.png" style=3D"-ms-interp=
+olation-mode:bicubic;clear:both;display:block;height:auto!important;max-wid=
+th:200px!important;outline:0;padding-left:10px;text-decoration:none;width:1=
+00%!important" /> </th>=20
+</tr>=20
+</tbody>=20
+</table> </th>=20
+<th class=3D"small-1 large-1 columns" style=3D"Margin:0 auto;color:#0a0a0a;=
+font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;line-=
+height:1.3;margin:0 auto;padding:0;padding-bottom:0;padding-left:0!importan=
+t;padding-right:0!important;text-align:left;width:8.33333%">=20
+<table style=3D"border-collapse:collapse;border-spacing:0;padding:0;text-al=
+ign:left;vertical-align:top;width:100%">=20
+<tbody>=20
+<tr style=3D"padding:0;text-align:left;vertical-align:top">=20
+<th style=3D"Margin:0;color:#0a0a0a;font-family:Helvetica,Arial,sans-serif;=
+font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-alig=
+n:left"></th>=20
+</tr>=20
+</tbody>=20
+</table> </th>=20
+<th class=3D"small-5 large-4 columns" style=3D"Margin:0 auto;color:#0a0a0a;=
+font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;line-=
+height:1.3;margin:0 auto;padding:0;padding-bottom:0;padding-left:0!importan=
+t;padding-right:0!important;text-align:left;width:33.33333%">=20
+<table style=3D"border-collapse:collapse;border-spacing:0;padding:0;text-al=
+ign:left;vertical-align:top;width:100%">=20
+<tbody>=20
+<tr style=3D"padding:0;text-align:left;vertical-align:top">=20
+<th style=3D"Margin:0;color:#0a0a0a;font-family:Helvetica,Arial,sans-serif;=
+font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-alig=
+n:left">=20
+<table class=3D"spacer" style=3D"border-collapse:collapse;border-spacing:0;=
+padding:0;text-align:left;vertical-align:top;width:100%">=20
+<tbody>=20
+<tr style=3D"padding:0;text-align:left;vertical-align:top">=20
+<td height=3D"30px" style=3D"-moz-hyphens:auto;-webkit-hyphens:auto;Margin:=
+0;border-collapse:collapse!important;color:#0a0a0a;font-family:Helvetica,Ar=
+ial,sans-serif;font-size:30px;font-weight:400;hyphens:auto;line-height:30px=
+;margin:0;mso-line-height-rule:exactly;padding:0;text-align:left;vertical-a=
+lign:top;word-wrap:break-word"> &nbsp;</td>=20
+</tr>=20
+</tbody>=20
+</table>=20
+<table class=3D"spacer show-for-large" style=3D"border-collapse:collapse;bo=
+rder-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%">=20
+<tbody>=20
+<tr style=3D"padding:0;text-align:left;vertical-align:top">=20
+<td height=3D"20px" style=3D"-moz-hyphens:auto;-webkit-hyphens:auto;Margin:=
+0;border-collapse:collapse!important;color:#0a0a0a;font-family:Helvetica,Ar=
+ial,sans-serif;font-size:20px;font-weight:400;hyphens:auto;line-height:20px=
+;margin:0;mso-line-height-rule:exactly;padding:0;text-align:left;vertical-a=
+lign:top;word-wrap:break-word"> &nbsp;</td>=20
+</tr>=20
+</tbody>=20
+</table> <p class=3D"generic-footer-address" style=3D"Margin:0;Margin-botto=
+m:10px;color:#0a0a0a;font-family:Arial,sans-serif,Lato;font-size:12px!impor=
+tant;font-weight:400;line-height:1.3;margin:0;margin-bottom:10px;padding:0;=
+text-align:left"> Our mailing address: JetBrains s.r.o.<br /><a style=3D"te=
+xt-decoration: none; color: #000000;">Na hrebenech II 1718/10</a><br />Prag=
+ue 4 140 00, Czech Republic</p>=20
+<table class=3D"row" style=3D"border-collapse:collapse;border-spacing:0;dis=
+play:table;padding:0;position:relative;text-align:left;vertical-align:top;w=
+idth:100%">=20
+<tbody>=20
+<tr style=3D"padding:0;text-align:left;vertical-align:top">=20
+<th class=3D"small-3 large-2 columns first" style=3D"Margin:0 auto;color:#0=
+a0a0a;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400=
+;line-height:1.3;margin:0 auto;padding:0;padding-bottom:0;padding-left:0!im=
+portant;padding-right:0!important;text-align:left;width:16.66667%">=20
+<table style=3D"border-collapse:collapse;border-spacing:0;padding:0;text-al=
+ign:left;vertical-align:top;width:100%">=20
+<tbody>=20
+<tr style=3D"padding:0;text-align:left;vertical-align:top">=20
+<th style=3D"Margin:0;color:#0a0a0a;font-family:Helvetica,Arial,sans-serif;=
+font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-alig=
+n:left">=20
+<!--image container start-->=20
+<div class=3D"mktoImg" id=3D"footer-social-1" mktolockimgsize=3D"true">=20
+<a href=3D
+"http://go.jetbrains.com/wVHDQKMQO0000TK800w110I" target=3D"_blank"
+> <img class=3D"social-icon" width=3D"20" height=3D"20" style=3D"-ms-interp=
+olation-mode:bicubic;clear:both;display:block;height:auto!important;max-hei=
+ght:20px!important;max-width:20px!important;outline:0;text-decoration:none;=
+width:100%!important" src=3D"https://info.jetbrains.com/rs/426-QVD-114/imag=
+es/icons_mail_twitter_retina.png" /> </a>=20
+</div>=20
+<!--image container end--> </th>=20
+</tr>=20
+</tbody>=20
+</table> </th>=20
+<th class=3D"small-3 large-2 columns" style=3D"Margin:0 auto;color:#0a0a0a;=
+font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;line-=
+height:1.3;margin:0 auto;padding:0;padding-bottom:0;padding-left:0!importan=
+t;padding-right:0!important;text-align:left;width:16.66667%">=20
+<table style=3D"border-collapse:collapse;border-spacing:0;padding:0;text-al=
+ign:left;vertical-align:top;width:100%">=20
+<tbody>=20
+<tr style=3D"padding:0;text-align:left;vertical-align:top">=20
+<th style=3D"Margin:0;color:#0a0a0a;font-family:Helvetica,Arial,sans-serif;=
+font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-alig=
+n:left">=20
+<!--image container start-->=20
+<div class=3D"mktoImg" id=3D"footer-social-2" mktolockimgsize=3D"true">=20
+<a href=3D
+"http://go.jetbrains.com/i9IQ0QVKT2O00M000Hw1D0K" target=3D"_blank"
+> <img class=3D"social-icon-google-plus" width=3D"25" height=3D"20" style=
+=3D"-ms-interpolation-mode:bicubic;clear:both;display:block;height:auto!imp=
+ortant;max-height:20px!important;max-width:25px!important;outline:0;text-de=
+coration:none;width:100%!important" src=3D"https://info.jetbrains.com/rs/42=
+6-QVD-114/images/blog_icon.png" /> </a>=20
+</div>=20
+<!--image container end--> </th>=20
+</tr>=20
+</tbody>=20
+</table> </th>=20
+<th class=3D"small-3 large-2 columns" style=3D"Margin:0 auto;color:#0a0a0a;=
+font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;line-=
+height:1.3;margin:0 auto;padding:0;padding-bottom:0;padding-left:0!importan=
+t;padding-right:0!important;text-align:left;width:16.66667%">=20
+<table style=3D"border-collapse:collapse;border-spacing:0;padding:0;text-al=
+ign:left;vertical-align:top;width:100%">=20
+<tbody>=20
+<tr style=3D"padding:0;text-align:left;vertical-align:top">=20
+<th style=3D"Margin:0;color:#0a0a0a;font-family:Helvetica,Arial,sans-serif;=
+font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-alig=
+n:left">=20
+<!--image container start-->=20
+<div class=3D"mktoImg" id=3D"footer-social-3" mktolockimgsize=3D"true">=20
+<a href=3D
+"http://go.jetbrains.com/GKV0DI10HaK3Q0MO0000TQw" target=3D"_blank"
+> <img class=3D"social-icon" width=3D"20" height=3D"20" style=3D"-ms-interp=
+olation-mode:bicubic;clear:both;display:block;height:auto!important;max-hei=
+ght:20px!important;max-width:20px!important;outline:0;text-decoration:none;=
+width:100%!important" src=3D"https://info.jetbrains.com/rs/426-QVD-114/imag=
+es/icons_mail_facebook_retina.png" /> </a>=20
+</div>=20
+<!--image container end--> </th>=20
+</tr>=20
+</tbody>=20
+</table> </th>=20
+<th class=3D"small-3 large-6 columns last" style=3D"Margin:0 auto;color:#0a=
+0a0a;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;=
+line-height:1.3;margin:0 auto;padding:0;padding-bottom:0;padding-left:0!imp=
+ortant;padding-right:0!important;text-align:left;width:50%">=20
+<table style=3D"border-collapse:collapse;border-spacing:0;padding:0;text-al=
+ign:left;vertical-align:top;width:100%">=20
+<tbody>=20
+<tr style=3D"padding:0;text-align:left;vertical-align:top">=20
+<th style=3D"Margin:0;color:#0a0a0a;font-family:Helvetica,Arial,sans-serif;=
+font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-alig=
+n:left"></th>=20
+</tr>=20
+</tbody>=20
+</table> </th>=20
+</tr>=20
+</tbody>=20
+</table> </th>=20
+</tr>=20
+</tbody>=20
+</table> </th>=20
+<th class=3D"show-for-large small-1 large-3 columns last" style=3D"Margin:0=
+ auto;color:#0a0a0a;font-family:Helvetica,Arial,sans-serif;font-size:16px;f=
+ont-weight:400;line-height:1.3;margin:0 auto;padding:0;padding-bottom:0;pad=
+ding-left:0!important;padding-right:0!important;text-align:left;width:25%">=
+=20
+<table style=3D"border-collapse:collapse;border-spacing:0;padding:0;text-al=
+ign:left;vertical-align:top;width:100%">=20
+<tbody>=20
+<tr style=3D"padding:0;text-align:left;vertical-align:top">=20
+<th style=3D"Margin:0;color:#0a0a0a;font-family:Helvetica,Arial,sans-serif;=
+font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-alig=
+n:left"></th>=20
+</tr>=20
+</tbody>=20
+</table> </th>=20
+</tr>=20
+</tbody>=20
+</table>=20
+<table class=3D"row generic-footer-section" style=3D"background-color:#eee;=
+border-collapse:collapse;border-spacing:0;display:table;padding:0;position:=
+relative;text-align:left;vertical-align:top;width:100%">=20
+<tbody>=20
+<tr style=3D"padding:0;text-align:left;vertical-align:top">=20
+<th class=3D"small-12 large-12 columns first last" style=3D"Margin:0 auto;c=
+olor:#0a0a0a;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-wei=
+ght:400;line-height:1.3;margin:0 auto;padding:0;padding-bottom:0;padding-le=
+ft:0!important;padding-right:0!important;text-align:left;width:100%">=20
+<table style=3D"border-collapse:collapse;border-spacing:0;padding:0;text-al=
+ign:left;vertical-align:top;width:100%">=20
+<tbody>=20
+<tr style=3D"padding:0;text-align:left;vertical-align:top">=20
+<th style=3D"Margin:0;color:#0a0a0a;font-family:Helvetica,Arial,sans-serif;=
+font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-alig=
+n:left">=20
+<table class=3D"spacer generic-footer-section" style=3D"background-color:#e=
+ee;border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vert=
+ical-align:top;width:100%">=20
+<tbody>=20
+<tr style=3D"padding:0;text-align:left;vertical-align:top">=20
+<td height=3D"20px" style=3D"-moz-hyphens:auto;-webkit-hyphens:auto;Margin:=
+0;border-collapse:collapse!important;color:#0a0a0a;font-family:Helvetica,Ar=
+ial,sans-serif;font-size:20px;font-weight:400;hyphens:auto;line-height:20px=
+;margin:0;mso-line-height-rule:exactly;padding:0;text-align:left;vertical-a=
+lign:top;word-wrap:break-word"> &nbsp;</td>=20
+</tr>=20
+</tbody>=20
+</table> <p class=3D"generic-footer-disclaimer" style=3D"Margin:0;Margin-bo=
+ttom:10px;color:#0a0a0a;font-family:Arial,sans-serif,Lato;font-size:12px!im=
+portant;font-weight:400;line-height:1.3;margin:0;margin-bottom:10px;padding=
+:0;padding-left:10px;text-align:left"> Copyright =C2=A9 2018 JetBrains. All=
+ rights reserved.</p> <p class=3D"generic-footer-disclaimer" style=3D"Margi=
+n:0;Margin-bottom:10px;color:#0a0a0a;font-family:Arial,sans-serif,Lato;font=
+-size:12px!important;font-weight:400;line-height:1.3;margin:0;margin-bottom=
+:10px;padding:0;padding-left:10px;text-align:left"> This email has been sen=
+t to you because either you are a customer of JetBrains, a user of our serv=
+ices, or because you clicked the little white checkbox indicating you wante=
+d to get JetBrains news and announcements.<br />Adjust your <a class=3D"lin=
+k" href=3D
+"http://go.jetbrains.com/dc/w-cHSxoZVqTBpk7GHns_y3Gx76QelV6fzbPLcPbi6l3d30K=
+_DTUa6__Dt9ZsLlbiXpMt5Hz2hZhAYaEoYT7GBENTC6w_4pyNZo0Ei5Ff5Vs=3D/FKHVO00X30Q=
+0T1Hw000DMQK" style=3D"Margin:0;color:#0e0e0e;font-family:Arial,sans-serif,=
+Lato;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left;tex=
+t-decoration:underline"
+>mail preferences</a> or <a class=3D"link" href=3D"https://info.jetbrains.c=
+om/UnsubscribePage.html?mkt_unsubscribe=3D1&mkt_tok=3DeyJpIjoiTWpCbFkyUTRab=
+VZtWWpZMyIsInQiOiIxa0NuWHB6TGpzbGJGeTc5bnk0bkwvZDdMQzZiRGU5azk2NU9WUTdvVjhZ=
+OUhjblp2citReENhSFo5eXREZUJYRUF0TkdrRTZMNDJqclU5elF5MWdBNUFoVG1OeHVYZklsKy8=
+rMjlSMUk2Z0YyZFl4eXE5eVdiTmpFQzFhOTlVZiJ9" style=3D"Margin:0;color:#0e0e0e;=
+font-family:Arial,sans-serif,Lato;font-weight:400;line-height:1.3;margin:0;=
+padding:0;text-align:left;text-decoration:underline">unsubscribe</a> from a=
+ll communications with JetBrains.</p>=20
+<table class=3D"spacer" style=3D"border-collapse:collapse;border-spacing:0;=
+padding:0;text-align:left;vertical-align:top;width:100%">=20
+<tbody>=20
+<tr style=3D"padding:0;text-align:left;vertical-align:top">=20
+<td height=3D"20px" style=3D"-moz-hyphens:auto;-webkit-hyphens:auto;Margin:=
+0;border-collapse:collapse!important;color:#0a0a0a;font-family:Helvetica,Ar=
+ial,sans-serif;font-size:20px;font-weight:400;hyphens:auto;line-height:20px=
+;margin:0;mso-line-height-rule:exactly;padding:0;text-align:left;vertical-a=
+lign:top;word-wrap:break-word"> &nbsp;</td>=20
+</tr>=20
+</tbody>=20
+</table> </th>=20
+<th class=3D"expander" style=3D"Margin:0;color:#0a0a0a;font-family:Helvetic=
+a,Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;=
+padding:0!important;text-align:left;visibility:hidden;width:0"></th>=20
+</tr>=20
+</tbody>=20
+</table> </th>=20
+</tr>=20
+</tbody>=20
+</table> </th>=20
+</tr>=20
+</tbody>=20
+</table> </th>=20
+</tr>=20
+</tbody>=20
+</table> </td>=20
+</tr>=20
+</tbody>=20
+</table>=20
+</center> </td>=20
+</tr>=20
+</tbody>=20
+</table></td>=20
+</tr>=20
+</tbody>
+</table>=20
+<!--img-text-button.html start-->=20
+<!--Marketo modules end-->=20
+</center></td>=20
+</tr>=20
+</tbody>=20
+</table>     =20
+<!-- Outer Table END -->=20
+<!-- prevent Gmail on iOS font size manipulation -->=20
+<div style=3D"display:none;white-space:nowrap;font:15px courier;line-height=
+:0">
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp=
+; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
+sp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+</div>  =20
+<a href=3D
+"http://go.jetbrains.com/x0Q0000I14K0OQV0bMKTHDw"
+></a>
+<img src=3D"http://go.jetbrains.com/trk?t=3D1&mid=3DNDI2LVFWRC0xMTQ6MjA5NjM=
+6MTQ4MjY6NTk2MjQ6MjoyMjAyNDo5OjI4NjM0OjExMDg4ODE3OndpbGx3b29kbGllZkBnbWFpbC=
+5jb20%3D" width=3D"1" height=3D"1" style=3D"display:none !important;" alt=
+=3D"" />
+</body>
+</html>
+------=_Part_105148007_818131001.1527163502645--

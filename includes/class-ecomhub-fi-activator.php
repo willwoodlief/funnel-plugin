@@ -30,7 +30,7 @@ class Ecomhub_Fi_Activator {
 	 * @since    1.0.0
 	 */
 
-	const DB_VERSION = 0.8;
+	const DB_VERSION = 1.0;
 	public static function activate() {
         global $wpdb;
 
@@ -55,7 +55,7 @@ class Ecomhub_Fi_Activator {
               email_all_recipients LONGTEXT DEFAULT NULL,
               raw_email LONGTEXT DEFAULT NULL,
               comments LONGTEXT DEFAULT NULL,
-              error_message LONGTEXT DEFAULT NULL
+              error_message LONGTEXT DEFAULT NULL,
               PRIMARY KEY  (id),
               key (created_at),
               key (is_completed),

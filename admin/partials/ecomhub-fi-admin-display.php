@@ -68,10 +68,15 @@
         <div class="ecomhub-fi-detail">
             <div class="ecomhub-fi-stats">
                 <span style="margin-bottom: 0.25em;font-weight: bold;font-size: larger"> Overall Stats for all Reports</span>
+                <div class="stats-html-here"></div>
             </div>
-            <div class="ecomhub-fi-details-here">
+            <div class="ecomhub-fi-details">
+                <span style="margin-bottom: 0.25em;font-weight: bold;font-size: larger"> Details of Selected Row</span>
+                <div class="ecomhub-fi-details-here">
 
+                </div>
             </div>
+
         </div>
     </div>
 
@@ -86,17 +91,49 @@
         return '<span>' + d.toLocaleDateString() + '</span>';
     };
 
-    let my_columns = [
-        {id: "invoice_number", name: "invoice_id", field: "invoice_id", formatter: null, width: 90, sortable: true},
-        {id: "user_id", name: "user_id", field: "user_id", formatter: null, width: 100, sortable: true},
-        {
-            id: "created_at_ts",
-            name: "created at",
-            field: "created_at_ts",
-            formatter: dateFormatter,
-            width: 90,
-            sortable: true
+    let errorFormatter = function (row, cell, value, columnDef, dataContext) {
+        let error_shine = parseInt(dataContext.is_error)
+        if( error_shine ) {
+            return '<span class="fa fa-exclamation-triangle" style="text-align: center; color: #ff2a0c;width:100%"> </span>';
+        } else {
+            return '<span> </span>';
         }
+
+    };
+
+    let emailAddressFormatter = function (row, cell, value, columnDef, dataContext) {
+        var nameMatch = dataContext.email_from.match(/.*<(.*)>.*/);
+        var name = nameMatch ? nameMatch[1] : dataContext.email_from;
+        return '<span style="font-size: smaller">'+name+'</span>';
+    };
+
+    let attachmentFormatter = function (row, cell, value, columnDef, dataContext) {
+        let attachment = JSON.parse(dataContext.email_attachent_files_saved);
+        if (Array.isArray(attachment)) {
+            if( attachment.length > 0 ) {
+                return '<span class="fa fa-paperclip" style="text-align: center; color: #0b15ff;width:100%"> </span>';
+            } else {
+                return '<span></span>';
+            }
+        } else {
+            if ((!!attachment) && (attachment.constructor === Object)) {
+                return '<span class="fa fa-paperclip" style="text-align: center; color: #0b15ff;width:100%"> </span>';
+            } else {
+                return '<span></span>';
+            }
+        }
+
+
+    };
+
+    let my_columns = [
+        {id: "invoice_number", name: "Invoice", field: "invoice_number", formatter: null, width: 90, sortable: true},
+        {id: "created_at_ts", name: "Created", field: "created_at_ts", formatter: dateFormatter, width: 90, sortable: true},
+        {id: "user_nicename", name: "User", field: "user_nicename", formatter: null, width: 100, sortable: true},
+        {id: "email_from", name: "From", field: "email_from", formatter: emailAddressFormatter, width: 250, sortable: true},
+        {id: "is_error", name: "Error", field: "is_error", formatter: errorFormatter, width: 50, sortable: true},
+        {id: "email_attachent_files_saved", name: "Att.", field: "email_attachent_files_saved", formatter: attachmentFormatter, width: 40, sortable: true},
+
 
     ];
     let options = {

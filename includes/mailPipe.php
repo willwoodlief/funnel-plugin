@@ -32,7 +32,7 @@ ini_set('max_execution_time',600);
 
 
 // Require the file with the mailReader class in it
-require_once('mailReader.php');
+require_once('EcomhubFiMailReader.php');
 
 // Where should discovered files go
 $save_directory = __DIR__; // stick them in the current directory
@@ -51,7 +51,7 @@ $pdo = null;
 $allowed_senders = Array('news@jetbrains.com', 'whatever@example.com');
 
 
-$mr = new mailReader($save_directory,$allowed_senders,$pdo);
+$mr = new EcomhubFiMailReader($save_directory,$allowed_senders,$pdo);
 $mr->save_msg_to_db = false;
 $mr->send_email = false;
 // Example of how to add additional allowed mime types to the list

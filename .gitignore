@@ -3,3 +3,5 @@
 /logs/*
 !/logs/.keep
 /private_envs.php
+/scripts/downloads/*
+!/scripts/downloads/.keep

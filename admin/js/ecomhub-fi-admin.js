@@ -6,19 +6,7 @@ var ecombhub_fi_ajax_req = null; //active ajax request
 
     function options_success(d) {
 
-        let s= "<table><caption>Current Summary</caption><thead><tr><td> </td><td>Avg</td><td>Min</td><td>Max</td></tr></thead><tbody>" +
-            "<tr><td>Amount/When</td> <td><span> "+ d.number_completed + "</span></td> <td><span class='chi-ts'>"+ d.min_created_at_ts + "</span></td> <td><span class='chi-ts'>"+ d.max_created_at_ts +"</span></td> </tr>" +
-            "" ;
-        "</tbody></table>"
-       // $('div.ecomhub-fi-stats').html(s);
-        $('span.chi-ts').each(function() {
-            let ts = $(this).text();
-            if (ts) {
-                let d = new Date(ts*1000);
-                $(this).text(d.toLocaleDateString());
-            }
-
-        });
+        $('div.stats-html-here').html(d.html);
     };
 
 
@@ -256,7 +244,7 @@ function ecomhub_fi_talk_to_backend(method, server_options, success_callback, er
             }
         } else {
             message = "textStatus";
-            console.info('Chi Enquete ajax failed but did not return json information, check below for details', what);
+            console.info('Admin Ecomhub ajax failed but did not return json information, check below for details', what);
             console.error(jqXHR, textStatus, errorThrown);
         }
 

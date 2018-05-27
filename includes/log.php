@@ -92,7 +92,8 @@ class Ecomhub_Fi_Log {
 
 		} catch ( Exception $e ) {
 			//print "Cannot log message"; print (string)$e;
-			throw $e;
+			$json_info = JsonHelpers::toStringAgnostic($info);
+			throw new Exception("Error while logging: $message \n\n$json_info ",0,$e);
 		} finally {
 			return $ret;
 		}
@@ -121,7 +122,6 @@ class Ecomhub_Fi_Log {
 	 * @param $title string
 	 * @param $message
 	 *
-	 * @throws Exception
 	 */
 	public static function sns_alert( $title, $message ) {
 

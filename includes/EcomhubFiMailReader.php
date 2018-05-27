@@ -2,10 +2,11 @@
 
 require_once('Mail/mimeDecode.php');
 
+class EcomhubFiNotAllowedSender extends Exception {}
 /*
  * @class mailReader.php
  *
- * @brief Recieve mail and attachments with PHP
+ * @brief Receive mail and attachments with PHP
  *
  * Support: 
  * http://stuporglue.org/mailreader-php-parse-e-mail-and-save-attachments-php-version-2/
@@ -14,8 +15,10 @@ require_once('Mail/mimeDecode.php');
  * https://github.com/stuporglue/mailreader
  *
  * See the README.md for the license, and other information
+ *
+ * 2018 slight modifications by will willwoodlief
  */
-class mailReader {
+class EcomhubFiMailReader {
     var $saved_files = Array();
     var $send_email = FALSE; // Send confirmation e-mail back to sender?
     var $save_msg_to_db = FALSE; // Save e-mail message and file list to DB?
@@ -36,6 +39,7 @@ class mailReader {
     var $decoded;
     var $from = null;
     var $to = null;
+    var $all_recipients = null;
     var $subject = null;
     var $body = null;
 
@@ -58,6 +62,7 @@ class mailReader {
      * @param $src (optional) Which file to read the email from. Default is php://stdin for use as a pipe email handler
      *
      * @return array An associative array of files saved. The key is the file name, the value is an associative array with size and mime type as keys.
+     * @throws
      */
     public function readEmail($src = 'php://stdin'){
         // Process the e-mail from stdin
@@ -75,13 +80,34 @@ class mailReader {
             )
         );
 
-        // Set $this->from_email and check if it's allowed
+	    $parts = $decoder->getSendArray();
+	    $this->all_recipients = $parts[0];
+
+
+
+	    // Set $this->from_email and check if it's allowed
         $this->from = $this->decoded->headers['from'];
 	    $this->to = $this->decoded->headers['to'];
 
         $this->from_email = preg_replace('/.*<(.*)>.*/',"$1",$this->from);
-        if(!in_array($this->from_email,$this->allowed_senders)){
-            die("$this->from_email not an allowed sender");
+        $b_found = false;
+        foreach ($this->allowed_senders as $allowed) {
+        	//test, may not be a valid regular expression at all
+	        $b_preg_what = @preg_match($allowed, $this->from_email);
+	        if ($b_preg_what === false) {
+	        	if ($allowed == $this->from_email) {
+			        $b_found = true;
+			        break;
+		        }
+	        }
+	        if ($b_preg_what === 1) {
+		        $b_found = true;
+		        break;
+	        }
+
+        }
+        if(!$b_found){
+            throw new EcomhubFiNotAllowedSender("$this->from_email not an allowed sender");
         }
 
         // Set the $this->subject
@@ -256,7 +282,7 @@ class mailReader {
             if($this->debug){
                 print_r($insert->errorInfo());
             }
-            die("INSERT INTO emails failed!");
+            throw new Exception("cannot add row INTO emails, it failed!");
         }
         $email_id = $this->pdo->lastInsertId();
 
@@ -271,7 +297,7 @@ class mailReader {
                 if($this->debug){
                     print_r($insertFile->errorInfo());
                 }
-                die("Insert file info failed!");
+                throw new Exception("Insert file info failed!");
             }
         }
     }

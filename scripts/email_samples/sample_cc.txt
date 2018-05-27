@@ -1,0 +1,265 @@
+Delivered-To: willwoodlief@gmail.com
+Received: by 10.80.245.213 with SMTP id x21csp423970edm;
+        Fri, 4 May 2018 12:51:32 -0700 (PDT)
+X-Google-Smtp-Source: AB8JxZrBjNCDSILku1L21XvudEVBNdsGSx5018DiLLcTROGYVqLJxJa4h2zSxvVo1DJmlD6mA5e+
+X-Received: by 2002:a6b:3454:: with SMTP id b81-v6mr30550433ioa.115.1525463492759;
+        Fri, 04 May 2018 12:51:32 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1525463492; cv=none;
+        d=google.com; s=arc-20160816;
+        b=B5wWptIFHrm3GRJgGCsRqsrgUNMs5o50EQyLheDyxsOZKleJ4AFA7VPDQo+6zQ7IhV
+         XtagjqZdCJY9GIjRaQUGMLsPRrZbKZp2w0revHzDqJWfwhH7zJudyUEpUDb/+rTt+TiX
+         ZvTKHmY6xB7lTNq+MfAA/QO5Ips/IqWh5dSMCE9UNjVo+Tt96QQo6eaC6lciVKIgBBrO
+         JPLynrMTolqF15mCuH/Yjl8qRnntVTxqubkbRb2PkPMZGY15WCylu0eVKNVlugru/Kd/
+         Rp7PC9PW3sRoObcXdFbigKrk6n8b8Dw8vER6frm9KB0iGSEbTT9OvriIpffEVxXTp+7R
+         TqeQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=references:mime-version:subject:message-id:cc:to:from:date
+         :dkim-signature:arc-authentication-results;
+        bh=hPbMOqHzWmdZ+hQis/EHDZzx4EINEZNdCL9zvwjbVAY=;
+        b=ugYar40vPLo1a5vwGOGxXIvJv7lkl1IkCOunY/LyqJHbOZLxX8mF6hDhbWyZ8Ed8m+
+         eYMBx+SuUaIc/Nh59k773iCfSV2wt2cm+TwTiRxV7NNPzmMXNPoj2Cc/RSsR74mtpqeQ
+         Nh71Suc80qRlyAssAUNdg0HRyaFY44zXrsfCUXrXov0uZd2Hk3AYy+PSYbSpbrDeUvd0
+         I/xkrWLn5Yul/brNmVJkuJ55zQrWqVmBgnfs1o4UorqmYuqzXYY4FgmLYCpEQnNUq3sV
+         hfFtcYZ1x3Ut9usk+q+4boTOgMkEXRaxrJht82vqzKHRaABEblNwMIM1137PypSzLdg8
+         EHQQ==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@yahoo.com header.s=s2048 header.b=OXM7JhIS;
+       spf=pass (google.com: domain of s.stelter@yahoo.com designates 66.163.188.148 as permitted sender) smtp.mailfrom=s.stelter@yahoo.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=yahoo.com
+Return-Path: <s.stelter@yahoo.com>
+Received: from sonic303-22.consmr.mail.ne1.yahoo.com (sonic303-22.consmr.mail.ne1.yahoo.com. [66.163.188.148])
+        by mx.google.com with ESMTPS id s67-v6si2372420itg.6.2018.05.04.12.51.32
+        for <willwoodlief@gmail.com>
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 04 May 2018 12:51:32 -0700 (PDT)
+Received-SPF: pass (google.com: domain of s.stelter@yahoo.com designates 66.163.188.148 as permitted sender) client-ip=66.163.188.148;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@yahoo.com header.s=s2048 header.b=OXM7JhIS;
+       spf=pass (google.com: domain of s.stelter@yahoo.com designates 66.163.188.148 as permitted sender) smtp.mailfrom=s.stelter@yahoo.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=yahoo.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1525463492; bh=hPbMOqHzWmdZ+hQis/EHDZzx4EINEZNdCL9zvwjbVAY=; h=Date:From:To:Cc:Subject:References:From:Subject; b=OXM7JhISSdqLOuIz/M7RNioWAMLyMoSt4uNCMjBQhDBWn5wEgSZ2///f2FtSFBleZ1Qaa+98sgzrC8CZD5Hbw5NvmeT3J/AYz99sOe2N3Ku4DfXSz4OSSaRVs06ApWx42nkJUKLmyLlXBqtMEn51f7KqRw97G5/p5VOawrrDKxtbiw18lWpARPnIshyF2T17CzTavlGzI5IR/pN3KhM7GSCXD7oVV5KD7cVX4qQDtYoS4GMZqAbgvzSU+hfwXATaERdRtdiMGj5kd1t0y8IkO7pIpzEHfgMlGgEIrKSdlbkW8E59gGdgvkZsSKsa5iie6M4KZ/KMT0esEeSSdPYFIA==
+X-YMail-OSG: UgVaEkQVM1lffe7RmmDX0u4ZxV2OrR2qK9t7yh3a2.xGa9RzwhTCGiEbXXc4QNV
+ jwr3llWdeT5Ai7Od5AtunP.lqqy0ECPZ3GtQUt9epf_fZtDX4ytuNJ6Hpmip1WcuXfhEY37LHT__
+ Q1SLl.1N8by2uPYhq0ke7zv_1Zdaw2_DeM8ec5a36B4je_f_ZM.R5WOqbobZmgbcwmLUmWAbiM6A
+ aKx5mmPJX0uAASQf9ho0iETPT.F75_DJxd4GURQFBC26wOpQXE6Lky3TM_sRXXoid9.tFnLvFpbw
+ bKWAZhd7Yd4blZ5bxhc6mB_aBrRAQolGQBstcTX8TftrJGEfPZeOqSeTXbv62uXE5Qq96um5cRUr
+ fVJY8k5YE5gdWhvU222.M024tZ0yCV.jMa3G3QUSDWsKU92Mj1K0D5feKHUO_HZ0r3XgRcNvthDC
+ wcFBsmQjY3ekRDSURJwFdx3Zqjau.SaL.uEF3Ika85iKnLBqUKC1ikEJ1BfSZKbsG2T.IFsYmVB0
+ YRpyMD90wmBSdMQGpul6o6Be8ACAf4pPpJVEaZ5oL5WCZ9jdg5GqJvs3LpYB_zzwmlGsyEZosod4
+ 5fUnjsicA8tBYukLN7I4NOsC7uJwq
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic303.consmr.mail.ne1.yahoo.com with HTTP; Fri, 4 May 2018 19:51:32 +0000
+Date: Fri, 4 May 2018 19:51:30 +0000 (UTC)
+From: Stephanie Stelter <s.stelter@yahoo.com>
+To: Timothy Cook <trcook@huntsville-isd.org>
+Cc: Amandantom2013@gmail.com, boxeymom@yahoo.com, budstrait@gmail.com, 
+	e_keith@hotmail.com, florhernandez936@gmail.com, 
+	jamie011177@yahoo.com, john@smithercompany.com, kam25amk@yahoo.com, 
+	KDJeffers2894@gmail.com, kimberlyhughes1105@gmail.com, 
+	Kountry2k16@gmail.com, mekeith@huntsville-isd.org, 
+	precioushall544@gmail.com, rosaliebudzinski@yahoo.com, 
+	shell2582@yahoo.com, suzie_Joe03@yahoo.com, vkjanuary@yahoo.com, 
+	"jacobkoerner53@gmail.com" <jacobkoerner53@gmail.com>, 
+	"averywoodlief@gmail.com" <averywoodlief@gmail.com>, 
+	"andie.boyd@hotmail.com" <andie.boyd@hotmail.com>, 
+	"willwoodlief@gmail.com" <willwoodlief@gmail.com>, 
+	Isabel Saumell <jillsaumell@gmail.com>, 
+	"jvctlr@aol.com" <jvctlr@aol.com>, 
+	"shayladelise@gmail.com" <shayladelise@gmail.com>
+Message-ID: <968378373.747685.1525463490216@mail.yahoo.com>
+Subject: Wrestling Information for May
+MIME-Version: 1.0
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_747684_609550442.1525463490213"
+References: <968378373.747685.1525463490216.ref@mail.yahoo.com>
+X-Mailer: WebService/1.1.11848 YMailNorrin Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36
+Content-Length: 10269
+
+------=_Part_747684_609550442.1525463490213
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+ Hello parents and guardians,
+
+=C2=A0 =C2=A0 A couple very important reminders for this month:
+
+1. FREE SPORTS PHYSICALS for all HHS students on May 15 !=C2=A0 =C2=A0 Your=
+ child should have brought home paperwork on this. If not, have them get th=
+at paperwork. Please fill this out and take advantage of this opportunity t=
+o get FREE PHYSICALS completed so they are ready for sports at the beginnin=
+g of the coming school year.
+
+2. BOOSTER CLUB MEETING - Tuesday, May 15th at 6:30pm=C2=A0=C2=A0 =C2=A0 Pl=
+ease join us in our end of year Booster Club meeting as we will go over rea=
+lly important information regarding:* Summer work out schedule* Summer Camp=
+s available* Fundraising* Posters*T-shirts* Club/Youth Wrestling info.=C2=
+=A0
+
+
+
+
+
+
+
+
+
+
+=C2=A0
+    On Tuesday, April 24, 2018, 7:41:23 AM CDT, Timothy Cook <trcook@huntsv=
+ille-isd.org> wrote: =20
+=20
+ This week tournament is in spring Texas, need to know tonight who is going=
+=C2=A0Coach Cook=C2=A0
+On Fri, Apr 20, 2018, 9:20 AM Stephanie Stelter <s.stelter@yahoo.com> wrote=
+:
+
+Good Morning parents and wrestlers,
+=C2=A0 =C2=A0 I wanted to send out notice about a free-style competition ha=
+ppening this weekend in Bryan, Texas.
+
+I apologize for the late notice - we are working on organizing these tourna=
+ment notifications better.
+There is a freestyle tournament in Bryan at Bryan High School 3450 Campus D=
+rive 77802.
+Any freestyle wrestler interested in competing HAS TO HAVE/DO THE FOLLOWING=
+:
+* HAVE THEIR USAW CARD - Obtained and paid for online then printed.
+* REGISTER AND PAY AT :=C2=A0Trackwrestling.com LLC
+
+|=20
+|=20
+|  |=20
+Trackwrestling.com LLC
+
+
+ |
+
+ |
+
+ |
+
+
+
+* BE AT BRYAN HIGH SCHOOL AT 8AM ON SATURDAY MORNING FOR WEIGH INS WEARING =
+YOUR SINGLET.
+This is NOT an UIL event. This is NOT through HHS. This is for the Huntsvil=
+le Wrestling Club and those participating in freestyle wrestling with Coach=
+ Cook and Coach Bud.
+It is up the wrestler and their family to pay for and provide transportatio=
+n to and from this event.
+Any questions feel free to contact Coach Cook or reply to this email.
+ =20
+------=_Part_747684_609550442.1525463490213
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns=3D"http://www.w3.org/1999/xhtml" xmlns:v=3D"urn:schemas-microso=
+ft-com:vml" xmlns:o=3D"urn:schemas-microsoft-com:office:office"><head><!--[=
+if gte mso 9]><xml><o:OfficeDocumentSettings><o:AllowPNG/><o:PixelsPerInch>=
+96</o:PixelsPerInch></o:OfficeDocumentSettings></xml><![endif]--></head><bo=
+dy><div style=3D"font-family:bookman old style, new york, times, serif;font=
+-size:16px;"><div style=3D"font-family:bookman old style, new york, times, =
+serif;font-size:16px;"><div id=3D"ydp2e2d27abyiv4128363113"><!--[if gte mso=
+ 9]><xml><o:OfficeDocumentSettings><o:AllowPNG/><o:PixelsPerInch>96</o:Pixe=
+lsPerInch></o:OfficeDocumentSettings></xml><![endif]--><div><div style=3D"f=
+ont-family:bookman old style, new york, times, serif;font-size:16px;"><div =
+style=3D"font-family:bookman old style, new york, times, serif;font-size:16=
+px;"><div></div>
+            <div>Hello parents and guardians,<br></div><div><br></div><div>=
+&nbsp; &nbsp; A couple very important reminders for this month:<br></div><d=
+iv><br></div><div>1. <font color=3D"#9d1811">FREE SPORTS PHYSICALS for all =
+HHS students on May 15 !</font></div><div>&nbsp; &nbsp; Your child should h=
+ave brought home paperwork on this. If not, have them get that paperwork. P=
+lease fill this out and take advantage of this opportunity to get FREE PHYS=
+ICALS completed so they are ready for sports at the beginning of the coming=
+ school year.</div><div><br></div><div><br></div><div>2. <font color=3D"#9d=
+1811">BOOSTER CLUB MEETING - Tuesday, May 15th at 6:30pm&nbsp;</font></div>=
+<div>&nbsp; &nbsp; Please join us in our end of year Booster Club meeting a=
+s we will go over really important information regarding:</div><div>* Summe=
+r work out schedule</div><div>* Summer Camps available</div><div>* Fundrais=
+ing</div><div>* Posters</div><div>*T-shirts</div><div>* Club/Youth Wrestlin=
+g info.&nbsp;</div><div><br></div><div><br></div><div><br></div><div><br></=
+div><div><br></div><div><br></div><div><br></div><div><br></div><div><br></=
+div><div><br></div><div><br></div><div>&nbsp;<br></div>
+           =20
+            </div><div id=3D"ydp2e2d27abyiv4128363113yahoo_quoted_587447423=
+6" class=3D"ydp2e2d27abyiv4128363113yahoo_quoted">
+                <div style=3D"font-family:'Helvetica Neue', Helvetica, Aria=
+l, sans-serif;font-size:13px;color:#26282a;">
+                   =20
+                    <div>
+                        On Tuesday, April 24, 2018, 7:41:23 AM CDT, Timothy=
+ Cook &lt;trcook@huntsville-isd.org&gt; wrote:
+                    </div>
+                    <div><br></div>
+                    <div><br></div>
+                    <div><div id=3D"ydp2e2d27abyiv4128363113"><div><div>Thi=
+s week tournament is in spring Texas, need to know tonight who is going&nbs=
+p;<div>Coach Cook&nbsp;</div></div><br clear=3D"none"><div class=3D"ydp2e2d=
+27abyiv4128363113yqt8877632416" id=3D"ydp2e2d27abyiv4128363113yqt47029"><di=
+v class=3D"ydp2e2d27abyiv4128363113gmail_quote"><div dir=3D"ltr">On Fri, Ap=
+r 20, 2018, 9:20 AM Stephanie Stelter &lt;<a shape=3D"rect" href=3D"mailto:=
+s.stelter@yahoo.com" rel=3D"nofollow" target=3D"_blank">s.stelter@yahoo.com=
+</a>&gt; wrote:<br clear=3D"none"></div><blockquote class=3D"ydp2e2d27abyiv=
+4128363113gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc soli=
+d;padding-left:1ex;"><div><div style=3D"font-family:bookman old style, new =
+york, times, serif;font-size:16px;"><div>Good Morning parents and wrestlers=
+,</div><div><br clear=3D"none"></div><div>&nbsp; &nbsp; I wanted to send ou=
+t notice about a free-style competition happening this weekend in Bryan, Te=
+xas.<br clear=3D"none"></div><div><br clear=3D"none"></div><div>I apologize=
+ for the late notice - we are working on organizing these tournament notifi=
+cations better.</div><div><br clear=3D"none"></div><div>There is a freestyl=
+e tournament in Bryan at Bryan High School 3450 Campus Drive 77802.</div><d=
+iv><br clear=3D"none"></div><div>Any freestyle wrestler interested in compe=
+ting <b>HAS TO HAVE/DO THE FOLLOWING:</b></div><div><br clear=3D"none"></di=
+v><div>* <font color=3D"#5b8828"><b>HAVE THEIR USAW CARD - Obtained and pai=
+d for online then printed.</b></font></div><div><br clear=3D"none"></div><d=
+iv>* <font color=3D"#4c76a2"><b>REGISTER AND PAY AT :&nbsp;<a shape=3D"rect=
+" class=3D"ydp2e2d27abyiv4128363113m_-7935790555255986777enhancr_card_49167=
+44161" href=3D"http://www.trackwrestling.com" rel=3D"nofollow" target=3D"_b=
+lank">Trackwrestling.com LLC</a></b></font></div><div><br clear=3D"none"></=
+div><div class=3D"ydp2e2d27abyiv4128363113m_-7935790555255986777ydp8d4fe29c=
+yahoo-link-enhancr-card ydp2e2d27abyiv4128363113m_-7935790555255986777ydp8d=
+4fe29cyahoo-link-enhancr-not-allow-cover ydp2e2d27abyiv4128363113m_-7935790=
+555255986777ydp8d4fe29cymail-preserve-class ydp2e2d27abyiv4128363113m_-7935=
+790555255986777ydp8d4fe29cymail-preserve-style" id=3D"ydp2e2d27abyiv4128363=
+113m_-7935790555255986777ydp8d4fe29cenhancr_card_4916744161" style=3D"max-w=
+idth:400px;" contenteditable=3D"false"><a shape=3D"rect" class=3D"ydp2e2d27=
+abyiv4128363113m_-7935790555255986777ydp8d4fe29cyahoo-enhancr-cardlink" hre=
+f=3D"http://www.trackwrestling.com" style=3D"text-decoration:none!important=
+;color:#000!important;" rel=3D"nofollow" target=3D"_blank"><table class=3D"=
+ydp2e2d27abyiv4128363113m_-7935790555255986777ydp8d4fe29ccard-wrapper ydp2e=
+2d27abyiv4128363113m_-7935790555255986777ydp8d4fe29cyahoo-ignore-table" bor=
+der=3D"0" cellpadding=3D"0" cellspacing=3D"0" style=3D"max-width:400px;"><t=
+body><tr><td colspan=3D"1" rowspan=3D"1" width=3D"400"><table class=3D"ydp2=
+e2d27abyiv4128363113m_-7935790555255986777ydp8d4fe29ccard ydp2e2d27abyiv412=
+8363113m_-7935790555255986777ydp8d4fe29cyahoo-ignore-table" border=3D"0" ce=
+llpadding=3D"0" cellspacing=3D"0" width=3D"100%" style=3D"max-width:400px;b=
+order-width:1px;border-style:solid;border-color:rgb(224,228,233);border-rad=
+ius:2px;"><tbody><tr><td colspan=3D"1" rowspan=3D"1"><table class=3D"ydp2e2=
+d27abyiv4128363113m_-7935790555255986777ydp8d4fe29ccard-info ydp2e2d27abyiv=
+4128363113m_-7935790555255986777ydp8d4fe29cyahoo-ignore-table" border=3D"0"=
+ cellpadding=3D"0" cellspacing=3D"0" style=3D"background:#fff;width:100%;ma=
+x-width:400px;border-radius:0 0 2px 2px;border-top:1px solid rgb(224,228,23=
+3);"><tbody><tr><td colspan=3D"1" rowspan=3D"1" style=3D"background-color:#=
+ffffff;padding:16px 0 16px 12px;vertical-align:top;border-radius:0 0 0 2px;=
+"></td><td colspan=3D"1" rowspan=3D"1" style=3D"vertical-align:middle;paddi=
+ng:12px 24px 16px 12px;width:99%;"><h2 class=3D"ydp2e2d27abyiv4128363113m_-=
+7935790555255986777ydp8d4fe29ccard-title" style=3D"font-size:14px;line-heig=
+ht:19px;margin:0px 0px 6px;">Trackwrestling.com LLC</h2><p class=3D"ydp2e2d=
+27abyiv4128363113m_-7935790555255986777ydp8d4fe29ccard-description" style=
+=3D"font-size:12px;line-height:16px;margin:0px;color:rgb(151,155,167);"></p=
+></td></tr></tbody></table></td></tr></tbody></table></td></tr></tbody></ta=
+ble></a></div><div><br clear=3D"none"></div><div><br clear=3D"none"></div><=
+div>* <font color=3D"#cd232c"><b>BE AT BRYAN HIGH SCHOOL AT 8AM ON SATURDAY=
+ MORNING FOR WEIGH INS WEARING YOUR SINGLET.</b></font></div><div><font col=
+or=3D"#cd232c"><b><br clear=3D"none"></b></font></div><div>This is NOT an U=
+IL event. This is NOT through HHS. This is for the Huntsville Wrestling Clu=
+b and those participating in freestyle wrestling with Coach Cook and Coach =
+Bud.</div><div><br clear=3D"none"></div><div>It is up the wrestler and thei=
+r family to pay for and provide transportation to and from this event.</div=
+><div><br clear=3D"none"></div><div>Any questions feel free to contact Coac=
+h Cook or reply to this email.</div></div></div></blockquote></div></div></=
+div></div></div>
+                </div>
+            </div></div></div></div></div></div></body></html>
+------=_Part_747684_609550442.1525463490213--

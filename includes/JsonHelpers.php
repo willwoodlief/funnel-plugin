@@ -416,8 +416,9 @@ class JsonHelpers {
 	 * @return false|string
 	 * @throws Exception
 	 */
-	public static function timestampToUTCString($ts) {
+	public static function timestampToUTCString($ts=null) {
 		// 'YYYY-MM-DD HH:MM:SS'
+		if (empty($ts)) {$ts = time();}
 		$tsc = intval($ts);
 		$what =  gmdate('Y-m-d G:i:s',$tsc);
 		if (!$what) {

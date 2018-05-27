@@ -1,0 +1,943 @@
+Delivered-To: willwoodlief@gmail.com
+Received: by 2002:a50:f5c5:0:0:0:0:0 with SMTP id x5-v6csp28246edm;
+        Fri, 25 May 2018 13:48:22 -0700 (PDT)
+X-Google-Smtp-Source: ADUXVKIrhIaYCRb4piM5FX3z9uUVi26MjL4yNgZXvCN4lt6QfUD9gmkO/PD4JJ9wXSznQbxQ/g7t
+X-Received: by 2002:a37:9802:: with SMTP id a2-v6mr3463956qke.282.1527281302547;
+        Fri, 25 May 2018 13:48:22 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1527281302; cv=none;
+        d=google.com; s=arc-20160816;
+        b=S5Ihn4AaQXnRafxqA8uUPQ8Hww7F0ZdbuJxMyKSPWPM7JteR4v1hfI6GkAF+faIsYl
+         +2FZrF+Em+sKZqyy8lUOmUKItyP3ER7irNI4iwsjE4iSCSnY4VUox00WCTIrz7xQAiz1
+         7Ywl4rZP304OvzlA8YEuIzY+bspSiuioESQGPvZ78G2Xi97ECytCecX9+ScAYlnCYUqd
+         eti4zGH74OkGwp9eIR6pKICZRYPA3BEKwaO7yKkKwF3UQSX0lGmXxXXFFqVmAY9tFRiu
+         gb6vHMeq9yLfUKdtobvk5pdv1FYTCSIpcuz1EMS6ml/5r5WBLCpDVOOcWDqaa4S6XQzH
+         xyXA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=feedback-id:precedence:mime-version:subject:message-id:to:reply-to
+         :from:date:list-unsubscribe:dkim-signature:dkim-signature
+         :arc-authentication-results;
+        bh=gdvq1U2CKriG0UU0LlaBHoLQHP4WR/KQ+Jzs2V5OvLI=;
+        b=bW1LZT564HkN3YQlqCl88Nd2ORga4dj4boPrJO8STofo+uhS5EVkN5W6V6P24xlRSB
+         OeyLHiNZ8PoneYZ7oNcnJi5C7dohSOi1YHWzf1nVibH9cZENaLz4uR10/IXtRJdb/u/Y
+         LfIrhABb2D7zfxptQAVY9rGvjD1Gzp0qOp8lDUUlANszDSCa0XuhFlCqRbMpqjpmoARt
+         OI6yPY1OWFtDJ8CO0CaTAGeWbWAJA1yo2Qw67FrZqz7bi+N+UtHvrHLmMiuSVMaA/H4z
+         nmqcG2X6UAjq8kBizi4mV376y0OKzuEVjztKIPNQkIxaAwOqDiehoCCLkBN1W7VDmpWR
+         mc5g==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@bf08a.hubspotemail.net header.s=hsaqnana1 header.b=JpWLXD0G;
+       dkim=pass header.i=@hubspotemail.net header.s=hsaqj6by1 header.b=Wpiib6rL;
+       spf=pass (google.com: domain of 1axcen7dhu6hfs64w47ya1n7wrdl98ccfvbp15-willwoodlief=gmail.com@bf08a.hubspotemail.net designates 54.174.52.111 as permitted sender) smtp.mailfrom=1axcen7dhu6hfs64w47ya1n7wrdl98ccfvbp15-willwoodlief=gmail.com@bf08a.hubspotemail.net
+Return-Path: <1axcen7dhu6hfs64w47ya1n7wrdl98ccfvbp15-willwoodlief=gmail.com@bf08a.hubspotemail.net>
+Received: from pgg14h.bf08a.hubspotemail.net (pgg14h.bf08a.hubspotemail.net. [54.174.52.111])
+        by mx.google.com with ESMTPS id a10-v6si1901888qtj.133.2018.05.25.13.48.22
+        for <willwoodlief@gmail.com>
+        (version=TLS1_2 cipher=AES128-GCM-SHA256 bits=128/128);
+        Fri, 25 May 2018 13:48:22 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 1axcen7dhu6hfs64w47ya1n7wrdl98ccfvbp15-willwoodlief=gmail.com@bf08a.hubspotemail.net designates 54.174.52.111 as permitted sender) client-ip=54.174.52.111;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@bf08a.hubspotemail.net header.s=hsaqnana1 header.b=JpWLXD0G;
+       dkim=pass header.i=@hubspotemail.net header.s=hsaqj6by1 header.b=Wpiib6rL;
+       spf=pass (google.com: domain of 1axcen7dhu6hfs64w47ya1n7wrdl98ccfvbp15-willwoodlief=gmail.com@bf08a.hubspotemail.net designates 54.174.52.111 as permitted sender) smtp.mailfrom=1axcen7dhu6hfs64w47ya1n7wrdl98ccfvbp15-willwoodlief=gmail.com@bf08a.hubspotemail.net
+Received: by 172.16.70.96 with SMTP id azlpzyulybvgvwp8l1qv215mqlfj7qslvlbvmdnlu;
+        Fri, 25 May 2018 20:48:22 GMT
+DKIM-Signature: v=1; s=hsaqnana1; d=bf08a.hubspotemail.net; 
+        i=@bf08a.hubspotemail.net; 
+        h=sender:from:reply-to:to:subject:mime-version:content-type:list-unsubscribe:x-report-abuse:form-sub; 
+        a=rsa-sha256; c=relaxed/relaxed; 
+        bh=gdvq1U2CKriG0UU0LlaBHoLQHP4WR/KQ+Jzs2V5OvLI=; 
+        b=JpWLXD0GpK9kkEPGpzVtHX58pTIHAB9VXURABLZDVRKmdU0jPExcvYZ5fq90a5
+         LyhUxFFgCwlQefd4uEtJW3r0WAce7GhGYK4bJVCJJjqr8i0DhyoQYmZPh23XeSh
+         ErtgJtVzUGswtOmxy0QJ38hRLTzRtieVpjC4xkQI7FHdA+03wlMqVi0w8aHhAQ4
+         VjT3IUsmhZpPe5SFpSxgFa55Xg8tagrgkqvPR/apIfMZ3b+CBdIEvkufzVAkf6k
+         3WmbeG/NQ2RRHB0OYte49M9ZFxiWjBN5A5uZov82kqjykXd/XNJmdXMpWIsDosd
+         4S4T1yfDb6Jov7lBPO82iSusMabA==; q=dns/txt; t=1527281302;
+DKIM-Signature: v=1; s=hsaqj6by1; d=hubspotemail.net; 
+        i=@hubspotemail.net; 
+        h=from:reply-to:to:subject:mime-version:content-type:list-unsubscribe:x-report-abuse:form-sub:feedback-id; 
+        a=rsa-sha256; c=relaxed/relaxed; 
+        bh=gdvq1U2CKriG0UU0LlaBHoLQHP4WR/KQ+Jzs2V5OvLI=; 
+        b=Wpiib6rLCNfYM8E1S0OYMNhAPW7fbPH+W8eF1h1MXdnS51EJxIyEBMCFTMYLjK
+         pMlELdjsRykyANSJXt0R8N7P5q6DRzPhyecztf1yqsW8iN1Lny6MovX4Q6yHLvG
+         fFaCVyR+jnRp6oimsxng2+9WLbHnl2Y6iveb5StHV5Vegu+4vW2Jm6vvUaEbeSM
+         xI4CRB4ro3bquWxHLPznpEn3X5maAeiOXxGkXz++c32nefMGf2qjbKtfK70CHCt
+         1AtnD+AnVewBvYGpnfV4drv2/b2OS7mkRDLrtQEpfbarb1pSe3x8JIl/poqYzbl
+         FSEuNEJYdtbwL6kBefpzuzjvRyPw==; q=dns/txt; t=1527281302;
+Return-Path: <1axcen7dhu6hfs64w47ya1n7wrdl98ccfvbp15-willwoodlief=gmail.com@bf08a.hubspotemail.net>
+X-HS-Cid: 1axfmpo0f7sg3jk7omiq4ytdm7nn3i2enujzcd
+List-Unsubscribe: <mailto:1axdo8csq5zt46ez03eli77510cat0s2aurgrx-willwoodlief=gmail.com@bf08a.hubspotemail.net?subject=unsubscribe>
+Date: Fri, 25 May 2018 13:48:22 -0700
+From: GitKraken <gitkraken@axosoft.com>
+Reply-To: gitkraken@axosoft.com
+To: willwoodlief@gmail.com
+Message-ID: <1527280979642.7d205c50-6ed5-497d-b712-4329a1d2fa08@bf08a.hubspotemail.net>
+Subject: Updates to our Privacy Policy
+MIME-Version: 1.0
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_185037_2018829081.1527281302107"
+X-Report-Abuse-To: abuse@hubspot.com (see https://www.hubspot.com/abuse-complaints)
+Precedence: bulk
+Feedback-ID: aelyp7:aibbxvpi:aidf:HubSpot
+
+------=_Part_185037_2018829081.1527281302107
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+The European Union data protection law (General Data Protection Regulation =
+or GDPR) takes effect on May 25th...
+
+GitKraken Logo (http://email.axosoft.com/e1t/sc2/MmZ-8yjSn3DW5cn2Lz51L0XFW9=
+gkls64XsWgdW4zRBJZ6b_Vg4dBzP8M04 )
+
+You=E2=80=99ve seen the emails; you know the drill. The European Union data=
+ protection law (General Data Protection Regulation or GDPR) takes effect o=
+n May 25th, and it=E2=80=99s time for us all to ramp up our privacy and dat=
+a security.
+
+At Axosoft, we=E2=80=99ve always valued your privacy and security, but we=
+=E2=80=99re taking this opportunity to make some updates to our GitKraken P=
+rivacy Policy (http://email.axosoft.com/e1t/sc2/MmZ-8yjSn3DW5cn2Lz51L0XFW9g=
+kls64XsWgdW4zRBJZ6b_Vg4dBzP8N04 ) .
+
+While you might not be in the EU, we=E2=80=99re making these updates global=
+ly so all our customers can have a better, more-clear understanding of what=
+ information we collect, why we collect it, and how we use it.
+
+A summary of our changes:
+
+- Privacy Policy: In more clear and transparent language, our Privacy Polic=
+y (http://email.axosoft.com/e1t/sc2/MmZ-8yjSn3DW5cn2Lz51L0XFW9gkls64XsWgdW4=
+zRBJZ6b_Vg4dBzP8P04 )  explains our data processing practices.
+- GDPR: GDPR places new obligations on organizations that process EU person=
+al data. Axosoft has taken measures to abide by these new requirements.
+- Opt-out Practices: You may opt-out of receiving marketing email communica=
+tions from Axosoft at any time by clicking on the Unsubscribe or Manage Pre=
+ferences links in our emails.
+
+These updates pertain to both the GitKraken Git Client (http://email.axosof=
+t.com/e1t/sc2/MmZ-8yjSn3DW5cn2Lz51L0XFW9gkls64XsWgdW4zRBJZ6b_Vg4dBzP8Q04 ) =
+and Glo Boards (http://email.axosoft.com/e1t/sc2/MmZ-8yjSn3DW5cn2Lz51L0XFW9=
+gkls64XsWgdW4zRBJZ6b_Vg4dBzP8R04 ) . If you have any questions, please cont=
+act us at compliance@gitkraken.com (mailto:compliance@gitkraken.com) .
+
+Cheers,
+
+The Axosoft Team
+
+Axosoft, LLC.   13835 N. Northsight Blvd.  Suite 205  Scottsdale,  AZ   852=
+60   USA
+
+Update your email preferences (http://email.axosoft.com/hs/manage-preferenc=
+es/unsubscribe?d=3DeyJlYSI6IndpbGx3b29kbGllZkBnbWFpbC5jb20iLCJlYyI6NjMyNDY2=
+NDQsInN1YnNjcmlwdGlvbklkIjo4NDI5NzUsImV0IjoxNTI3MjgwOTc5NjQyLCJldSI6IjdkMjA=
+1YzUwLTZlZDUtNDk3ZC1iNzEyLTQzMjlhMWQyZmEwOCJ9&v=3D1&_hsenc=3Dp2ANqtz-9mmlZd=
+bGO5q4tIdcfN-xaU7RftTgbhxQ2XC4KHHRgVSpX_FWZ4bR1dOqC4CvibU1iBaOW40ffMZCeG_M1=
+zu8SAY5nJ_w&_hsmi=3D63246644 ) to choose the types of emails you receive.
+
+Unsubscribe from all future emails (http://email.axosoft.com/hs/manage-pref=
+erences/unsubscribe-all?d=3DeyJlYSI6IndpbGx3b29kbGllZkBnbWFpbC5jb20iLCJlYyI=
+6NjMyNDY2NDQsInN1YnNjcmlwdGlvbklkIjo4NDI5NzUsImV0IjoxNTI3MjgwOTc5NjQyLCJldS=
+I6IjdkMjA1YzUwLTZlZDUtNDk3ZC1iNzEyLTQzMjlhMWQyZmEwOCJ9&v=3D1&_hsenc=3Dp2ANq=
+tz-9mmlZdbGO5q4tIdcfN-xaU7RftTgbhxQ2XC4KHHRgVSpX_FWZ4bR1dOqC4CvibU1iBaOW40f=
+fMZCeG_M1zu8SAY5nJ_w&_hsmi=3D63246644 )
+------=_Part_185037_2018829081.1527281302107
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org=
+/TR/xhtml1/DTD/xhtml1-strict.dtd"><!-- start coded_template: id:4632107529 =
+path:generated_layouts/4632107519.html --><html xmlns=3D"http://www.w3.org/=
+1999/xhtml"><head>
+        <title>Updates to our Privacy Policy</title>
+        <meta property=3D"og:title" content=3D"Updates to our Privacy Polic=
+y">
+        <meta name=3D"twitter:title" content=3D"Updates to our Privacy Poli=
+cy">
+        <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Du=
+tf-8">
+       =20
+         <style type=3D"text/css" id=3D"hs-inline-css">
+        /*<![CDATA[*/
+            /* everything in this node will be inlined */
+            /* =3D=3D=3D=3D Page Styles =3D=3D=3D=3D */
+           =20
+            body, #backgroundTable {
+                background-color: #ffffff; /* Use body to determine backgro=
+und color */
+                font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif=
+;
+            }
+           =20
+            #templateTable {
+                width: 600px;
+                background-color: #ffffff;
+                -webkit-font-smoothing: antialiased;
+            }
+            h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
+                color:#1c2933;
+                display:block;
+                font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif=
+;
+                font-weight:bold;
+                line-height:100%;
+                margin-top:0;
+                margin-right:0;
+                margin-bottom:10px;
+                margin-left:0;
+                text-align:left;
+            }
+            h1, .h1 {
+                font-size:26px;
+            }
+            h2, .h2 {
+                font-size:20px;
+            }
+            h3, .h3 {
+                font-size:15px;
+            }
+            h4, .h4 {
+                font-size:13px;
+            }
+            h5, .h5 {
+                font-size:11px;
+            }
+            h6, .h6 {
+                font-size:10px;
+            }
+            /* =3D=3D=3D=3D Header Styles =3D=3D=3D=3D */
+            #headerTable {
+                background-color: #ffffff;
+                color:#1c2933;
+                font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;
+                font-size:10px;
+                line-height:120%;
+                text-align:right;
+                border-collapse: separate !important;
+                padding-right: 30px;
+            }
+           =20
+            #headerTable a:link, #headerTable a:visited, /* Yahoo! Mail Ove=
+rride */ #headerTable a .yshortcuts /* Yahoo! Mail Override */{
+                font-weight:normal;
+                text-decoration:underline;
+            }
+           =20
+            /* =3D=3D=3D=3D Template Wrapper Styles =3D=3D=3D=3D */
+            #contentCell {
+                padding: 10px 20px;
+                background-color: #ffffff;
+            }
+            =20
+            #contentTableOuter {
+                border-collapse: separate !important;
+               =20
+                background-color: #ffffff;
+               =20
+                padding: 30px;
+            }
+            #contentTableInner {
+                width: 600px;
+            }
+           =20
+            /* =3D=3D=3D=3D Body Styles =3D=3D=3D=3D */
+           =20
+            .bodyContent {
+                color:#1c2933;
+                font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;
+                font-size: 15px;
+                line-height:150%;
+                text-align:left;
+            }
+           =20
+            /* =3D=3D=3D=3D Column Styles =3D=3D=3D=3D */
+            table.columnContentTable {
+                border-collapse:separate !important;
+                border-spacing:0;
+               =20
+                background-color: #ffffff;
+            }
+           =20
+            td[class~=3D"columnContent"] {
+                color:#1c2933;
+                font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;
+                font-size:15px;
+                line-height:120%;
+                padding-top:20px;
+                padding-right:20px;
+                padding-bottom:20px;
+                padding-left:20px;
+            }
+            /* =3D=3D=3D=3D Footer Styles =3D=3D=3D=3D */
+           =20
+            #footerTable {
+                background-color: #ffffff;
+            }
+            #footerTable a {
+                color: #2a3e51;
+            }
+           =20
+            #footerTable {
+                color:#2a3e51;
+                font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;
+                font-size:12px;
+                line-height:120%;
+                padding-top:20px;
+                padding-right:20px;
+                padding-bottom:20px;
+                padding-left:20px;
+                text-align:center;
+            }
+           =20
+            #footerTable a:link, #footerTable a:visited, /* Yahoo! Mail Ove=
+rride */ #footerTable a .yshortcuts /* Yahoo! Mail Override */{
+                font-weight:normal;
+                text-decoration:underline;
+            }
+            .hs-image-social-sharing-24 {
+                max-width: 24px;
+                max-height: 24px;
+            }
+            /* =3D=3D=3D=3D Standard Resets =3D=3D=3D=3D */
+            .ExternalClass{
+                width:100%;
+            } /* Force HM to display emails at full width */
+            .ExternalClass, .ExternalClass p, .ExternalClass span, .Externa=
+lClass font, .ExternalClass td, .ExternalClass div {
+                line-height: 100%;
+            } /* Force HM to display normal line spacing */
+            body, table, td, p, a, li, blockquote{
+                -webkit-text-size-adjust:100%;
+                -ms-text-size-adjust:100%;
+            } /* Prevent WebKit and Windows mobile changing default text si=
+zes */
+            table, td {
+                mso-table-lspace:0pt;
+                mso-table-rspace:0pt;
+            } /* Remove spacing between tables in Outlook 2007 and up */
+            img {
+                vertical-align: bottom;
+                -ms-interpolation-mode:bicubic;
+            } /* Allow smoother rendering of resized image in Internet Expl=
+orer */
+   =20
+            /* Reset Styles */
+            body {
+                margin:0;
+                padding:0;
+            }
+            table {
+                border-collapse:collapse !important;
+            }
+            body, #backgroundTable, #bodyCell{
+                height:100% !important;
+                margin:0;
+                padding:0;
+                width:100% !important;
+            }
+            a:link, a:visited {
+                border-bottom: none;
+            }
+           =20
+            /* iOS automatically adds a link to addresses */
+            /* Style the footer with the same color as the footer text */
+            #footer a {
+                color: #2a3e51;;
+                -webkit-text-size-adjust: none;
+                text-decoration: underline;
+                font-weight: normal
+            }
+        /*]]>*/
+    </style>
+         <style type=3D"text/css">
+        /*<![CDATA[*/
+            /* =3D=3D=3D=3D Mobile Styles =3D=3D=3D=3D */
+           =20
+            /* Constrain email width for small screens */
+            @media screen and (max-width: 650px) {
+                table[id=3D"backgroundTable"] {
+                    width: 95% !important;
+                }
+               =20
+                table[id=3D"templateTable"] {
+                    max-width:600px !important;
+                    width:100% !important;
+                }
+                table[id=3D"contentTableInner"] {
+                    max-width:600px !important;
+                    width:100% !important;
+                }
+           =20
+                /* Makes image expand to take 100% of width*/
+                img {
+                    width: 100% !important;
+                    height: auto !important;
+                }
+                #contentCell {
+                    padding: 10px 10px !important;
+                }
+                #headerTable {
+                    padding-right: 15.0px !important;
+                }
+                #contentTableOuter {
+                    padding: 15.0px !important;
+                }
+            }
+            @media only screen and (max-width: 480px) {
+                /* =3D=3D=3D=3D Client-Specific Mobile Styles =3D=3D=3D=3D =
+*/
+                body, table, td, p, a, li, blockquote{
+                    -webkit-text-size-adjust:none !important;
+                } /* Prevent Webkit platforms from changing default text si=
+zes */
+                body{
+                    width:100% !important;
+                    min-width:100% !important;
+                } /* Prevent iOS Mail from adding padding to the body */
+                /* =3D=3D=3D=3D Mobile Reset Styles =3D=3D=3D=3D */
+                td[id=3D"bodyCell"] {
+                    padding:10px !important;
+                }
+                /* =3D=3D=3D=3D Mobile Template Styles =3D=3D=3D=3D */
+   =20
+                table[id=3D"templateTable"] {
+                    max-width:600px !important;
+                    width:100% !important;
+                }
+                table[id=3D"contentTableInner"] {
+                    max-width:600px !important;
+                    width:100% !important;
+                }
+               =20
+                /* =3D=3D=3D=3D Image Alignment Styles =3D=3D=3D=3D */
+                h1, .h1 {
+                    font-size:26px !important;
+                    line-height:125% !important;
+                }
+                h2, .h2 {
+                    font-size:20px !important;
+                    line-height:125% !important;
+                }
+                h3, .h3 {
+                    font-size:15px !important;
+                    line-height:125% !important;
+                }
+                h4, .h4 {
+                    font-size:13px !important;
+                    line-height:125% !important;
+                }
+                h5, .h5 {
+                    font-size:11px !important;
+                    line-height:125% !important;
+                }
+                h6, .h6 {
+                    font-size:10px !important;
+                    line-height:125% !important;
+                }
+               =20
+                .hide {
+                    display:none !important;
+                } /* Hide to save space */
+                /* =3D=3D=3D=3D Body Styles =3D=3D=3D=3D */
+               =20
+                td[class=3D"bodyContent"] {
+                    font-size:16px !important;
+                    line-height:145% !important;
+                }
+               =20
+                /* =3D=3D=3D=3D Footer Styles =3D=3D=3D=3D */
+                td[id=3D"footerTable"]{
+                    padding-left: 0px !important;
+                    padding-right: 0px !important;
+                    font-size:12px !important;
+                    line-height:145% !important;
+                }
+               =20
+                /* =3D=3D=3D=3D Image Alignment Styles =3D=3D=3D=3D */
+               =20
+                table[class=3D"alignImageTable"] {
+                    width: 100% !important;
+                }
+               =20
+                td[class=3D"imageTableTop"] {
+                    display: none !important;
+                    /*padding-top: 10px !important;*/
+                }
+                td[class=3D"imageTableRight"] {
+                    display: none !important;
+                }
+                td[class=3D"imageTableBottom"] {
+                    padding-bottom: 10px !important;
+                }
+                td[class=3D"imageTableLeft"] {
+                    display: none !important;
+                }
+               =20
+                /* =3D=3D=3D=3D Column Styles =3D=3D=3D=3D */
+                td[class~=3D"column"] {
+                    display: block !important;
+                    width: 100% !important;
+                    padding-top: 0 !important;
+                    padding-right: 0 !important;
+                    padding-bottom: 0 !important;
+                    padding-left: 0 !important;
+                }
+                td[class~=3DcolumnContent] {
+                    font-size:14px !important;
+                    line-height:145% !important;
+               =20
+                    padding-top: 10px !important;
+                    padding-right: 10px !important;
+                    padding-bottom: 10px !important;
+                    padding-left: 10px !important;
+                }
+                #contentCell {
+                    padding: 10px 0px !important;
+                }
+                #headerTable {
+                    padding-right: 15.0px !important;
+                }
+                #contentTableOuter {
+                    padding: 15.0px !important;
+                }
+            }
+        /*]]>*/
+    </style>
+        <!-- http://www.emailon@cid.com/blog/details/C13/ensure_that_your_e=
+ntire_email_is_rendered_by_default_in_the_iphone_ipad -->
+        <!--                                                               =
+                                                      -->
+        <!--                                                               =
+                                                      -->
+        <!--                            _/    _/            _/          _/_=
+/_/                        _/                         -->
+        <!--                           _/    _/  _/    _/  _/_/_/    _/    =
+    _/_/_/      _/_/    _/_/_/_/                      -->
+        <!--                          _/_/_/_/  _/    _/  _/    _/    _/_/ =
+   _/    _/  _/    _/    _/                           -->
+        <!--                         _/    _/  _/    _/  _/    _/        _/=
+  _/    _/  _/    _/    _/                            -->
+        <!--                        _/    _/    _/_/_/  _/_/_/    _/_/_/   =
+ _/_/_/      _/_/        _/_/                         -->
+        <!--                                                               =
+_/                                                    -->
+        <!--                                                              _=
+/                                                     -->
+        <!--                                                               =
+                                                      -->
+        <!--                                                 Extra White Sp=
+ace!                                                  -->
+        <!--                                                               =
+                                                      -->
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - =
+- - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+       =20
+    <meta name=3D"generator" content=3D"HubSpot"><meta property=3D"og:url" =
+content=3D"http://email.axosoft.com/-temporary-slug-b59564ef-1140-4f0d-ad56=
+-1179510ee0ea"><meta name=3D"x-apple-disable-message-reformatting"></head>
+    <body class=3D"" style=3D"background-color:#ffffff; font-family:'Helvet=
+ica Neue', Helvetica, Arial, sans-serif; -webkit-text-size-adjust:100%; -ms=
+-text-size-adjust:100%; height:100% !important; margin:0; padding:0; width:=
+100% !important" leftmargin=3D"0" marginwidth=3D"0" topmargin=3D"0" marginh=
+eight=3D"0" offset=3D"0" bgcolor=3D"#ffffff" height=3D"100%" width=3D"100%"=
+>
+        <!-- Preview text (text which appears right after subject) -->
+        <div id=3D"preview_text" style=3D"display:none;font-size:1px;color:=
+#ffffff;line-height:1px;max-height:0px;max-width:0px;opacity:0;overflow:hid=
+den;">
+            The European Union data protection law (General Data Protection=
+ Regulation or GDPR) takes effect on May 25th...
+        </div>
+        <!--  The  backgroundTable table manages the color of the backgroun=
+d and then the templateTable maintains the body of=20
+        the email template, including preheader & footer. This is the only =
+table you set the width of to, everything else is set to=20
+        100% and in the CSS above. Having the width here within the table i=
+s just a small win for Lotus Notes. -->
+        <!-- Begin backgroundTable --> =20
+        <table align=3D"center" bgcolor=3D"#ffffff" border=3D"0" cellpaddin=
+g=3D"0" cellspacing=3D"0" height=3D"100%" width=3D"100%" id=3D"backgroundTa=
+ble" style=3D"-webkit-text-size-adjust:100%; -ms-text-size-adjust:100%; mso=
+-table-lspace:0pt; mso-table-rspace:0pt; border-collapse:collapse !importan=
+t; background-color:#ffffff; font-family:'Helvetica Neue', Helvetica, Arial=
+, sans-serif; height:100% !important; margin:0; padding:0; width:100% !impo=
+rtant">
+            <tbody><tr>
+                <td align=3D"center" valign=3D"top" id=3D"bodyCell" style=
+=3D"-webkit-text-size-adjust:100%; -ms-text-size-adjust:100%; mso-table-lsp=
+ace:0pt; mso-table-rspace:0pt; height:100% !important; margin:0; padding:0;=
+ width:100% !important" height=3D"100%" width=3D"100%"> <!-- When nesting t=
+ables within a TD, align center keeps it well, centered. -->
+                    <!-- Begin Template Container -->
+                    <!-- This holds everything together in a nice container=
+ -->
+                    <table border=3D"0" cellpadding=3D"0" cellspacing=3D"0"=
+ id=3D"templateTable" style=3D"-webkit-text-size-adjust:100%; -ms-text-size=
+-adjust:100%; mso-table-lspace:0pt; mso-table-rspace:0pt; border-collapse:c=
+ollapse !important; width:600px; background-color:#ffffff; -webkit-font-smo=
+othing:antialiased" width=3D"600" bgcolor=3D"#ffffff">
+                        <tbody><tr>
+                            <td align=3D"center" valign=3D"top" style=3D"-w=
+ebkit-text-size-adjust:100%; -ms-text-size-adjust:100%; mso-table-lspace:0p=
+t; mso-table-rspace:0pt">
+                                <!-- Begin Template Preheader -->
+                                <div class=3D"header-container-wrapper">
+</div><table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"100%=
+" id=3D"headerTable" style=3D"-webkit-text-size-adjust:100%; -ms-text-size-=
+adjust:100%; mso-table-lspace:0pt; mso-table-rspace:0pt; background-color:#=
+ffffff; color:#1c2933; font-family:'Helvetica Neue', Helvetica, Arial, sans=
+-serif; font-size:10px; line-height:120%; text-align:right; border-collapse=
+:separate !important; padding-right:30px" bgcolor=3D"#ffffff" align=3D"righ=
+t">
+                                    <tbody><tr>
+<td align=3D"left" valign=3D"top" class=3D"bodyContent" width=3D"100%" cols=
+pan=3D"12" style=3D"-webkit-text-size-adjust:100%; -ms-text-size-adjust:100=
+%; mso-table-lspace:0pt; mso-table-rspace:0pt; color:#1c2933; font-family:'=
+Helvetica Neue', Helvetica, Arial, sans-serif; font-size:15px; line-height:=
+150%; text-align:left">
+<table cellpadding=3D"0" cellspacing=3D"0" border=3D"0" width=3D"100%" clas=
+s=3D"templateColumnWrapper" style=3D"-webkit-text-size-adjust:100%; -ms-tex=
+t-size-adjust:100%; mso-table-lspace:0pt; mso-table-rspace:0pt; border-coll=
+apse:collapse !important">
+            <tbody><tr>
+<td valign=3D"top" colspan=3D"12" width=3D"100.0%" class=3D" column" style=
+=3D"-webkit-text-size-adjust:100%; -ms-text-size-adjust:100%; mso-table-lsp=
+ace:0pt; mso-table-rspace:0pt; width:100.0%; text-align:left; padding:0; fo=
+nt-family:'Helvetica Neue', Helvetica, Arial, sans-serif; font-size:15px; l=
+ine-height:1.5em; color:#1c2933" align=3D"left">
+<div class=3D"widget-span widget-type-email_view_as_web_page " style=3D"" d=
+ata-widget-type=3D"email_view_as_web_page">
+</div><!--end widget-span -->
+   </td>
+           </tr>
+    </tbody></table>
+   </td>
+</tr>
+<!--end header wrapper -->
+                                </tbody></table>
+                                <!-- End Template Preheader -->
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align=3D"center" valign=3D"top" id=3D"conte=
+ntCell" style=3D"-webkit-text-size-adjust:100%; -ms-text-size-adjust:100%; =
+mso-table-lspace:0pt; mso-table-rspace:0pt; padding:10px 20px; background-c=
+olor:#ffffff" bgcolor=3D"#ffffff">
+                                <!-- Begin Template Wrapper -->
+                                <!-- This separates the preheader which usu=
+ally contains the "open in browser, etc" content
+                                from the actual body of the email. Can alte=
+rnatively contain the footer too, but I choose not
+                                to so that it stays outside of the border. =
+-->
+                                <table border=3D"0" cellpadding=3D"0" cells=
+pacing=3D"0" width=3D"100%" id=3D"contentTableOuter" style=3D"-webkit-text-=
+size-adjust:100%; -ms-text-size-adjust:100%; mso-table-lspace:0pt; mso-tabl=
+e-rspace:0pt; border-collapse:separate !important; background-color:#ffffff=
+; padding:30px" bgcolor=3D"#ffffff">
+                                    <tbody><tr>
+                                        <td align=3D"center" valign=3D"top"=
+ style=3D"-webkit-text-size-adjust:100%; -ms-text-size-adjust:100%; mso-tab=
+le-lspace:0pt; mso-table-rspace:0pt">
+                                            <div class=3D"body-container-wr=
+apper">
+</div><table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" id=3D"content=
+TableInner" style=3D"-webkit-text-size-adjust:100%; -ms-text-size-adjust:10=
+0%; mso-table-lspace:0pt; mso-table-rspace:0pt; border-collapse:collapse !i=
+mportant; width:600px" width=3D"600">
+                                                <tbody><tr>
+<td align=3D"left" valign=3D"top" class=3D"bodyContent" width=3D"100%" cols=
+pan=3D"12" style=3D"-webkit-text-size-adjust:100%; -ms-text-size-adjust:100=
+%; mso-table-lspace:0pt; mso-table-rspace:0pt; color:#1c2933; font-family:'=
+Helvetica Neue', Helvetica, Arial, sans-serif; font-size:15px; line-height:=
+150%; text-align:left">
+<table cellpadding=3D"0" cellspacing=3D"0" border=3D"0" width=3D"100%" clas=
+s=3D"templateColumnWrapper" style=3D"-webkit-text-size-adjust:100%; -ms-tex=
+t-size-adjust:100%; mso-table-lspace:0pt; mso-table-rspace:0pt; border-coll=
+apse:collapse !important">
+            <tbody><tr>
+<td valign=3D"top" colspan=3D"12" width=3D"100.0%" class=3D" column" style=
+=3D"-webkit-text-size-adjust:100%; -ms-text-size-adjust:100%; mso-table-lsp=
+ace:0pt; mso-table-rspace:0pt; width:100.0%; text-align:left; padding:0; fo=
+nt-family:'Helvetica Neue', Helvetica, Arial, sans-serif; font-size:15px; l=
+ine-height:1.5em; color:#1c2933" align=3D"left">
+<div class=3D"widget-span widget-type-logo " style=3D"text-align: center" d=
+ata-widget-type=3D"logo">
+<div class=3D"layout-widget-wrapper">
+<div id=3D"hs_cos_wrapper_logo_image" class=3D"hs_cos_wrapper hs_cos_wrappe=
+r_widget hs_cos_wrapper_type_logo" style=3D"color: inherit; font-size: inhe=
+rit; line-height: inherit;" data-hs-cos-general-type=3D"widget" data-hs-cos=
+-type=3D"logo"><a href=3D"http://email.axosoft.com/e1t/c/*V1vQc5533jxYW7Fnr=
+gq2S2DbQ0/*W7WJtxl931Y2vW3d7hmD82xJLt0/5/f18dQhb0S5fp8XJ8hgW8LBxn92qwv1SW3D=
+CJ7p1TNQnkMf5qvWXD6prW7cmS1s8pCQ6vW8xX2dX2yc3TXW4rJcyL6PZxrZW1nrCGB51LTg5N5=
+DHNj22wH6SW635TNH2z91r3W51vDGB3VpBHKW9dSlS635rgClW93-Jn46gs8lFW3VKVtL6n8KjW=
+W5ThdHg3s1XjFW51G0C14YFc44W57-WqM3H_PtyW2DzCtR1yBHjVW4b5xVj5hkNmDW3GC-pt22d=
+1G5W6rNFZD52MJs4W22gXyj8GclsxW5ZM0nn6Kz_tqW7nX50H1DRDVDW76Rcbb71N0JyW7VPGJM=
+2XMB-WVtnN_M8g-qH4W7K5b7l7bqH07VSDHs36_4f3KW4-S9wV6Pc2NRN7PwBwrVzQv-VVn7DD1=
+2HbJ-W1VwXl28Xl1_CW1Sjc5l7HT6GwW95YnxN2L5GhqW5_mTJQ6Zz-StW4fLkGq93Prp0N6Kv0=
+TJKjz8TW7wbW_-66ClJfMdSQk91_P__f5zTZ_s11" target=3D"_blank" id=3D"hs-link-l=
+ogo_image" style=3D"-webkit-text-size-adjust:100%; -ms-text-size-adjust:100=
+%; border-width:0px; border:0px" data-hs-link-id=3D"0"><img src=3D"https://=
+cdn2.hubspot.net/hub/544893/hubfs/GK-Logo-Horizontal-white-background.png?t=
+=3D1526419866652&amp;width=3D320&amp;name=3DGK-Logo-Horizontal-white-backgr=
+ound.png" class=3D"hs-image-widget " style=3D"vertical-align:bottom; -ms-in=
+terpolation-mode:bicubic; max-height:74px; max-width:320px; border-width:0p=
+x; border:0px" width=3D"320" alt=3D"GitKraken Logo" title=3D"GitKraken Logo=
+" srcset=3D"https://cdn2.hubspot.net/hub/544893/hubfs/GK-Logo-Horizontal-wh=
+ite-background.png?t=3D1526419866652&amp;width=3D320&amp;name=3DGK-Logo-Hor=
+izontal-white-background.png 320w, https://cdn2.hubspot.net/hub/544893/hubf=
+s/GK-Logo-Horizontal-white-background.png?t=3D1526419866652&amp;width=3D640=
+&amp;name=3DGK-Logo-Horizontal-white-background.png 640w" sizes=3D"(max-wid=
+th: 320px) 100vw, 320px"></a></div>
+</div><!--end layout-widget-wrapper -->
+</div><!--end widget-span -->
+   </td>
+           </tr>
+    </tbody></table>
+   </td>
+</tr>
+<tr>
+<td align=3D"left" valign=3D"top" class=3D"bodyContent" width=3D"100%" cols=
+pan=3D"12" style=3D"-webkit-text-size-adjust:100%; -ms-text-size-adjust:100=
+%; mso-table-lspace:0pt; mso-table-rspace:0pt; color:#1c2933; font-family:'=
+Helvetica Neue', Helvetica, Arial, sans-serif; font-size:15px; line-height:=
+150%; text-align:left">
+<table cellpadding=3D"0" cellspacing=3D"0" border=3D"0" width=3D"100%" clas=
+s=3D"templateColumnWrapper" style=3D"-webkit-text-size-adjust:100%; -ms-tex=
+t-size-adjust:100%; mso-table-lspace:0pt; mso-table-rspace:0pt; border-coll=
+apse:collapse !important">
+            <tbody><tr>
+<td valign=3D"top" colspan=3D"12" width=3D"100.0%" class=3D" column" style=
+=3D"-webkit-text-size-adjust:100%; -ms-text-size-adjust:100%; mso-table-lsp=
+ace:0pt; mso-table-rspace:0pt; width:100.0%; text-align:left; padding:0; fo=
+nt-family:'Helvetica Neue', Helvetica, Arial, sans-serif; font-size:15px; l=
+ine-height:1.5em; color:#1c2933" align=3D"left">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"100%" styl=
+e=3D"-webkit-text-size-adjust:100%; -ms-text-size-adjust:100%; mso-table-ls=
+pace:0pt; mso-table-rspace:0pt; border-collapse:separate !important; border=
+-spacing:0; background-color:#ffffff; border-color:#ffffff" class=3D" colum=
+nContentTable" bgcolor=3D"#ffffff"><tbody><tr><td align=3D"left" valign=3D"=
+top" class=3D"columnContent widget-span widget-type-email_body" style=3D"-w=
+ebkit-text-size-adjust:100%; -ms-text-size-adjust:100%; mso-table-lspace:0p=
+t; mso-table-rspace:0pt; text-align:left; padding:0; font-family:'Helvetica=
+ Neue', Helvetica, Arial, sans-serif; font-size:15px; line-height:1.5em; co=
+lor:#1c2933" data-widget-type=3D"email_body">
+<div id=3D"hs_cos_wrapper_hs_email_body" class=3D"hs_cos_wrapper hs_cos_wra=
+pper_widget hs_cos_wrapper_type_rich_text" style=3D"color: inherit; font-si=
+ze: inherit; line-height: inherit;" data-hs-cos-general-type=3D"widget" dat=
+a-hs-cos-type=3D"rich_text"><p style=3D"margin-bottom: 1em; -webkit-text-si=
+ze-adjust:100%; -ms-text-size-adjust:100%"><span style=3D"background-color:=
+ transparent; color: inherit; font-size: inherit;">You=E2=80=99ve seen the =
+emails; you know the drill. The European Union data protection law (General=
+ Data Protection Regulation or GDPR) takes effect on May 25th, and it=E2=80=
+=99s time for us all to ramp up our privacy and data security.</span></p>
+<p style=3D"margin-bottom: 1em; -webkit-text-size-adjust:100%; -ms-text-siz=
+e-adjust:100%"><span style=3D"font-weight: 400;">At Axosoft, we=E2=80=99ve =
+always valued your privacy and security, but we=E2=80=99re taking this oppo=
+rtunity to make some updates to our<span>&nbsp;</span></span><a href=3D"htt=
+p://email.axosoft.com/e1t/c/*V1vQc5533jxYW7Fnrgq2S2DbQ0/*W4K-c0327tZp3VDy1C=
+f5LBgd30/5/f18dQhb0Sjvg8XJ8yvW8LBxn92qwv1SW3DCJ7p1TNQnkMf5bz8XD6prW7cmS1s8p=
+CQ6vW8xX2dX2yc3TXW4rJcyL6PZ7fGW5CGT375tW3gpW6PVKcr6N3nBLW8xGZK92z3pz_N7lVvJ=
+Mf9_WfW5CkFq6575-YDW96zRPS6bT6L3N8RRdVMsvWGjVHZ5KN5D8zFFW5m3ZGG96dt4SW4r1Qv=
+Y4h52QlW8gjY6L8WBKbVW56sy_82NhXFJN83FqV0qcGXMW2fvlVb5Lv_7pW1FkcC97sSkW0N1jN=
+kTZr48QNW6zgBWC4bDTLDV4gTM42tzKknW9ck86W2M09JcW7wbPW352MK15W30bcJN1yYTcsW7K=
+WL4V6ykWf5W5Kx7F-1HLGhzW1RXV-_4lBZ6FVnpt4x6GTq08W8Ph58-594SN8W1Cr-V71xvW4LW=
+7n7Chw4csQNrM1N1Hyd8rw0W2-XBGt67rV9GW5NnG2_2_yV76W6h6C70647STJW7WCgqN51xhBn=
+VrVprC56gBW-W4V8k142C5ccP0" style=3D"-webkit-text-size-adjust:100%; -ms-tex=
+t-size-adjust:100%" data-hs-link-id=3D"0" target=3D"_blank"><span style=3D"=
+font-weight: 400;">GitKraken Privacy Policy</span></a><span style=3D"font-w=
+eight: 400;">.</span></p>
+<p style=3D"margin-bottom: 1em; -webkit-text-size-adjust:100%; -ms-text-siz=
+e-adjust:100%"><span style=3D"font-weight: 400;">While you might not be in =
+the EU, we=E2=80=99re making these updates globally so all our customers ca=
+n have a better, more-clear understanding of what information we collect, w=
+hy we collect it, and how we use it.</span></p>
+<p style=3D"margin-bottom: 1em; -webkit-text-size-adjust:100%; -ms-text-siz=
+e-adjust:100%"><strong>A summary of our changes:</strong></p>
+<ul>
+<li style=3D"-webkit-text-size-adjust:100%; -ms-text-size-adjust:100%; font=
+-weight:400"><strong>Privacy Policy</strong><span style=3D"font-weight: 400=
+;">: In more clear and transparent language, our<span>&nbsp;</span></span><=
+a href=3D"http://email.axosoft.com/e1t/c/*V1vQc5533jxYW7Fnrgq2S2DbQ0/*W2PR8=
+Z58d6qrRW99z0MW1NSZhv0/5/f18dQhb0Sjvg8XJ8yvW8LBxn92qwv1SW3DCJ7p1TNQnkMf5bz8=
+XD6prW7cmS1s8pCQ6vW8xX2dX2yc3TXW4rJcyL6PZ7fGW5CGT375tW3gpW6PVKcr6N3nBLW8xGZ=
+K92z3pz_N7lVvJMf9_WfW5CkFq6575-YDW96zRPS6bT6L3N8RRdVMsvWGjVHZ5KN5D8zFFW5m3Z=
+GG96dt4SW4r1QvY4h52QlW8gjY6L8WBKbVW56sy_82NhXFJN83FqV0qcGXMW2fvlVb5Lv_7pW1F=
+kcC97sSkW0N1jNkTZr48QNW6zgBWC4bDTLDV4gTM42tzKknW9ck86W2M09JcW7wbPW352MK15W3=
+0bcJN1yYTcsW7KWL4V6ykWf5W5Kx7F-1HLGhzW1RXV-_4lBZ6FVnpt4x6GTq08W8Ph58-594SN8=
+W1Cr-V71xvW4LW7n7Chw4csQNrM1N1Hyd8rw0W2-XBGt67rV9GW5NnG2_2_yV76W6h6C70647ST=
+JW7WCgqN51xhBnVrVCHq56gBW-W1Zv6TL2C5ccP0" style=3D"-webkit-text-size-adjust=
+:100%; -ms-text-size-adjust:100%" data-hs-link-id=3D"1" target=3D"_blank"><=
+span style=3D"font-weight: 400;">Privacy Policy</span></a><span style=3D"fo=
+nt-weight: 400;"><span>&nbsp;</span>explains our data processing practices.=
+</span></li>
+<li style=3D"-webkit-text-size-adjust:100%; -ms-text-size-adjust:100%; font=
+-weight:400"><strong>GDPR</strong><span style=3D"font-weight: 400;">: GDPR =
+places new obligations on organizations that process EU personal data. Axos=
+oft has taken measures to abide by these new requirements.</span></li>
+<li style=3D"-webkit-text-size-adjust:100%; -ms-text-size-adjust:100%; font=
+-weight:400"><strong>Opt-out Practices</strong><span style=3D"font-weight: =
+400;">: You may opt-out of receiving marketing email communications from Ax=
+osoft at any time by clicking on the Unsubscribe or Manage Preferences link=
+s in our emails.</span></li>
+</ul>
+<p style=3D"margin-bottom: 1em; -webkit-text-size-adjust:100%; -ms-text-siz=
+e-adjust:100%"><span style=3D"font-weight: 400;">These updates pertain to b=
+oth the GitKraken <a href=3D"http://email.axosoft.com/e1t/c/*V1vQc5533jxYW7=
+Fnrgq2S2DbQ0/*W9k4C-P1_74yWN5LWWtZ9NCCs0/5/f18dQhb0Sjv58YHtdnW8LBxn92qwv1SW=
+3DCJ7p1TNQnkMf5wqnXD6prW7cmS1s8pCQ6vW8xX2dX2yc3TXW4rJcyL6PZdt0W41XHmR3VVg2D=
+W3SLYcb49JfBwW3C8bwH3_zkpRW2KRk7Q6dyrNkW41Q2V46trFRTW23-nGK265VBJN22-rtFhZT=
+k7W2StQ5c6D8_x4W6d_0JD8sYd0SW6ylKG22Z605kW2_1rp53ZQ23FW8vr5Ss62p2FbW8JLHK45=
+mcl25W8GqcnC63M4RkW38vrbT5kVpRpW3LtxYR3qb5xDVMcZRL38mFSFW5DFZvb3JqcBtMX4WJn=
+XbN4lW5Fykpv3Tpn3WW5WTCSQ11nDKKW3hQ4xf5zDhyvW8hH7l95yJcvNVDCW_S2280s0W98hq5=
+L4Pw1VkN2sbPxn74DZ3W3LTkg14DBj9YW4Z9v5Q19zBH8W1HgyCD7gYsyGW8Sh9gV6jGwy8W6Jt=
+dj45MHsFhW3mcCh76DgJ8FW6mPkFG2D4BKZN73Q0vR1-JqLf4Dkgj102" style=3D"-webkit-=
+text-size-adjust:100%; -ms-text-size-adjust:100%" data-hs-link-id=3D"0" tar=
+get=3D"_blank">Git Client</a> and <a href=3D"http://email.axosoft.com/e1t/c=
+/*V1vQc5533jxYW7Fnrgq2S2DbQ0/*W71ywLS2BFvzGW6qYJWj6mrkKD0/5/f18dQhb0Sjvd8XJ=
+8bxW8LBxn92qwv1SW3DCJ7p1TNQnkMf57MsXD6prW7cmS1s8pCQ6vW8xX2dX2yc3TXW4rJcyL6P=
+ZwgkW97bJCX6PVKcrW6N3nBL8xGZK9W2z3pz_7lVvJMVf9_Wf5CkFq6W575-YD96zRPSW6bT6L3=
+8RRdVMMsvWGjHZ5KNW5D8zFF5m3ZGGW96dt4S4r1QvYW35ZzJq8gjY6LW8WBKbV56sy_8W2NhXF=
+J83FqV0VqcGXM2fvlVbW5Lv_7p1FkcC9W7sSkW01jNkTZVr48QN6zgBWCN4bDTLD4gTM4W2tzKk=
+n9ck86WW2M09Jc7wbPW3W52MK1530bcJNW1yYTcs7KWL4VW6ykWf55Kx7F-W1HLGhz1RXV-_N4l=
+BZ6Fnpt4xW6GTq088Ph58-W594SN81Cr-V7W1xvW4L7n7ChwN4csQNr1N0-DVd8rw02-XBGtW67=
+rV9G5NnG2_W2_yV766h6C70W647STJ7WCgqNN51xhBnrVprCW56gBW-3XnPw2f2sc1c204" sty=
+le=3D"-webkit-text-size-adjust:100%; -ms-text-size-adjust:100%" data-hs-lin=
+k-id=3D"0" target=3D"_blank">Glo Boards</a>.&nbsp;<span>If you have any que=
+stions,</span>&nbsp;please contact us at<span>&nbsp;</span></span><a href=
+=3D"mailto:compliance@gitkraken.com" style=3D"-webkit-text-size-adjust:100%=
+; -ms-text-size-adjust:100%" data-hs-link-id=3D"0" target=3D"_blank"><span =
+style=3D"font-weight: 400;">compliance@gitkraken.com</span></a><span style=
+=3D"font-weight: 400;">.</span></p>
+<p style=3D"margin-bottom: 1em; -webkit-text-size-adjust:100%; -ms-text-siz=
+e-adjust:100%"><span style=3D"font-weight: 400;">Cheers,</span></p>
+<p style=3D"margin-bottom: 1em; -webkit-text-size-adjust:100%; -ms-text-siz=
+e-adjust:100%"><span style=3D"font-weight: 400;">The Axosoft Team</span></p=
+></div>
+</td></tr></tbody></table><!--end widget-table -->
+   </td>
+           </tr>
+    </tbody></table>
+   </td>
+</tr>
+<!--end body wrapper -->
+                                            </tbody></table>
+                                        </td>
+                                    </tr>
+                                </tbody></table>
+                                <!-- End Template Wrapper -->
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align=3D"center" valign=3D"top" style=3D"-w=
+ebkit-text-size-adjust:100%; -ms-text-size-adjust:100%; mso-table-lspace:0p=
+t; mso-table-rspace:0pt">
+                                <!-- Begin Template Footer -->
+                                <div class=3D"footer-container-wrapper">
+</div><table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"100%=
+" id=3D"footerTable" style=3D"-webkit-text-size-adjust:100%; -ms-text-size-=
+adjust:100%; mso-table-lspace:0pt; mso-table-rspace:0pt; border-collapse:co=
+llapse !important; background-color:#ffffff; color:#2a3e51; font-family:'He=
+lvetica Neue', Helvetica, Arial, sans-serif; font-size:12px; line-height:12=
+0%; padding-top:20px; padding-right:20px; padding-bottom:20px; padding-left=
+:20px; text-align:center" bgcolor=3D"#ffffff" align=3D"center">
+                                    <tbody><tr>
+<td align=3D"left" valign=3D"top" class=3D"bodyContent" width=3D"100%" cols=
+pan=3D"12" style=3D"-webkit-text-size-adjust:100%; -ms-text-size-adjust:100=
+%; mso-table-lspace:0pt; mso-table-rspace:0pt; color:#1c2933; font-family:'=
+Helvetica Neue', Helvetica, Arial, sans-serif; font-size:15px; line-height:=
+150%; text-align:left">
+<table cellpadding=3D"0" cellspacing=3D"0" border=3D"0" width=3D"100%" clas=
+s=3D"templateColumnWrapper" style=3D"-webkit-text-size-adjust:100%; -ms-tex=
+t-size-adjust:100%; mso-table-lspace:0pt; mso-table-rspace:0pt; border-coll=
+apse:collapse !important">
+            <tbody><tr>
+<td valign=3D"top" colspan=3D"12" width=3D"100.0%" class=3D" column" style=
+=3D"-webkit-text-size-adjust:100%; -ms-text-size-adjust:100%; mso-table-lsp=
+ace:0pt; mso-table-rspace:0pt; width:100.0%; text-align:left; padding:0; fo=
+nt-family:'Helvetica Neue', Helvetica, Arial, sans-serif; font-size:15px; l=
+ine-height:1.5em; color:#1c2933" align=3D"left">
+<div class=3D"widget-span widget-type-email_can_spam " style=3D"" data-widg=
+et-type=3D"email_can_spam">
+<p id=3D"footer" style=3D"margin-bottom: 1em; -webkit-text-size-adjust:100%=
+; -ms-text-size-adjust:100%; font-family:Geneva, Verdana, Arial, Helvetica,=
+ sans-serif; text-align:center; font-size:12px; line-height:1.34em; color:#=
+2a3e51; display:block" align=3D"center">Axosoft, LLC. &nbsp;&nbsp;13835 N. =
+Northsight Blvd. &nbsp;Suite 205 &nbsp;Scottsdale, &nbsp;AZ &nbsp;&nbsp;852=
+60 &nbsp;&nbsp;USA <br><br> Update your <a href=3D"http://email.axosoft.com=
+/hs/manage-preferences/unsubscribe?d=3DeyJlYSI6IndpbGx3b29kbGllZkBnbWFpbC5j=
+b20iLCJlYyI6NjMyNDY2NDQsInN1YnNjcmlwdGlvbklkIjo4NDI5NzUsImV0IjoxNTI3MjgwOTc=
+5NjQyLCJldSI6IjdkMjA1YzUwLTZlZDUtNDk3ZC1iNzEyLTQzMjlhMWQyZmEwOCJ9&amp;v=3D1=
+&amp;utm_campaign=3DProduct%20Emails&amp;utm_source=3Dhs_email&amp;utm_medi=
+um=3Demail&amp;utm_content=3D63246644&amp;_hsenc=3Dp2ANqtz-8FwD_pTlcHcBNBF-=
+P9Vq86xnAYF3Wpkyyk2T6lFqrPyjOTj0ZO1XItQ_C7EivrI7feh-dysXUgusWkamxCDLO8NlHiX=
+Q&amp;_hsmi=3D63246644" target=3D"_blank" data-unsubscribe=3D"true" style=
+=3D"-ms-text-size-adjust:100%; -webkit-text-size-adjust:none; font-weight:n=
+ormal; text-decoration:underline; whitespace:nowrap; color:#2a3e51" data-hs=
+-link-id=3D"0">email preferences</a> to choose the types of emails you rece=
+ive. <br><br> &nbsp;<a href=3D"http://email.axosoft.com/hs/manage-preferenc=
+es/unsubscribe-all?d=3DeyJlYSI6IndpbGx3b29kbGllZkBnbWFpbC5jb20iLCJlYyI6NjMy=
+NDY2NDQsInN1YnNjcmlwdGlvbklkIjo4NDI5NzUsImV0IjoxNTI3MjgwOTc5NjQyLCJldSI6Ijd=
+kMjA1YzUwLTZlZDUtNDk3ZC1iNzEyLTQzMjlhMWQyZmEwOCJ9&amp;v=3D1&amp;utm_campaig=
+n=3DProduct%20Emails&amp;utm_source=3Dhs_email&amp;utm_medium=3Demail&amp;u=
+tm_content=3D63246644&amp;_hsenc=3Dp2ANqtz-8FwD_pTlcHcBNBF-P9Vq86xnAYF3Wpky=
+yk2T6lFqrPyjOTj0ZO1XItQ_C7EivrI7feh-dysXUgusWkamxCDLO8NlHiXQ&amp;_hsmi=3D63=
+246644" target=3D"_blank" data-unsubscribe=3D"true" style=3D"-ms-text-size-=
+adjust:100%; -webkit-text-size-adjust:none; font-weight:normal; text-decora=
+tion:underline; whitespace:nowrap; color:#2a3e51" data-hs-link-id=3D"0">Uns=
+ubscribe from all future emails</a>&nbsp;</p>
+</div><!--end widget-span -->
+   </td>
+           </tr>
+    </tbody></table>
+   </td>
+</tr>
+<!--end footer wrapper -->
+                                    <tr>
+                                        <td style=3D"-webkit-text-size-adju=
+st:100%; -ms-text-size-adjust:100%; mso-table-lspace:0pt; mso-table-rspace:=
+0pt"></td>
+                                    </tr>
+                                </tbody></table>
+                                <!-- End Template Footer -->
+                            </td>
+                        </tr>
+                    </tbody></table>
+                    <!-- End Template Container -->
+                </td>
+            </tr>
+        </tbody></table>
+   =20
+<!-- end coded_template: id:4632107529 path:generated_layouts/4632107519.ht=
+ml -->
+<img src=3D"http://email.axosoft.com/e1t/o/*W3qqTjy6Qgnw2W3W4MrF6M1jG70/*VF=
+DCFr76YqwGW20c1WM4kZCff0/5/f18dQhb0K6H8BYJtyN4LP0TfHzgDZW5k8vwh51mW-wN4GzYM=
+LFySDDD79vxcTrJ3W5xDkrW2TwgZxW4D9NrC3Wl6nvW41Q2Wg3sm0wnW2Gm4wF5xfgjrW5yzxbL=
+5Pm90jW7xNBQk7J_zCfW3r6JsW2LRWSSN8T_XKy9Xdn1f6mRDlG01" alt=3D"" width=3D"1"=
+ height=3D"1" border=3D"0" style=3D"display:none!important;min-height:1px!i=
+mportant;width:1px!important;border-width:0!important;margin-top:0!importan=
+t;margin-bottom:0!important;margin-right:0!important;margin-left:0!importan=
+t;padding-top:0!important;padding-bottom:0!important;padding-right:0!import=
+ant;padding-left:0!important"><style>@media print{#_hs { background-image: =
+url('http://email.axosoft.com/e1t/o/*W3qqTjy6Qgnw2W3W4MrF6M1jG70/*W5dzjPJ1y=
+dZjbW32h2PT7nXNN30/5/f18dQhb0J6z1cMYyW8tVRGq1cjbYzVjbY8b1X0-zCW1WXWBg30mjQv=
+W1RGqgd2lhw0RN2XZgmRmWQZQW3ZY86c43PrTtW3K3LXf3_R592N1JxwY52rk5CW15gBJz50db7=
+RW5GDHWX6J4r53W5mKRdT53stRDVWPPb_7l2lmKTZb1W73zdHs103');}} div.OutlookMessa=
+geHeader {background-image:url('http://email.axosoft.com/e1t/o/*W3qqTjy6Qgn=
+w2W3W4MrF6M1jG70/*W9fqXck1DZCvFN7HgTHWZ3RVK0/5/f18dQhb0J6D1bwwJW8P06PN5SZbm=
+hW1f7_Hh1S32D0W1X06yD2zLf-3F2nVMD-s7yKM2xwK0vlGKbVRkKQP3-0KFcW3H7MT93LMxQwW=
+3zbV8Y3Fbt4_N2fnjGdmWcMxW8Z01K28nZgKZV25Dmn7R8-Q8W5y2FlH6Rcf3bW6NmrRH4fdSPB=
+f3Jh9SK04')} table.moz-email-headers-table {background-image:url('http://em=
+ail.axosoft.com/e1t/o/*W3qqTjy6Qgnw2W3W4MrF6M1jG70/*W9fqXck1DZCvFN7HgTHWZ3R=
+VK0/5/f18dQhb0J6D1bwwJW8P06PN5SZbmhW1f7_Hh1S32D0W1X06yD2zLf-3F2nVMD-s7yKM2x=
+wK0vlGKbVRkKQP3-0KFcW3H7MT93LMxQwW3zbV8Y3Fbt4_N2fnjGdmWcMxW8Z01K28nZgKZV25D=
+mn7R8-Q8W5y2FlH6Rcf3bW6NmrRH4fdSPBf3Jh9SK04')} blockquote #_hs {background-=
+image:url('http://email.axosoft.com/e1t/o/*W3qqTjy6Qgnw2W3W4MrF6M1jG70/*W9f=
+qXck1DZCvFN7HgTHWZ3RVK0/5/f18dQhb0J6D1bwwJW8P06PN5SZbmhW1f7_Hh1S32D0W1X06yD=
+2zLf-3F2nVMD-s7yKM2xwK0vlGKbVRkKQP3-0KFcW3H7MT93LMxQwW3zbV8Y3Fbt4_N2fnjGdmW=
+cMxW8Z01K28nZgKZV25Dmn7R8-Q8W5y2FlH6Rcf3bW6NmrRH4fdSPBf3Jh9SK04')} #MailCon=
+tainerBody #_hs {background-image:url('http://email.axosoft.com/e1t/o/*W3qq=
+Tjy6Qgnw2W3W4MrF6M1jG70/*W9fqXck1DZCvFN7HgTHWZ3RVK0/5/f18dQhb0J6D1bwwJW8P06=
+PN5SZbmhW1f7_Hh1S32D0W1X06yD2zLf-3F2nVMD-s7yKM2xwK0vlGKbVRkKQP3-0KFcW3H7MT9=
+3LMxQwW3zbV8Y3Fbt4_N2fnjGdmWcMxW8Z01K28nZgKZV25Dmn7R8-Q8W5y2FlH6Rcf3bW6NmrR=
+H4fdSPBf3Jh9SK04')}</style><div id=3D"_hs"></div></body></html>
+------=_Part_185037_2018829081.1527281302107--
+

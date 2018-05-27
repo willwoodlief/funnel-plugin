@@ -54,13 +54,15 @@ div.ecomhub-fi-admin table.ecomhub-fi-raw-detail tr  td:nth-child(4){
 
 
 
-div.ecomhub-fi-admin table.ecomhub-fi-answers tr  td:first-child {
-    width: 50%;
-}
 
-div.ecomhub-fi-admin tr:nth-child(even) {background: #CCC}
+div.ecomhub-fi-admin tr:nth-child(even) {background: rgba(175, 224, 243, 0.18)
+}
 div.ecomhub-fi-admin tr:nth-child(odd) {background: #FFF}
 
+
+div.ecomhub-fi-admin div.ecomhub-fi-details {
+    margin-top: 1em;
+}
 div.ecomhub-fi-admin div.ecomhub-fi-detail div.ecomhub-fi-details-here {
     min-height: 4em;
     padding: 0.5em;

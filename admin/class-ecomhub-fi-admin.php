@@ -64,12 +64,10 @@ class Ecomhub_Fi_Admin {
         $b_check = strpos($_SERVER['QUERY_STRING'], 'ecomhub-fi');
         if ($b_check !== false) {
 
-
-
-            wp_enqueue_style( $this->plugin_name.'slick', plugin_dir_url( __DIR__ ) . 'lib/SlickGrid/slick.grid.css', array(), $this->version, 'all' );
-         //   wp_enqueue_style( $this->plugin_name.'slickuismooth', plugin_dir_url( __DIR__ ) . 'lib/SlickGrid/css/smoothness/jquery-ui-1.11.3.custom.css', array(), $this->version, 'all' );
-            wp_enqueue_style( $this->plugin_name.'slickexamps', plugin_dir_url( __DIR__ ) . 'lib/SlickGrid/css/working.css', array(), $this->version, 'all' );
-            wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/ecomhub-fi-admin.css', array(), $this->version, 'all' );
+	        wp_enqueue_style( $this->plugin_name.'-fontawesome', 'https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css', array(), $this->version, 'all' );
+            wp_enqueue_style( $this->plugin_name.'-slickgrid', plugin_dir_url( __DIR__ ) . 'lib/SlickGrid/slick.grid.css', array(), $this->version, 'all' );
+            wp_enqueue_style( $this->plugin_name.'-slick-styles', plugin_dir_url( __DIR__ ) . 'lib/SlickGrid/css/working.css', array(), $this->version, 'all' );
+            wp_enqueue_style( $this->plugin_name.'-main', plugin_dir_url( __FILE__ ) . 'css/ecomhub-fi-admin.css', array(), $this->version, 'all' );
         }
 
 
@@ -88,19 +86,15 @@ class Ecomhub_Fi_Admin {
 
         if ($b_check !== false) {
 
-
-          //  wp_enqueue_script($this->plugin_name.'slickcorejqui', plugin_dir_url(__DIR__) . 'lib/SlickGrid/lib/jquery-ui-1.11.3.js', array('jquery'), $this->version, false);
-
-            wp_enqueue_script($this->plugin_name.'slickcoredrag', plugin_dir_url(__DIR__) . 'lib/SlickGrid/lib/jquery.event.drag-2.3.0.js', array('jquery'), $this->version, false);
-            wp_enqueue_script($this->plugin_name.'slickcorejsonp', plugin_dir_url(__DIR__) . 'lib/SlickGrid/lib/jquery.jsonp-2.4.min.js', array('jquery'), $this->version, false);
-            wp_enqueue_script($this->plugin_name.'slickcore', plugin_dir_url(__DIR__) . 'lib/SlickGrid/slick.core.js', array('jquery'), $this->version, false);
-            wp_enqueue_script( $this->plugin_name.'a', plugin_dir_url( __FILE__ ) . 'js/ecomhub-fi-admin.js', array( 'jquery' ), $this->version, false );
-            wp_enqueue_script($this->plugin_name.'slickgrid', plugin_dir_url(__DIR__) . 'lib/SlickGrid/slick.grid.js', array('jquery'), $this->version, false);
-            wp_enqueue_script($this->plugin_name.'slicksel', plugin_dir_url(__DIR__) . 'lib/SlickGrid/plugins/slick.rowselectionmodel.js', array('jquery'), $this->version, false);
+            wp_enqueue_script($this->plugin_name.'-slickcoredrag', plugin_dir_url(__DIR__) . 'lib/SlickGrid/lib/jquery.event.drag-2.3.0.js', array('jquery'), $this->version, false);
+            wp_enqueue_script($this->plugin_name.'-slickcore', plugin_dir_url(__DIR__) . 'lib/SlickGrid/slick.core.js', array('jquery'), $this->version, false);
+            wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/ecomhub-fi-admin.js', array( 'jquery' ), $this->version, false );
+            wp_enqueue_script($this->plugin_name.'-slickgrid', plugin_dir_url(__DIR__) . 'lib/SlickGrid/slick.grid.js', array('jquery'), $this->version, false);
+            wp_enqueue_script($this->plugin_name.'-slicksel', plugin_dir_url(__DIR__) . 'lib/SlickGrid/plugins/slick.rowselectionmodel.js', array('jquery'), $this->version, false);
 
 
 
-            wp_enqueue_script($this->plugin_name, plugin_dir_url(__DIR__) . 'lib/Chart.min.js', array('jquery'), $this->version, false);
+            wp_enqueue_script($this->plugin_name.'-chart', plugin_dir_url(__DIR__) . 'lib/Chart.min.js', array('jquery'), $this->version, false);
 
             $title_nonce = wp_create_nonce( 'Ecomhub_Fi_Admin' );
             wp_localize_script('ecomhub-fi', 'ecomhub_fi_backend_ajax_obj', array(
@@ -148,15 +142,6 @@ class Ecomhub_Fi_Admin {
 		    'comhub-fi-funnels' // Page
 	    );
 
-	    add_settings_field(
-		    'log_name', // ID
-		    'Log Name For Debugging', // Title
-		    array( $this, 'log_name_callback' ), // Callback
-		    'comhub-fi-funnels', // Page
-		    'setting_section_id' // Section
-	    );
-
-
 
 	    add_settings_field(
 		    'is_listening',
@@ -164,6 +149,26 @@ class Ecomhub_Fi_Admin {
 		    array( $this, 'listening_callback' ),
 		    'comhub-fi-funnels',
 		    'setting_section_id'
+	    );
+
+	    add_settings_field(
+		    'allowed_senders', // ID
+		    'White List for Email Senders', // Title
+		    array( $this, 'allowed_senders_callback' ), // Callback
+		    'comhub-fi-funnels', // Page
+		    'setting_section_id' // Section
+	    );
+
+
+
+
+
+	    add_settings_field(
+		    'log_name', // ID
+		    'Log Name For Debugging', // Title
+		    array( $this, 'log_name_callback' ), // Callback
+		    'comhub-fi-funnels', // Page
+		    'setting_section_id' // Section
 	    );
 
 
@@ -190,7 +195,33 @@ class Ecomhub_Fi_Admin {
 			$new_input['log_name'] = sanitize_text_field( $input['log_name'] );
 		}
 
+		if( isset( $input['allowed_senders'] ) ) {
+			$one_string = $input['allowed_senders'];
+			$allowed_array_raw = preg_split('/\r\n|\r|\n/', $one_string);
+			if ($allowed_array_raw === false) {$allowed_array_raw = [];}
 
+			$allowed_array = [];
+			foreach ($allowed_array_raw as $allowed_raw) {
+				$allowed_raw = trim($allowed_raw,"\"', \t\n\r\0\x0B");
+				if( preg_match("/^\/.+\/[a-z]*$/i",$allowed_raw)) {
+					$allowed = $allowed_raw;
+				} else {
+					if (strpos($allowed_raw, '<') !== false) {
+						$allowed = preg_replace('/.*<(.*)>.*/',"$1",$allowed_raw);
+					} else {
+						$allowed = $allowed_raw;
+					}
+				}
+
+
+				$allowed = sanitize_text_field($allowed);
+				if (!empty($allowed)) {
+					array_push($allowed_array,$allowed);
+				}
+			}
+
+			$new_input['allowed_senders'] = $allowed_array;
+		}
 
 
 		if( isset( $input['is_listening'] ) ) {
@@ -234,6 +265,29 @@ class Ecomhub_Fi_Admin {
 
 	}
 
+	public function allowed_senders_callback() {
+
+		$array =  $this->options['allowed_senders'] ;
+		if (!is_array($array)) {
+			$array = [$array];
+		}
+		$lines_as_one_string = implode("\n",$array);
+
+		printf(
+			'
+					<div style="display: inline-block">
+ 						<textarea  id="allowed_senders" name="ecomhub_fi_options[allowed_senders]" rows="4" cols="55" >%s</textarea>
+ 						<br>
+ 						<span style="font-size: smaller">One address per line, and can be in three formats: plain email address, bracked notation ,
+ 						 or regular expression. Regular expressions need to start with / and end with /, and can only match the plain email and not bracketed forms </span>
+                    </div>',
+			$lines_as_one_string
+		);
+
+	}
+
+
+
 
 
 
@@ -244,9 +298,15 @@ class Ecomhub_Fi_Admin {
         check_ajax_referer( 'Ecomhub_Fi_Admin' );
 
         if (array_key_exists( 'method',$_POST) && $_POST['method'] == 'stats') {
+	        global $ecombhub_fi_stats_object;
             try {
-                $stats = EcomhubFiListEvents::get_stats_array();
-                wp_send_json(['is_valid' => true, 'data' => $stats, 'action' => 'stats']);
+	            $ecombhub_fi_stats_object = EcomhubFiListEvents::get_stats_array();
+	            ob_start();
+	            require_once plugin_dir_path(dirname(__FILE__)) . 'admin/partials/ecomhub-fi-admin-stats.php';
+	            $html = ob_get_contents();
+	            ob_end_clean();
+	            $ecombhub_fi_stats_object->html = $html;
+                wp_send_json(['is_valid' => true, 'data' => $ecombhub_fi_stats_object, 'action' => 'stats']);
                 die();
             } catch (Exception $e) {
                 wp_send_json(['is_valid' => false, 'message' => $e->getMessage(), 'trace'=>$e->getTrace(), 'action' => 'stats' ]);
@@ -274,8 +334,8 @@ class Ecomhub_Fi_Admin {
 		        require_once plugin_dir_path(dirname(__FILE__)) . 'admin/partials/ecomhub-fi-admin-detail.php';
 		        $html = ob_get_contents();
 		        ob_end_clean();
-		        $chi_enquete_details_object['html'] = $html;
-		        wp_send_json(['is_valid' => true, 'data' => $chi_enquete_details_object, 'action' => 'detail']);
+		        $ecombhub_fi_details_object->html = $html;
+		        wp_send_json(['is_valid' => true, 'data' => $ecombhub_fi_details_object, 'action' => 'detail']);
 		        die();
 	        } catch (Exception $e) {
 		        wp_send_json(['is_valid' => false, 'message' => $e->getMessage(), 'trace'=>$e->getTrace(), 'action' => 'detail' ]);

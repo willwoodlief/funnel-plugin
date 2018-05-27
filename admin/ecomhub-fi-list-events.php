@@ -13,7 +13,9 @@ class EcomhubFiListEvents
         $res = $wpdb->get_results(
             " 
             select count(id) number_completed,
-min(UNIX_TIMESTAMP(created_at)) as min_created_at_ts, max(UNIX_TIMESTAMP(created_at)) as max_created_at_ts
+min(UNIX_TIMESTAMP(created_at)) as min_created_at_ts, max(UNIX_TIMESTAMP(created_at)) as max_created_at_ts,
+count(user_id_read) as total_user_actions, count(invoice_number) as total_invoices,
+count(error_message) as total_errors
             from $table_name where is_completed = 1;
             ");
 
@@ -100,10 +102,16 @@ min(UNIX_TIMESTAMP(created_at)) as min_created_at_ts, max(UNIX_TIMESTAMP(created
         $sort_by = trim($sort_by);
         $sort_direction = intval($sort_direction);
         if ($sort_by) {
+        	if ($sort_by == 'created_at_ts') {
+		        $sort_by = 'created_at';
+	        }
             switch ($sort_by) {
                 case 'created_at':
                 case 'user_nicename':
 	            case 'user_email':
+	            case 'email_from':
+	            case 'email_subject':
+	            case 'is_error':
 	            case 'user_id_read':
                 case 'invoice_id': {
                      if ($sort_direction > 0) {
@@ -137,9 +145,10 @@ min(UNIX_TIMESTAMP(created_at)) as min_created_at_ts, max(UNIX_TIMESTAMP(created
                             "
                 select f.id,f.is_completed,f.user_id_read,f.invoice_number,
                   UNIX_TIMESTAMP(f.created_at) as created_at_ts, u.user_nicename,
-                  u.user_email
+                  u.user_email, f.email_from, f.email_attachent_files_saved,
+                  f.email_subject,f.is_error
                 from $table_name f
-                 INNER JOIN $user_table_name u ON u.id = f.user_id_read
+                 LEFT JOIN $user_table_name u ON u.id = f.user_id_read
                  where ( f.is_completed = 1 ) 
                 $where_clause $sort_by_clause  $offset_clause;"
         );
@@ -168,13 +177,19 @@ min(UNIX_TIMESTAMP(created_at)) as min_created_at_ts, max(UNIX_TIMESTAMP(created
     public static function get_details_of_one($funnel_transaction_id) {
         global $wpdb;
 	    $funnel_table_name = $wpdb->prefix . 'ecombhub_fi_funnels';
+	    $user_table_name = $wpdb->prefix . 'users';
 	    // $user_table_name = $wpdb->prefix . 'wp_users';
 	    $funnel_transaction_id = intval($funnel_transaction_id);
 
         /** @noinspection SqlResolve */
         $survey_res = $wpdb->get_results("
-        select id,created_at,is_completed,user_id_read,raw,comments,invoice_number
-        from $funnel_table_name where id = $funnel_transaction_id;
+        select f.id,f.created_at,f.is_completed,f.user_id_read,f.raw_email,f.comments,f.invoice_number,
+        f.email_to,f.email_from,f.email_subject,f.email_body,f.email_attachent_files_saved,f.is_error,
+        f.error_message, UNIX_TIMESTAMP(f.created_at) as created_at_ts,u.user_nicename,
+                  u.user_email
+        from $funnel_table_name f
+         LEFT JOIN $user_table_name u ON u.id = f.user_id_read
+         where f.id = $funnel_transaction_id;
         ");
 
         if ($wpdb->last_error) {
@@ -182,7 +197,7 @@ min(UNIX_TIMESTAMP(created_at)) as min_created_at_ts, max(UNIX_TIMESTAMP(created
         }
 
         if (empty($survey_res)) {return false;}
-		return $survey_res;
+		return $survey_res[0];
 
 
     }

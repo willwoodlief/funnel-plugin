@@ -1,4 +1,3 @@
-#!/usr/bin/php -q
 #!/usr/local/php70/bin/php-cli -q
 <?php
 // #!/usr/bin/php -q

@@ -5,3 +5,4 @@
 /private_envs.php
 /scripts/downloads/*
 !/scripts/downloads/.keep
+/scripts/php.ini

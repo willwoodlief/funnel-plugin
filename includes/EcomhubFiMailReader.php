@@ -81,6 +81,11 @@ class EcomhubFiMailReader {
         );
 
 	    $parts = $decoder->getSendArray();
+	    if (is_object($parts) && is_a($parts,'PEAR_Error') ) {
+		    $pear_message = $parts->toString();
+		    throw new Exception($pear_message);
+	    }
+
 	    $this->all_recipients = $parts[0];
 
 

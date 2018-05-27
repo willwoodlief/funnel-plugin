@@ -113,5 +113,10 @@ catch (Exception $e) {
 		$prev_error_info = $e->getPrevious()->getMessage()." \n ". $e->getPrevious()->getTraceAsString();
 		$error_info .= "\n\nPrevious\n\n" . $prev_error_info;
 	}
+	//try to log, but if the log fails, silently discard any exception
+    try {
+	    Ecomhub_Fi_Log::log_to( $log_name, $error_info, Ecomhub_Fi_Log::ERROR, [ ]  );
+    } catch (Exception $e) {}
+
     Ecomhub_Fi_Log::sns_alert("Error in incoming mail",$error_info);
 }

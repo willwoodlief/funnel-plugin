@@ -73,7 +73,7 @@ try {
 	$wpdb->insert(
 		$table_name,
 		array(
-            'created_at' => JsonHelpers::timestampToUTCString(),
+            'created_at' => JsonHelpers::timestampToLocalString(), //mysql server there is not in utc
             'is_completed' => 1,
             'user_id_read' => null,
             'comments' => "passively logging email",

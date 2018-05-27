@@ -427,6 +427,23 @@ class JsonHelpers {
 		return $what;
 	}
 
+	/**
+	 * @param null|int $ts
+	 *
+	 * @return false|string
+	 * @throws Exception
+	 */
+	public static function timestampToLocalString($ts=null) {
+		// 'YYYY-MM-DD HH:MM:SS'
+		if (empty($ts)) {$ts = time();}
+		$tsc = intval($ts);
+		$what =  date('Y-m-d G:i:s',$tsc);
+		if (!$what) {
+			throw  new Exception("$ts cannot be converted to a date time");
+		}
+		return $what;
+	}
+
     /**
      * Use this to inspect json returns
      * Debug, prints array information to the screen in an easy to read html table

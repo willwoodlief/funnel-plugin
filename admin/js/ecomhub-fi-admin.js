@@ -15,7 +15,7 @@ var ecombhub_fi_ajax_req = null; //active ajax request
         // private
         var PAGESIZE = 50;
         var search_options = {
-            sort_by: 'created_at',
+            sort_by: 'created_at_ts',
             sort_direction: 1,
             search_column: 'invoice_number',
             start_index: 0,

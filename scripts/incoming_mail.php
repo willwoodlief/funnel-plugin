@@ -1,3 +1,4 @@
+#!/usr/bin/php -q
 #!/usr/local/php70/bin/php-cli -q
 <?php
 // #!/usr/bin/php -q
@@ -73,7 +74,7 @@ try {
 	$wpdb->insert(
 		$table_name,
 		array(
-            'created_at' => JsonHelpers::timestampToLocalString(), //mysql server there is not in utc
+            'created_at_ts' => time(), //mysql server there is not in utc
             'is_completed' => 1,
             'user_id_read' => null,
             'comments' => "passively logging email",

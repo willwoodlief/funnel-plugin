@@ -30,7 +30,7 @@ class Ecomhub_Fi_Activator {
 	 * @since    1.0.0
 	 */
 
-	const DB_VERSION = 1.0;
+	const DB_VERSION = 1.1;
 	public static function activate() {
         global $wpdb;
 
@@ -42,7 +42,7 @@ class Ecomhub_Fi_Activator {
 			//do main survey table
 			$sql = "CREATE TABLE `{$wpdb->base_prefix}ecombhub_fi_funnels` (
               id int NOT NULL AUTO_INCREMENT,
-              created_at datetime NOT NULL,
+              created_at_ts int NOT NULL,
               is_completed int NOT NULL DEFAULT 0,
               is_error int NOT NULL DEFAULT 0,
               user_id_read int DEFAULT NULL,
@@ -57,7 +57,7 @@ class Ecomhub_Fi_Activator {
               comments LONGTEXT DEFAULT NULL,
               error_message LONGTEXT DEFAULT NULL,
               PRIMARY KEY  (id),
-              key (created_at),
+              key (created_at_ts),
               key (is_completed),
               key (user_id_read),
               key (invoice_number)

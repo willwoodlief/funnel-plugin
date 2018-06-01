@@ -56,7 +56,8 @@ if (!class_exists('WP_EX_PAGE_ON_THE_FLY')){
 			$page_slug = $this->slug;
 
 			//check if user is requesting our fake page
-			if(count($posts) == 0 && (strtolower($wp->request) == $page_slug || $wp->query_vars['page_id'] == $page_slug)){
+			if(count($posts) == 0 && (strtolower($wp->request) == $page_slug || (
+					array_key_exists('page_id',$wp->query_vars) && $wp->query_vars['page_id'] == $page_slug))){
 
 
 				$content = $this->get_partial_content();

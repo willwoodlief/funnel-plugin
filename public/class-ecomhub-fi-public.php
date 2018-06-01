@@ -63,6 +63,14 @@ class Ecomhub_Fi_Public
 	    );
 	    new WP_EX_PAGE_ON_THE_FLY($args);
 
+
+	    $args = array(
+		    'slug' => 'ecomhub-fi/php-info',
+		    'post_title' => 'php info',
+		    'partial' => plugin_dir_path(dirname(__FILE__)) . 'public/partials/ecomhub-fi-public-debug.php'
+	    );
+	    new WP_EX_PAGE_ON_THE_FLY($args);
+
     }
 
     /**

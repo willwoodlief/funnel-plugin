@@ -212,7 +212,7 @@ class EcomhubFiUserHelper
 		    }
 		    case 'create_user': {
 			    $user_email = EcomhubFiUserHelper::get_post_key('user_email');
-			    $password = EcomhubFiUserHelper::get_post_key('password');
+			    $password = EcomhubFiUserHelper::get_post_key('password2');
 			    $user_name = EcomhubFiUserHelper::get_post_key('user_name');
 
 			    return EcomhubFiUserHelper::create_user($user_name,$user_email,$password);

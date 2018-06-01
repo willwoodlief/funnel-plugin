@@ -6,3 +6,4 @@
 /scripts/downloads/*
 !/scripts/downloads/.keep
 /scripts/php.ini
+/scatch/

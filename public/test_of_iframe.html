@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Parent Window</title>
+</head>
+<script
+        src="https://code.jquery.com/jquery-1.8.1.js"
+        integrity="sha256-e6rn3uRMD1/JU+Fd/OYCf2OSFcUOXHQlkCL0rYR/JUM="
+        crossorigin="anonymous"></script>
+<body>
+
+<h1>Parent Window</h1>
+<p>
+    Select Message: <br>
+    <label for="message-type">Method</label>
+    <select id="message-type">
+        <option value="is_logged_in">Is Logged In, if so get ID</option>
+        <option value="logout_user">Logout User</option>
+        <option value="find_user">Find User (email) </option>
+        <option value="login_user">Login User (login_name, password)</option>
+        <option value="create_user">Create User (login_name, email, password)</option>
+        <option value="set_user_meta">Set User Meta (key,value)</option>
+        <option value="get_user_meta">Get User Meta (key) </option>
+    </select>
+    <label for="param1"></label><input type="text" value="" id="param1">
+    <label for="param2"></label><input type="text" value="" id="param2">
+    <label for="param3"></label><input type="text" value="" id="param3">
+</p>
+<p>Send Message: <button id="message_button">Hi there iframe</button></p>
+<p>Got Message:</p>
+<div id="results"></div>
+<br/>
+
+<script>
+    // addEventListener support for IE8
+    function bindEvent(element, eventName, eventHandler) {
+        if (element.addEventListener){
+            element.addEventListener(eventName, eventHandler, false);
+        } else { // noinspection JSUnresolvedVariable
+            if (element.attachEvent) {
+                        element.attachEvent('on' + eventName, eventHandler);
+                    }
+        }
+    }
+
+    var iframeSource = 'http://localhost/wordpress/index.php/ecomhub-fi/js_api/';
+
+    // Create the iframe
+    var iframe = document.createElement('iframe');
+    iframe.setAttribute('src', iframeSource);
+    iframe.setAttribute('id', 'the_iframe');
+    iframe.style.width = 450 + 'px';
+    iframe.style.height = 200 + 'px';
+    iframe.style.display = 'none';
+    document.body.appendChild(iframe);
+
+    // Send a message to the child iframe
+    var iframeEl = document.getElementById('the_iframe'),
+        messageButton = document.getElementById('message_button'),
+        results = document.getElementById('results');
+
+
+    // Send a message to the child iframe
+    var sendMessage = function(msg) {
+        // Make sure you are sending a string, and to stringify JSON
+        let json_msg = JSON.stringify(msg);
+        iframeEl.contentWindow.postMessage(json_msg, '*');
+    };
+
+
+    bindEvent(messageButton, 'click', function () {
+        var message_type = jQuery("#message-type").val();
+        switch (message_type) {
+            case 'is_logged_in': {
+                sendMessage({method: 'is_logged_in',data: {}});
+                break;
+            }
+            case 'logout_user': {
+                sendMessage({method: 'logout_user',data: {} });
+                break;
+            }
+            case 'find_user':  {
+                let email = jQuery("#param1").val();
+                sendMessage({method: 'find_user',data: {email: email} });
+                break;
+            }
+            case 'login_user': {
+                let user_login = jQuery("#param1").val();
+                let password =  jQuery("#param2").val();
+                sendMessage({method: 'login_user', data: {user_login: user_login,password: password } });
+                break;
+            }
+            case 'create_user':{
+                let user_name = jQuery("#param1").val();
+                let user_email = jQuery("#param2").val();
+                let password =  jQuery("#param3").val();
+                sendMessage({method: 'create_user', data: {user_name: user_name,user_email: user_email,password: password }});
+                break;
+            }
+            case 'set_user_meta':{
+                let meta_key = jQuery("#param1").val();
+                let meta_data =  jQuery("#param2").val();
+                sendMessage({method: 'set_user_meta', data: {meta_key: meta_key,meta_data: meta_data }});
+                break;
+            }
+            case 'get_user_meta': {
+                let meta_key = jQuery("#param1").val();
+                sendMessage({method: 'get_user_meta', data: {meta_key: meta_key }});
+                break;
+            }
+            default: {
+                alert("unknown method");
+            }
+        }
+    });
+
+    // Listen to message from child window
+    bindEvent(window, 'message', function (e) {
+        results.innerHTML = e.data;
+    });
+</script>
+</body>
+</html>

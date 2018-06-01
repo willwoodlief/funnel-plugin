@@ -179,7 +179,7 @@ class Ecomhub_Fi {
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
         $this->loader->add_action( 'init', $plugin_public, 'shortcut_code' );
         $this->loader->add_action( 'wp_ajax_nopriv_ecombhub_fi_public', $plugin_public, 'send_survey_ajax_handler' );
-
+		$this->loader->add_action( 'wp_ajax_ecombhub_fi_public', $plugin_public, 'send_survey_ajax_handler' );
 
 
 	}

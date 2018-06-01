@@ -1,6 +1,6 @@
 <?php
-
-
+require_once realpath(dirname(__FILE__)) . '/page_on_fly.php';
+require_once plugin_dir_path(dirname(__FILE__)) . 'public/ecomhub-fi-user-helper.php';
 /**
  * The public-facing functionality of the plugin.
  *
@@ -55,6 +55,14 @@ class Ecomhub_Fi_Public
         $this->plugin_name = $plugin_name;
         $this->version = $version;
 
+
+	    $args = array(
+		    'slug' => 'ecomhub-fi/js_api',
+		    'post_title' => 'Designed for iframe communication between public and server',
+		    'partial' => plugin_dir_path(dirname(__FILE__)) . 'public/partials/ecomhub-fi-public-api.php'
+	    );
+	    new WP_EX_PAGE_ON_THE_FLY($args);
+
     }
 
     /**
@@ -65,8 +73,15 @@ class Ecomhub_Fi_Public
     public function enqueue_styles()
     {
 
+//ecomhub-fi
+	    $b_check = strpos($_SERVER['REQUEST_URI'], 'ecomhub-fi');
+	    if (!$b_check) {
+		    $b_check = strpos($_SERVER['QUERY_STRING'], 'ecomhub-fi');
+	    }
+	    if ($b_check !== false) {
+		    wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/ecomhub-fi-public.css', array(), $this->version, 'all');
+	    }
 
-        wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/ecomhub-fi-public.css', array(), $this->version, 'all');
 
     }
 
@@ -78,14 +93,21 @@ class Ecomhub_Fi_Public
     public function enqueue_scripts()
     {
 
-        wp_enqueue_script($this->plugin_name, plugin_dir_url(__DIR__) . 'lib/Chart.min.js', array('jquery'), $this->version, false);
-        wp_enqueue_script($this->plugin_name. 'a', plugin_dir_url(__FILE__) . 'js/ecomhub-fi-public.js', array('jquery'), $this->version, false);
-        $title_nonce = wp_create_nonce('ecombhub_fi_public');
-        wp_localize_script('ecomhub-fi', 'ecombhub_fi_chart_ajax_obj', array(
-            'ajax_url' => admin_url('admin-ajax.php'),
-            'action' => 'ecombhub_fi_public',
-            'nonce' => $title_nonce,
-        ));
+    	//ecomhub-fi
+	    $b_check = strpos($_SERVER['REQUEST_URI'], 'ecomhub-fi');
+	    if (!$b_check) {
+		    $b_check = strpos($_SERVER['QUERY_STRING'], 'ecomhub-fi');
+	    }
+	    if ($b_check !== false) {
+//		    wp_enqueue_script( $this->plugin_name, plugin_dir_url( __DIR__ ) . 'lib/Chart.min.js', array( 'jquery' ), $this->version, false );
+		    wp_enqueue_script( $this->plugin_name . 'a', plugin_dir_url( __FILE__ ) . 'js/ecomhub-fi-public.js', array( 'jquery' ), $this->version, false );
+		    $title_nonce = wp_create_nonce( 'ecombhub_fi_public' );
+		    wp_localize_script( $this->plugin_name . 'a', 'ecombhub_fi_public_ajax_obj', array(
+			    'ajax_url' => admin_url( 'admin-ajax.php' ),
+			    'action'   => 'ecombhub_fi_public',
+			    'nonce'    => $title_nonce,
+		    ) );
+	    }
 
     }
 
@@ -93,9 +115,27 @@ class Ecomhub_Fi_Public
     function send_survey_ajax_handler()
     {
 
-        check_ajax_referer('ecombhub_fi_public');
 
-        wp_send_json(['is_valid' => true, 'message' => "hi", 'test' => $_POST['test']]);
+
+//	    check_ajax_referer('ecombhub_fi_public');
+	    $method = null;
+	    try {
+
+		    if ( ! EcomhubFiUserHelper::is_callee_on_whitelist() ) {
+			    throw new Exception( "Callee is not on whitelist" );
+		    }
+
+		    $method = EcomhubFiUserHelper::get_method_from_post();
+			$response = EcomhubFiUserHelper::do_action_from_post();
+		    $nonce = wp_create_nonce( 'ecombhub_fi_public' ); //changes if the person is logged in vs not
+		    wp_send_json( [ 'is_valid' => true, 'data' => $response, 'method' => $method,'new_nonce' => $nonce] );
+	    }
+	    catch (EcomhubFiUserHelperException $to_user) {
+		    wp_send_json(['method' => $method,'is_valid' => false, 'message' => $to_user->getMessage(), 'trace'=>$to_user->getTrace(), 'post' => $_POST,'for_user' => true ]);
+	    }
+	    catch (Exception $last) {
+		    wp_send_json(['method' => $method,'is_valid' => false, 'message' => $last->getMessage(), 'trace'=>$last->getTrace(), 'post' => $_POST,'for_user' => false ]);
+	    }
     }
 
     public function shortcut_code()

@@ -34,6 +34,7 @@ class EcomhubFiUserHelper
 	 * @return bool
 	 */
     public static function is_callee_on_whitelist() {
+    	//todo implement whitelist (look up server values after actually called from places)
     	return true;
     }
 
@@ -119,7 +120,7 @@ class EcomhubFiUserHelper
 	 */
     public static function associate_user_data($user_id,$base_key,$data) {
 
-    	$key = 'ecomhub-fi-'.$base_key;
+    	$key = '_ecomhub_fi_'.$base_key;
     	//check if meta already exists
 	    $what = get_user_meta( $user_id, $key,  false );
 	    if ($what) {
@@ -145,7 +146,7 @@ class EcomhubFiUserHelper
 	 * @return array
 	 */
     public static function get_assocated_user_data($user_id,$base_key) {
-	    $key = 'ecomhub-fi-'.$base_key;
+	    $key = '_ecomhub_fi_'.$base_key;
 	    $what = get_user_meta( $user_id, $key,  true );
 	    return ['value'=>$what,'key' => $key,'base_key'=>$base_key];
 
@@ -222,24 +223,14 @@ class EcomhubFiUserHelper
 		    	if ($user_id == 0) {
 		    		throw new EcomhubFiUserHelperException("Not logged in");
 			    }
-			    $key = EcomhubFiUserHelper::get_post_key('meta_key');
+			    $key = 'funnel_reference';
 
-			    $data = EcomhubFiUserHelper::get_post_key('meta_data');
+			    $data = md5(uniqid('use_user_id: '.$user_id , true));
 
 
 			    return EcomhubFiUserHelper::associate_user_data($user_id,$key,$data);
 		    }
-		    case 'get_user_meta': {
-			    $user_id = get_current_user_id();
-			    if ($user_id == 0) {
-				    throw new EcomhubFiUserHelperException("Not logged in");
-			    }
-			    $key = EcomhubFiUserHelper::get_post_key('meta_key');
 
-
-			    return  EcomhubFiUserHelper::get_assocated_user_data($user_id,$key);
-
-		    }
 		    default: {
 		        throw new Exception("Unknown Method of [$method]");
 	        }

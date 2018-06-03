@@ -9,10 +9,12 @@ try {
 	require_once realpath( dirname( __FILE__ ) ) . '/../includes/log.php';
 	require_once realpath( dirname( __FILE__ ) ) . '/../includes/JsonHelpers.php';
 	require_once realpath( dirname( __FILE__ ) ) . '/../includes/EcomhubFiMailReader.php';
+	require_once realpath( dirname( __FILE__ ) ) . '/connect_order.php';
 
 	if ( php_sapi_name() !== 'cli' ) {
 		die( "Meant to be run from command line" );
 	}
+
 
 	function find_wordpress_base_path() {
 		$dir = dirname( __FILE__ );
@@ -56,8 +58,8 @@ try {
 // Example of how to add additional allowed mime types to the list
 // $mr->allowed_mime_types[] = 'text/csv';
     $file = null; //read from standard input
-    // $file= '/home/will/htdocs/wordpress/wp-content/plugins/ecomhub-fi/scripts/email_samples/sample_cc.txt'; //when debugging in debugger
-	$mr->readEmail();
+     $file= '/home/will/htdocs/wordpress/wp-content/plugins/ecomhub-fi/scripts/email_samples/click_funnel_replay.txt'; //when debugging in debugger
+	$mr->readEmail($file);
 	if ( empty( $mr->body ) ) {
 		Ecomhub_Fi_Log::log_to( $log_name, 'empty body', Ecomhub_Fi_Log::WARNING, $mr );
 		die();
@@ -74,15 +76,15 @@ try {
 		$table_name,
 		array(
             'created_at_ts' => time(), //mysql server there is not in utc
-            'is_completed' => 1,
+            'is_completed' => 0,
             'user_id_read' => null,
-            'comments' => "passively logging email",
+            'comments' => null,
             'invoice_number' => null,
             'email_to' => $to,
             'email_from' => $from,
             'email_subject' => $mr->subject,
             'email_body' => $body,
-            'email_attachent_files_saved' => JsonHelpers::toStringAgnostic($attachments),
+            'email_attachment_files_saved' => JsonHelpers::toStringAgnostic($attachments),
             'email_all_recipients' => $mr->all_recipients,
             'raw_email' =>  trim($mr->raw)
 		)
@@ -90,8 +92,15 @@ try {
 	if ($wpdb->last_error) {
 		throw new Exception($wpdb->last_error );
 	}
+
+	if (!$wpdb->insert_id) {
+	    throw new Exception("Could not insert funnel row");
+    }
 	$data = [ 'to' => $to, 'from' => $from, 'subject' => $mr->subject,'body' =>$body,'attachments'=> $attachments];
 	Ecomhub_Fi_Log::log_to( $log_name, 'mail message recieved', Ecomhub_Fi_Log::INFO, $data );
+
+    $connector = new EcomhubFiConnectOrder($wpdb->insert_id,$body);
+
 }
 catch (EcomhubFiNotAllowedSender $g) {
 

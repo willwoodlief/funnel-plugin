@@ -28,17 +28,29 @@ $stats = $ecombhub_fi_stats_object;
 
         <td>Latest Process Time</td>
         <td><span class="ecomhub-fi-ts-to-local" data-ts="<?= $stats->max_created_at_ts ?>"></span> </td>
-    </tr>
-    <tr>
+        <td> </td>
+
         <td>Total User Actions</td>
         <td>
-            <?=  ($stats->total_user_actions)  ?>
+		    <?=  ($stats->total_user_actions)  ?>
         </td>
         <td> </td>
+
         <td>Total Errors</td>
         <td><?= $stats->total_errors ?></td>
-    </tr>
+        <td> </td>
 
+        <td>Total Items</td>
+        <td><?= $stats->total_items ?></td>
+        <td> </td>
+
+        <td>Total of Orders</td>
+        <td>$<?= number_format($stats->total_of_orders, 2, '.',',') ?></td>
+        <td> </td>
+
+
+
+    </tr>
     </tbody>
 </table>
 

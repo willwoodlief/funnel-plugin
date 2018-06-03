@@ -30,7 +30,7 @@ class Ecomhub_Fi_Activator {
 	 * @since    1.0.0
 	 */
 
-	const DB_VERSION = 1.1;
+	const DB_VERSION = 1.6;
 	public static function activate() {
         global $wpdb;
 
@@ -46,21 +46,54 @@ class Ecomhub_Fi_Activator {
               is_completed int NOT NULL DEFAULT 0,
               is_error int NOT NULL DEFAULT 0,
               user_id_read int DEFAULT NULL,
+              order_total DECIMAL(15,5) DEFAULT NULL,
+           	  order_items int DEFAULT NULL, 
+              user_id_reference varchar(100) DEFAULT NULL,
               invoice_number varchar(100) DEFAULT NULL ,
+              email_from_notice text DEFAULT NULL,
               email_to varchar(100) DEFAULT NULL,
               email_from varchar(100) DEFAULT NULL,
               email_subject varchar(200) DEFAULT NULL,
               email_body LONGTEXT DEFAULT NULL,
-              email_attachent_files_saved LONGTEXT DEFAULT NULL ,
+              email_attachment_files_saved LONGTEXT DEFAULT NULL ,
               email_all_recipients LONGTEXT DEFAULT NULL,
               raw_email LONGTEXT DEFAULT NULL,
               comments LONGTEXT DEFAULT NULL,
               error_message LONGTEXT DEFAULT NULL,
+              error_trace LONGTEXT DEFAULT NULL,
               PRIMARY KEY  (id),
               key (created_at_ts),
               key (is_completed),
               key (user_id_read),
               key (invoice_number)
+            ) $charset_collate;";
+
+
+			dbDelta($sql);
+
+
+
+			//do main survey table
+			$sql = "CREATE TABLE `{$wpdb->base_prefix}ecombhub_fi_funnel_orders` (
+              id int NOT NULL AUTO_INCREMENT,
+              ecombhub_fi_funnel_id int  NOT NULL,
+              funnel_product_id int  DEFAULT NULL,
+              post_product_id int DEFAULT NULL,
+              order_id int DEFAULT NULL,
+              user_id int DEFAULT NULL,
+              is_error int NOT NULL DEFAULT 0,
+              order_total DECIMAL(15,5) DEFAULT NULL,
+              payment_type varchar(20) DEFAULT NULL,
+              order_output LONGTEXT DEFAULT NULL,  
+              comments LONGTEXT DEFAULT NULL,
+              error_message LONGTEXT DEFAULT NULL,
+              error_trace LONGTEXT DEFAULT NULL,
+              PRIMARY KEY  (id),
+              key (ecombhub_fi_funnel_id),
+              key (funnel_product_id),
+              key (post_product_id),
+              key (order_id),
+              key (is_error)
             ) $charset_collate;";
 
 

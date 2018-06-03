@@ -20,8 +20,7 @@
         <option value="find_user">Find User (email) </option>
         <option value="login_user">Login User (login_name, password)</option>
         <option value="create_user">Create User (login_name, email, password)</option>
-        <option value="set_user_meta">Set User Meta (key,value)</option>
-        <option value="get_user_meta">Get User Meta (key) </option>
+        <option value="set_user_meta">Set User Meta</option>
     </select>
     <label for="param1"></label><input type="text" value="" id="param1">
     <label for="param2"></label><input type="text" value="" id="param2">
@@ -44,8 +43,8 @@
         }
     }
 
-    //var iframeSource = 'http://localhost/wordpress/index.php/ecomhub-fi/js_api/';
-    var iframeSource = 'https://ecomhub.com/ecomhub-fi/js_api/';
+    var iframeSource = 'http://localhost/wordpress/ecomhub-fi/js_api/';
+    //var iframeSource = 'https://ecomhub.com/ecomhub-fi/js_api/';
 
     // Create the iframe
     var iframe = document.createElement('iframe');
@@ -100,16 +99,11 @@
                 break;
             }
             case 'set_user_meta':{
-                let meta_key = jQuery("#param1").val();
-                let meta_data =  jQuery("#param2").val();
-                sendMessage({method: 'set_user_meta', data: {meta_key: meta_key,meta_data: meta_data }});
+
+                sendMessage({method: 'set_user_meta', data: { }});
                 break;
             }
-            case 'get_user_meta': {
-                let meta_key = jQuery("#param1").val();
-                sendMessage({method: 'get_user_meta', data: {meta_key: meta_key }});
-                break;
-            }
+
             default: {
                 alert("unknown method");
             }

@@ -7,7 +7,15 @@ var ecombhub_fi_ajax_req = null; //active ajax request
     function options_success(d) {
 
         $('div.stats-html-here').html(d.html);
-    };
+
+        ecomhub_fi_talk_to_backend('x_posts', {}, options_success);
+
+        function options_success(d) {
+
+            $('div.product-ids-html-here').html(d.html);
+        }
+    }
+
 
 
 
@@ -17,7 +25,7 @@ var ecombhub_fi_ajax_req = null; //active ajax request
         var search_options = {
             sort_by: 'created_at_ts',
             sort_direction: 1,
-            search_column: 'invoice_number',
+            search_column: null,
             start_index: 0,
             limit: PAGESIZE
         };
@@ -82,7 +90,7 @@ var ecombhub_fi_ajax_req = null; //active ajax request
             search_options.limit =  ((toPage - fromPage) * PAGESIZE) + PAGESIZE;
             // noinspection EqualityComparisonWithCoercionJS
             if (fromPage > toPage || ((fromPage == toPage) && data[fromPage * PAGESIZE] !== undefined)) {
-                // TODO:  look-ahead
+                // TO DO:  look-ahead
                 onDataLoaded.notify({from: from, to: to});
                 return;
             }
@@ -138,8 +146,9 @@ var ecombhub_fi_ajax_req = null; //active ajax request
             clear();
         }
 
-        function setSearch(str) {
+        function setSearch(column,str) {
             search_options.search_value = str;
+            search_options.search_column =  column;
             clear();
         }
 
@@ -169,6 +178,17 @@ var ecombhub_fi_ajax_req = null; //active ajax request
     console.log("extension loaded");
 
 })(jQuery);
+
+
+function ecomhub_fi_bind_post_to_clickfunnels(post_id,product_id) {
+
+        ecomhub_fi_talk_to_backend('x_posts', {bind: post_id,product_id: product_id}, options_success);
+
+        function options_success(d) {
+
+            jQuery('div.product-ids-html-here').html(d.html);
+        };
+}
 
 function ecomhub_fi_talk_to_backend(method, server_options, success_callback, error_callback) {
 

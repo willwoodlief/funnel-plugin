@@ -14,7 +14,7 @@
  */
 global $ecombhub_fi_details_object;
 $mail = $ecombhub_fi_details_object;
-$body = htmlspecialchars($mail->email_body)
+$body = $mail->email_body;
 ?>
 
 

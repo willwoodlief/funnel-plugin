@@ -159,7 +159,37 @@ class Ecomhub_Fi_Admin {
 		    'setting_section_id' // Section
 	    );
 
+	    add_settings_field(
+		    'woo_rest_api_key', // ID
+		    'WooCommerce Api Key this Plugin uses (requres read/write key)', // Title
+		    array( $this, 'woo_rest_api_key_callback' ), // Callback
+		    'comhub-fi-funnels', // Page
+		    'setting_section_id' // Section
+	    );
 
+	    add_settings_field(
+		    'woo_rest_api_secret', // ID
+		    'WooCommerce Api Secret this Plugin uses ', // Title
+		    array( $this, 'woo_rest_api_secret_callback' ), // Callback
+		    'comhub-fi-funnels', // Page
+		    'setting_section_id' // Section
+	    );
+
+	    add_settings_field(
+		    'woo_api_endpoint', // ID
+		    'The url used to talk to the WooCommerce API', // Title
+		    array( $this, 'woo_api_endpoint_callback' ), // Callback
+		    'comhub-fi-funnels', // Page
+		    'setting_section_id' // Section
+	    );
+
+	    add_settings_field(
+		    'woo_payment_type', // ID
+		    'The payment type WooCommerce uses to log the orders ', // Title
+		    array( $this, 'woo_payment_type_callback' ), // Callback
+		    'comhub-fi-funnels', // Page
+		    'setting_section_id' // Section
+	    );
 
 
 
@@ -190,6 +220,7 @@ class Ecomhub_Fi_Admin {
 	 */
 	public function sanitize( $input )
 	{
+
 		$new_input = array();
 		if( isset( $input['log_name'] ) ) {
 			$new_input['log_name'] = sanitize_text_field( $input['log_name'] );
@@ -229,6 +260,31 @@ class Ecomhub_Fi_Admin {
 		} else {
 			$new_input['is_listening'] = '0' ;
 		}
+
+		if( isset( $input['woo_rest_api_key'] ) ) {
+			$new_input['woo_rest_api_key'] = sanitize_text_field( $input['woo_rest_api_key'] );
+		} else {
+			$new_input['woo_rest_api_key'] = '' ;
+		}
+
+		if( isset( $input['woo_rest_api_secret'] ) ) {
+			$new_input['woo_rest_api_secret'] = sanitize_text_field( $input['woo_rest_api_secret'] );
+		} else {
+			$new_input['woo_rest_api_secret'] = '' ;
+		}
+
+		if( isset( $input['woo_api_endpoint'] ) ) {
+			$new_input['woo_api_endpoint'] = sanitize_text_field( $input['woo_api_endpoint'] );
+		} else {
+			$new_input['woo_api_endpoint'] = '' ;
+		}
+
+		if( isset( $input['woo_payment_type'] ) ) {
+			$new_input['woo_payment_type'] = sanitize_text_field( $input['woo_payment_type'] );
+		} else {
+			$new_input['woo_payment_type'] = '' ;
+		}
+
 
 
 		return $new_input;
@@ -287,6 +343,64 @@ class Ecomhub_Fi_Admin {
 	}
 
 
+	public function woo_rest_api_key_callback() {
+		printf(
+			'<input type="text" id="woo_rest_api_key" name="ecomhub_fi_options[woo_rest_api_key]" value="%s" size="40" />',
+			isset( $this->options['woo_rest_api_key'] ) ? esc_attr( $this->options['woo_rest_api_key']) : ''
+		);
+	}
+
+	public function woo_rest_api_secret_callback() {
+		printf(
+			'<input type="password" id="woo_rest_api_secret"
+ 						name="ecomhub_fi_options[woo_rest_api_secret]"   size="40" value="%s"
+ 						 autocomplete="woocommerce-api-secret"
+ 						 />',
+			isset( $this->options['woo_rest_api_secret'] ) ? esc_attr( $this->options['woo_rest_api_secret']) : ''
+		);
+	}
+
+	public function woo_api_endpoint_callback() {
+		printf(
+			'<input type="text" id="woo_api_endpoint" name="ecomhub_fi_options[woo_api_endpoint]"  size="40" value="%s" />',
+			isset( $this->options['woo_api_endpoint'] ) ? esc_attr( $this->options['woo_api_endpoint']) : ''
+		);
+	}
+
+	public function woo_payment_type_callback() {
+		//get all the woo payment types that are enabled
+		$gateways = WC()->payment_gateways->get_available_payment_gateways();
+		$enabled_gateways = [];
+
+		if( $gateways ) {
+			foreach( $gateways as $gateway ) {
+
+				if( $gateway->enabled == 'yes' ) {
+
+					$enabled_gateways[] = $gateway;
+
+				}
+			}
+		}
+		print "<select id=\"woo_payment_type\" name=\"ecomhub_fi_options[woo_payment_type]\">";
+		foreach ($enabled_gateways as $gateway) {
+			$code = $gateway->id;
+			$name = $gateway->title;
+			$default = '';
+			if (isset($this->options['woo_payment_type']) ) {
+				if ($code == $this->options['woo_payment_type']) {
+					$default = "selected=\"selected\"";
+				}
+			}
+			printf(
+				'<option value="%s"  %s >%s</option>',
+				$code,$default, $name
+			);
+		}
+		print "</select>";
+	}
+
+
 
 
 
@@ -313,6 +427,47 @@ class Ecomhub_Fi_Admin {
                 die();
             }
         }
+
+	    elseif (array_key_exists( 'method',$_POST) && $_POST['method'] == 'x_posts') {
+		    global $ecombhub_fi_posts_array;
+		    try {
+		    	$data = [];
+		    	if (isset($_POST['unbind'])) {
+		    		$post_id_unbind = intval($_POST['unbind']);
+		    		if ($post_id_unbind > 0) {
+					    $b_unbind_result = EcomhubFiListEvents::unbind_post_from_funnel($post_id_unbind);
+					    $data['unbinding_id'] = $post_id_unbind;
+					    $data['unbinding_result'] =$b_unbind_result;
+				    }
+			    }
+
+			    if (isset($_POST['bind'])) {
+				    $post_id_bind = intval($_POST['bind']);
+				    if ($post_id_bind > 0) {
+				    	$product_id = sanitize_text_field($_POST['product_id']);
+					    $b_bind_result = EcomhubFiListEvents::bind_post_to_funnel($post_id_bind,$product_id);
+					    $data['binding_id'] = $post_id_bind;
+					    $data['product_id'] = $product_id;
+					    $data['$b_bind_result'] =$b_bind_result;
+				    }
+			    }
+			    $ecombhub_fi_posts_array = EcomhubFiListEvents::get_store_funnel_codes();
+			    ob_start();
+			    require_once plugin_dir_path(dirname(__FILE__)) . 'admin/partials/ecomhub-fi-admin-meta-posts.php';
+			    $html = ob_get_contents();
+			    ob_end_clean();
+			    $data['posts'] = $ecombhub_fi_posts_array;
+			    $data['html'] = $html;
+			    wp_send_json(['is_valid' => true, 'data' => $data, 'action' => 'x_posts']);
+			    die();
+		    } catch (Exception $e) {
+			    wp_send_json(['is_valid' => false, 'message' => $e->getMessage(), 'trace'=>$e->getTrace(), 'action' => 'stats' ]);
+			    die();
+		    }
+	    }
+
+
+
         elseif (array_key_exists( 'method',$_POST) && $_POST['method'] == 'list') {
 
 	        try {

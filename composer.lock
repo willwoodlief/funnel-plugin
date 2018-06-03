@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "e83d72ca414013cce9bb8cd5b035fd37",
+    "content-hash": "46a8cfa6482626766ee0f6ea4a40d469",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -575,12 +575,57 @@
                 "psr-3"
             ],
             "time": "2016-10-10T12:19:37+00:00"
+        },
+        {
+            "name": "shark/simple_html_dom",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/samacs/simple_html_dom.git",
+                "reference": "a971f20e7a5a601a63460a6bf12dae6f8668d3c7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/samacs/simple_html_dom/zipball/a971f20e7a5a601a63460a6bf12dae6f8668d3c7",
+                "reference": "a971f20e7a5a601a63460a6bf12dae6f8668d3c7",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "php": ">=5.2.4"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "simple_html_dom.php"
+                ],
+                "files": [
+                    "simple_html_dom.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "S.C. Chen",
+                    "email": "me578022@gmail.com",
+                    "homepage": "http://simplehtmldom.sourceforge.net/"
+                }
+            ],
+            "description": "Simple HTML DOM package.",
+            "homepage": "http://simplehtmldom.sourceforge.net/",
+            "keywords": [
+                "dom",
+                "php dom"
+            ],
+            "time": "2018-04-03T17:52:32+00:00"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "shark/simple_html_dom": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],

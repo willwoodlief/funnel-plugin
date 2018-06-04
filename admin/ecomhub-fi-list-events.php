@@ -88,6 +88,7 @@ count(error_message) as total_errors,sum(order_items) as total_items, sum(order_
         $table_name = $wpdb->prefix . 'ecombhub_fi_funnels';
         $user_table_name = $wpdb->prefix . 'users';
 
+
         $where_clause = '';
         $search_value = trim($search_value);
         if (!empty($search_column) && !empty($search_value)) {
@@ -99,9 +100,9 @@ count(error_message) as total_errors,sum(order_items) as total_items, sum(order_
 		            $where_clause .= " AND ($search_column LIKE '%$escaped_value%' ) ";
 		            break;
 	            }
-	            case 'user_nicename': {
+	            case 'user_login': {
 		            $where_clause .= " AND (
-		                        (user_nicename LIKE '%$escaped_value%') OR 
+		                        (user_login LIKE '%$escaped_value%') OR 
 		                        (user_email LIKE '%$escaped_value%') 
 		                        ) ";
 		            break;
@@ -116,7 +117,7 @@ count(error_message) as total_errors,sum(order_items) as total_items, sum(order_
 
             switch ($sort_by) {
                 case 'created_at_ts':
-                case 'user_nicename':
+                case 'user_login':
 	            case 'user_email':
 	            case 'email_from':
 	            case 'email_subject':
@@ -155,7 +156,7 @@ count(error_message) as total_errors,sum(order_items) as total_items, sum(order_
         $res = $wpdb->get_results( /** @lang text */
                             "
                 select f.id,f.is_completed,f.user_id_read,f.invoice_number,
-                   created_at_ts, u.user_nicename,
+                   created_at_ts, u.user_login,
                   u.user_email, f.email_from, f.email_attachment_files_saved,
                   f.email_subject,f.is_error,f.comments,f.order_total,f.order_items
                 from $table_name f
@@ -188,15 +189,20 @@ count(error_message) as total_errors,sum(order_items) as total_items, sum(order_
     public static function get_details_of_one($funnel_transaction_id) {
         global $wpdb;
 	    $funnel_table_name = $wpdb->prefix . 'ecombhub_fi_funnels';
+	    $order_table_name = $wpdb->prefix . 'ecombhub_fi_funnel_orders';
 	    $user_table_name = $wpdb->prefix . 'users';
+	    $post_table_name = $wpdb->prefix . 'posts';
+
 	    // $user_table_name = $wpdb->prefix . 'wp_users';
 	    $funnel_transaction_id = intval($funnel_transaction_id);
 
         /** @noinspection SqlResolve */
-        $survey_res = $wpdb->get_results("
+        $survey_res = $wpdb->get_results( /** @lang text */
+	        "
         select f.id,f.created_at_ts,f.is_completed,f.user_id_read,f.raw_email,f.comments,f.invoice_number,
         f.email_to,f.email_from,f.email_subject,f.email_body,f.email_attachment_files_saved,f.is_error,
-        f.error_message,u.user_nicename,
+        f.error_message,u.user_login,f.order_total,f.order_items,f.user_id_reference,
+        f.email_from_notice,
                   u.user_email
         from $funnel_table_name f
          LEFT JOIN $user_table_name u ON u.id = f.user_id_read
@@ -208,7 +214,25 @@ count(error_message) as total_errors,sum(order_items) as total_items, sum(order_
         }
 
         if (empty($survey_res)) {return false;}
-		return $survey_res[0];
+
+        //get orders
+
+	    $order_res = $wpdb->get_results( /** @lang text */
+		    "
+        select f.id, f.ecombhub_fi_funnel_id,f.funnel_product_id,f.post_product_id,f.order_id,
+	    f.is_error,f.payment_type,f.order_output,f.comments,f.error_message,f.user_id,f.order_total,
+	    p.post_title
+        from $order_table_name f
+        LEFT JOIN $post_table_name p ON p.id = f.post_product_id
+         where f.ecombhub_fi_funnel_id = $funnel_transaction_id;
+        ");
+	    $fi = $survey_res[0];
+	    $fi->orders = $order_res;
+	    $fi->payment_type = null;
+	    if ($fi->orders) {
+		    $fi->payment_type = $fi->orders[0]->payment_type;
+	    }
+		return $fi;
 
     }
 
@@ -223,7 +247,8 @@ count(error_message) as total_errors,sum(order_items) as total_items, sum(order_
 	    $meta_table_name = $wpdb->prefix . 'postmeta';
 
 
-	    $survey_res = $wpdb->get_results("
+	    $survey_res = $wpdb->get_results( /** @lang text */
+		    "
 				select p.post_title, p.ID as 'id', m.meta_id,m.meta_value as 'product_id' from $post_table_name p
 				INNER JOIN $meta_table_name m ON m.post_id = p.ID
 				where m.meta_key = '_funnel_product_id';"

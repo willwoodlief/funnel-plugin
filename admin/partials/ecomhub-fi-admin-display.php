@@ -118,6 +118,7 @@
                  </span>
             </div>
             <div id="myGrid" style="width:100%;height:325px;"></div>
+
             <div id="pager" style="width:100%;height:20px;"></div>
         </div>
         <div class="ecomhub-fi-detail">
@@ -140,6 +141,7 @@
 </div>
 
 <script>
+    var ecomhub_fi_selected_mail_id = null;
     let grid;
     let loader = new Slick.Data.RemoteModel();
 
@@ -192,7 +194,7 @@
     // };
 
     let my_columns = [
-        {id: "invoice_number", name: "Invoice", field: "invoice_number", formatter: null, width: 200, sortable: true},
+        {id: "invoice_number", name: "Invoice", field: "invoice_number", formatter: null, width: 225, sortable: true},
         {
             id: "created_at_ts",
             name: "Created",
@@ -201,7 +203,7 @@
             width: 90,
             sortable: true
         },
-        {id: "user_nicename", name: "User", field: "user_nicename", formatter: null, width: 120, sortable: true},
+        {id: "user_login", name: "User", field: "user_login", formatter: null, width: 120, sortable: true},
         {
             id: "email_from",
             name: "From",
@@ -248,6 +250,7 @@
         grid.onViewportChanged.subscribe(function (e, args) {
             unused_param(e);
             unused_param(args);
+        //    debugger;
             let vp = grid.getViewport();
             loader.ensureData(vp.top, vp.bottom);
         });
@@ -294,7 +297,7 @@
             if (e.which === 13) {
                 search_invoices.val('');
                 search_comments.val('');
-                loader.setSearch('user_nicename',jQuery(this).val());
+                loader.setSearch('user_login',jQuery(this).val());
                 let vp = grid.getViewport();
                 loader.ensureData(vp.top, vp.bottom);
             }
@@ -318,6 +321,7 @@
         grid.onClick.subscribe(function (e, args) {
             grid.setSelectedRows([args.row]);
             let tim = grid.getDataItem(args.row);
+            ecomhub_fi_selected_mail_id = tim.id;
             ecomhub_fi_talk_to_backend('detail', {id: tim.id}, function (data) {
                 jQuery('div.ecomhub-fi-details-here').html(data.html);
             });

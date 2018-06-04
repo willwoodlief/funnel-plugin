@@ -21,7 +21,7 @@ var ecombhub_fi_ajax_req = null; //active ajax request
 
     function EcomhubFiRemoteModel() {
         // private
-        var PAGESIZE = 50;
+        var PAGESIZE = 2000;
         var search_options = {
             sort_by: 'created_at_ts',
             sort_direction: 1,
@@ -63,7 +63,7 @@ var ecombhub_fi_ajax_req = null; //active ajax request
 
         function ensureData(from, to) {
             if (ecombhub_fi_ajax_req && ecombhub_fi_ajax_req.toPage) {
-                ecombhub_fi_ajax_req.abort();
+            //    ecombhub_fi_ajax_req.abort();
                 for (var i = ecombhub_fi_ajax_req.fromPage; i <= ecombhub_fi_ajax_req.toPage; i++)
                     data[i * PAGESIZE] = undefined;
             }
@@ -222,15 +222,18 @@ function ecomhub_fi_talk_to_backend(method, server_options, success_callback, er
     function success_handler(data) {
 
         // noinspection JSUnresolvedVariable
-        if (data.is_valid) {
+        if (data && data.is_valid) {
             if (success_callback) {
                 success_callback(data.data);
             } else {
                 console.debug(data);
             }
         } else {
+            if (!data) {
+                data = {message: 'no response'};
+            }
             if (error_callback) {
-                error_callback(data.data);
+                error_callback(data);
             } else {
                 console.debug(data);
             }

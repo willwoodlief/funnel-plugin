@@ -465,7 +465,24 @@ class Ecomhub_Fi_Admin {
 			    die();
 		    }
 	    }
-
+        elseif (array_key_exists( 'method',$_POST) && $_POST['method'] == 'update_funnel') {
+	        global $ecombhub_fi_details_object;
+	        require_once plugin_dir_path(dirname(__FILE__)) . 'scripts/connect_order.php';
+	        try {
+		        EcomhubFiConnectOrder::sort_all_the_good_and_ugly();
+		        $ecombhub_fi_details_object = EcomhubFiListEvents::get_details_of_one(intval($_POST['id']));
+		        ob_start();
+		        require_once plugin_dir_path(dirname(__FILE__)) . 'admin/partials/ecomhub-fi-admin-detail.php';
+		        $html = ob_get_contents();
+		        ob_end_clean();
+		        $ecombhub_fi_details_object->html = $html;
+		        wp_send_json(['is_valid' => true, 'data' => $ecombhub_fi_details_object, 'action' => 'update_funnel']);
+		        die();
+	        } catch (Exception $e) {
+		        wp_send_json(['is_valid' => false, 'message' => $e->getMessage(), 'trace'=>$e->getTrace(), 'action' => 'update_funnel' ]);
+		        die();
+	        }
+        }
 
 
         elseif (array_key_exists( 'method',$_POST) && $_POST['method'] == 'list') {

@@ -30,6 +30,24 @@ table.ecomhub-fi-order-products th, table.ecomhub-fi-order-products td  {
     text-align: center;
 }
 
+table.ecomhub-fi-order-details th, table.ecomhub-fi-order-details td  {
+    padding: 0.5em;
+    text-align: center;
+}
+
+table.ecomhub-fi-overall-details th, table.ecomhub-fi-order-details td  {
+    padding: 0.5em;
+    text-align: center;
+}
+
+.ecomhub-fi-changed-detail {
+    background-color: #caffc9;
+}
+
+.ecomhub-fi-removed-detail {
+    background-color: #f7c5db;
+}
+
 
 div.ecomhub-fi-admin div.ecomhub-fi-table {
     width: 1200px;

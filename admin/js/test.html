@@ -1,0 +1,284 @@
+<script>
+    var ecomhub_fi_org_post_ids = {};
+    if (!ecomhub_fi_org_post_ids.hasOwnProperty()) {
+        ecomhub_fi_org_post_ids[2] = 1;
+    } else {
+        ecomhub_fi_org_post_ids[2] ++;
+    }
+
+</script>
+
+<table class="ecomhub-fi-overall-details">
+    <thead>
+    <tr>
+        <th>User Name</th>
+        <th>User Reference</th>
+        <th>Invoice Number</th>
+        <th>Comments</th>
+        <th>Payment Gateway used to Track</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>
+            <input class="ecomhub-fi-editable-funnel-fields" data-field="user_login"
+                   data-old = "admin"
+                   value="admin" title="User Name">
+        </td>
+
+        <td>
+            <span>  </span>
+        </td>
+
+        <td>
+            <input class="ecomhub-fi-editable-funnel-fields"
+                   data-field="invoice_number"
+
+                   value="tok_1CYQ5iLKRukEIJrMyyQjERWv" size="30" title="Invoice Number">
+        </td>
+
+        <td>
+            <textarea class="ecomhub-fi-editable-funnel-fields"
+
+                      data-field="comments" title="Comments"></textarea>
+        </td>
+        <td style="padding: 0.5em">
+            <select class='ecomhub-fi-editable-funnel-fields' data-field='payment_method'><option value="cheque"  selected="selected" >Check payments</option><option value="cod"   >Cash on delivery</option><option value="ppec_paypal"   >PayPal Express Checkout</option></select>        </td>
+    </tr>
+    </tbody>
+</table>
+<br>
+
+<div>
+    <button type="button" class="button ecomhub-fi-save-changed-funnel">
+        Save All Changes To This Mail
+    </button>
+    <div style="float: right;margin-right: 6em; color:red; font-weight: bold" class="ecomhub-fi-errors"></div>
+</div>
+
+
+<h2> Orders </h2>
+<table>
+    <tr>
+        <td>
+
+            <table class="ecomhub-fi-order-details">
+                <thead>
+                <tr>
+                    <th>Funnel Product ID</th>
+                    <th>Our Product ID</th>
+                    <th>Payment Logged As</th>
+                    <th>Order Total</th>
+                    <th>Delete</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>
+                        <span>1400064 </span>
+                    </td>
+
+                    <td>
+                    </td>
+
+                    <td>
+                        <span>cheque </span>
+                    </td>
+
+                    <td>
+                <span>
+                                    </span>
+
+                    </td>
+
+                    <td class='ecomhub-fi-delete-holder'>
+                        <span style="cursor: pointer; text-decoration: underline" class="ecomhub-fi-delete-order"
+                              data-post="3">delete</span>
+                    </td>
+
+                </tr>
+
+                <tr style="margin-bottom: 1em">
+                    <td colspan="1" style="font-weight: bold">Error</td>
+                    <td colspan="4" style=" color: #ff2b4d;"> here lies an exception</td>
+                </tr>
+
+                </tbody>
+            </table>
+
+        </td>
+        <td style="width: 10em;background-color: transparent"></td>
+        <td>
+            <table>
+                <tr>
+                    <td>
+                        <select title="select product to add" class="ecomhub-fi-add-new-order-list">
+                            <option value="85"   >Beanie with Logo</option><option value="70"   >Polo</option>                        </select>
+                    </td>
+                    <td>
+                        <button type="button" class="button ecomhub-fi-add-order-to-funnel">
+                            Add Order
+                        </button>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+
+
+<h2> Mail Details </h2>
+
+<table class="ecomhub-fi-raw-detail">
+    <tbody>
+    <tr>
+        <td>ID</td>
+        <td>17</td>
+        <td></td>
+
+        <td>Created At</td>
+        <td><span class="ecomhub-fi-ts-to-local" data-ts="1528079522"></span></td>
+        <td></td>
+
+        <td>User Email in Notice</td>
+        <td>willwoodlief+test6figures1@gmail.com</td>
+
+    </tr>
+
+    <tr>
+        <td>Error</td>
+        <td colspan="7">
+                <span style="text-align: left; color: #ff2b4d;width:100%">
+                Order with Product ID of 1400064 has the following error: here lies an exception                </span>
+
+        </td>
+    </tr>
+
+
+    <tr>
+        <td>Email From</td>
+        <td>Notifications <no-reply@notifications.clickfunnels.com></td>
+        <td></td>
+
+        <td>Email To</td>
+        <td>funnel@ecomhub.com</td>
+        <td></td>
+
+        <td>Email Subject</td>
+        <td>New Contact Added willwoodlief+test6figures1@gmail.com</td>
+    </tr>
+
+
+    <tr>
+        <td>Email Body</td>
+        <td colspan="7">
+            <div class='emailNotification' style='width: 600px;color: #555;line-height: 1.6em;border: 1px solid #ddd;margin: 0 auto; font-family: Helvetica, Arial, sans-serif; font-size: 16px;border-radius: 5px;border-bottom: 2px solid #ddd;border-top: 2px solid #ddd;'>
+                <h1 style='  background-color: #0166AE; color: #fff;padding: 20px;border-top-left-radius: 5px;border-top-right-radius:5px;margin-top: 0;font-size: 21px;border-bottom: 1px solid #ddd; margin-bottom: 0;'>Congrats, you've got a new contact!</h1>
+                <div class='panel' style='padding: 10px 20px;'>
+                    <div class='panel-heading' style='padding:15px;margin-left: 6px;background: #fafafa;border-radius: 5px;border-bottom: 2px solid #ddd;padding-bottom: 0; text-align:left;'>
+                        <div class='gravatar' style='float: left; width: 90px;height: 90px;border-radius: 5px;margin-right: 10px;padding-top: 10px;'>
+                            <img alt="" height="90" src="http://gravatar.com/avatar/39c8307769a467f6bde72523fcd1f09e.jpg?s=90" width="90" />
+                        </div>
+                        <div class='pull-right' style='width: 420px;float: left;padding-top: 7px;line-height: 1.3em;'>
+                            <div class='cfImage' style='float: right;width: 120px;'>
+                                <img alt='Powered by ClickFunnels' src='https://www.clickfunnels.com/images/logo_250x250.png' style='float:right;width: 120px;'>
+                            </div>
+                            <div class='cfImage' style='float: left;width: 300px;padding-top: 10px;'>
+                                <div class='name' style='margin: 5px;'>
+                                    Will
+                                    1
+                                    <a style=" font-size: 11px;" href="http://email.clickfunnelsnotifications.com/wf/click?upn=NuFDp19bJy7rVL5w8S87CPE5o62X1mPo9DAWCFP8UVJjNQb1SY0wHKGcwqeTeE-2BBM1y3D-2BDIdTKHCOB9EwWn8Q-3D-3D_dJzwycMRwEJcNrCo2ZFpzp6FXzAXzjitfsFaW8zSFnMzoGCkw-2BhokMcv23NBujclflJ9Wc7F0VIj7bly9oIuhjpjJd3cDzJi2BMU0xtJYy9RFG-2FkuTwwG2kZyHAiVDTMGbzbCUCR7S5-2B6d-2BbyZ11XKjw-2FO5kwiWINgdGgIfK-2BE-2Fq0-2Fvz1gSigvaf6NXliEusZE0J-2FcEuNXNIRUZYMRIVbQ-3D-3D">Edit Contact Profile</a>
+                                </div>
+                                <div class='email' style='margin: 5px;'>willwoodlief+test6figures1@gmail.com</div>
+                                <div class='phone' style='margin: 5px;'>9367142412</div>
+                            </div>
+                        </div>
+                        <br style='clear: both'>
+                    </div>
+                    <div class='leftBox' style='width: 250px; padding: 0 20px; padding-right: 30px; float: left'>
+                        <div class='address'>
+                            <h4 style='font-size: 16px; color: #111;border-bottom: 1px solid #ddd; padding: 5px 0;margin-bottom: 16px;'>Address:</h4>
+                            555 Any Street
+                            <br>
+                            Huntsville
+                            ,
+                            Texas
+                            <br>
+                            United States
+                            <br>
+                            77320
+                        </div>
+                    </div>
+                </div>
+                <div class='panel panel-default' style='width: 520px; font-size: 13px;line-height: 1.6em; clear:both;padding: 5px 40px'>
+                    <h4 style='font-size: 14px; color: #111;border-bottom: 1px solid #ddd; padding: 5px 0;margin-bottom: 16px;'>Contact Details:</h4>
+                    <div class='panel-body'>
+                        <div>
+                            <strong>Status:</strong>
+                            Customer
+                        </div>
+                        <div>
+                            <strong>Unsubscribed At:</strong>
+
+                        </div>
+                        <div>
+                            <strong>IP Address:</strong>
+                            255.106.208.100
+                        </div>
+                        <div>
+                            <strong>Funnel:</strong>
+                            6 Figures In 6 Weeks
+                        </div>
+                        <div>
+                            <strong>First Page:</strong>
+                            https://www.6figures6weeks.com/order
+                        </div>
+                        <div>
+                            <strong>Last Page:</strong>
+                            http://www.6figures6weeks.com/limited-offer
+                        </div>
+                        <div class='info'>
+                            cf_affiliate_id:
+                        </div>
+                        <div class='info'>
+                            time_zone: Central Time (US &amp; Canada)
+                        </div>
+                        <div class='info'>
+                            utm_source:
+                        </div>
+                        <div class='info'>
+                            utm_medium:
+                        </div>
+                        <div class='info'>
+                            utm_campaign:
+                        </div>
+                        <div class='info'>
+                            utm_term:
+                        </div>
+                        <div class='info'>
+                            utm_content:
+                        </div>
+                        <div class='info'>
+                            cf_uvid: null
+                        </div>
+                        <div class='info'>
+                            webinar_delay: -63695106683322
+                        </div>
+                        <div class='info'>
+                            purchase: {&quot;product_ids&quot;=&gt;[&quot;1400064&quot;], &quot;taxamo_transaction_key&quot;=&gt;&quot;&quot;, &quot;payment_method_nonce&quot;=&gt;&quot;&quot;, &quot;stripe_customer_token&quot;=&gt;&quot;tok_1CYQ5iLKRukEIJrMyyQjERWv&quot;}
+                        </div>
+                        <div class='info'>
+                            user_order_token: 80beed67dd7c85a789f8c344c689a583
+                        </div>
+                        <div class='info'>
+                            wc_product_id: script injected wc test value
+                        </div>
+                    </div>
+                </div>
+                <h1 style='background: #fafafa; color: #777; font-weight: normal;padding: 20px;margin-top: 40px;font-size: 12px;border-top: 1px solid #ddd; margin-bottom: 0;text-align: center;border-bottom-left-radius: 5px;border-bottom-right-radius:5px;'>Sent by ClickFunnels.com - Copyright 2018 Etison, LLC</h1>
+            </div>
+            <img src="http://email.clickfunnelsnotifications.com/wf/open?upn=dJzwycMRwEJcNrCo2ZFpzp6FXzAXzjitfsFaW8zSFnMzoGCkw-2BhokMcv23NBujclUzMbcC5pOI6K0l4pw-2FZ1eaSLVJ4zgx43OR39ITjLyRx-2FWQIbho04q66GntB5QqhbDq9fTS-2F3mZZimrwD5z3sk1mdisigmxAitCB7LEZWrP8bmtQo0-2BooN-2BBguIMBPpE0RjNdlwcrdLu7v1L1QujBZnGKi3-2B1B3NgXusFhlL4WyM-3D" alt="" width="1" height="1" border="0" style="height:1px !important;width:1px !important;border-width:0 !important;margin-top:0 !important;margin-bottom:0 !important;margin-right:0 !important;margin-left:0 !important;padding-top:0 !important;padding-bottom:0 !important;padding-right:0 !important;padding-left:0 !important;"/>        </td>
+    </tr>
+
+    </tbody>
+    </t…"

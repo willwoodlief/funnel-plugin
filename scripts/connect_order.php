@@ -87,14 +87,14 @@ class EcomhubFiConnectOrder
 				$user_referal_token = $scraper->user_referal_token;
 
 				$found_user_id = self::find_user_by_reference($user_referal_token);
-				if (empty($found_user_id)) {throw new Exception("cannot find user");}
 				$product_array      = $scraper->product_ids;
-				if (empty($product_array)) { throw new Exception("No Products Found");}
+
 				$invoice_number     = $scraper->stripe_customer_token;
 				$email_from_notice  = $scraper->email;
 				$update_args['user_id_read'] = $found_user_id;
 				$update_args['invoice_number'] = $invoice_number;
 				$update_args['email_from_notice'] = $email_from_notice;
+				$update_args['user_id_reference'] = $user_referal_token;
 				self::update_mail_and_create_orders($mail_id,$found_user_id,$product_array,false,$payment_method,$update_args);
 
 			} catch (Exception $e) {
@@ -130,7 +130,7 @@ class EcomhubFiConnectOrder
 					throw new Exception("Could not update $funnel_table_name ". print_r($update_args,true));
 				}
 			} else {
-				throw new Exception("Did not find any valid args to update; " . print_r($args,true));
+				throw new Exception("Nothing was updated ");
 			}
 
 		} elseif ($command == 'REDO_ORDERS') {
@@ -138,6 +138,7 @@ class EcomhubFiConnectOrder
 			if (!is_array($args)) {
 				throw new Exception("Need args to be array for this option");
 			}
+			$args['is_error'] = 0;
 			$res = $wpdb->get_results(
 			/** @lang text */
 				" 
@@ -180,6 +181,7 @@ class EcomhubFiConnectOrder
 					$found_user_id = self::find_user_by_reference($user_referal_token);
 					if (empty($found_user_id)) {throw new Exception("cannot find user");}
 					$user_id = $found_user_id;
+					$args['user_id_reference'] = $user_referal_token;
 				} else {
 					$user_id = $funnel_row->user_id_read;
 				}
@@ -195,8 +197,12 @@ class EcomhubFiConnectOrder
 
 			// delete all orders in woo
 			self::delete_all_orders_in_funnel_row($mail_id) ;
-			$args = [];
 			$args['user_id_read'] = $user_id;
+			unset($args['user_id']);
+			unset($args['product_ids']);
+			unset($args['b_using_post_ids']);
+			unset($args['payment_method']);
+
 			self::update_mail_and_create_orders($mail_id,$user_id,$product_array,$b_using_posts,$payment_method,$args);
 
 		} elseif ($command ==  'DELETE_MAIL') {
@@ -218,6 +224,58 @@ class EcomhubFiConnectOrder
 		}
 
 
+	}
+
+	/**
+	 * @throws Exception
+	 */
+	public static function sort_all_the_good_and_ugly() {
+
+		$args = [];
+		if (array_key_exists('id',$_POST)) {
+			$id = intval($_POST['id']);
+		} else {
+			throw new Exception("Could not find ID");
+		}
+
+		if (array_key_exists('user_login',$_POST)) {
+
+			//find user id
+			$nice_username = sanitize_text_field($_POST['user_login']);
+			if ($nice_username) {
+				$user = get_user_by('login',$nice_username);
+				if (!$user) {throw new Exception("Cannot find user from username of " .$_POST['user_login'] );}
+				$args['user_id'] = $user->id;
+			}
+
+		}
+
+		if (array_key_exists('invoice_number',$_POST)) {
+			$args['invoice_number'] = sanitize_text_field($_POST['invoice_number']);
+		}
+
+		if (array_key_exists('comments',$_POST)) {
+			$args['comments'] = sanitize_text_field($_POST['comments']);
+		}
+
+		if (array_key_exists('orders',$_POST)) {
+			$args['product_ids'] = $_POST['orders'];
+			$args['b_using_post_ids'] = true;
+		}
+
+		if (array_key_exists('payment_method',$_POST)) {
+			$args['payment_method'] = sanitize_text_field($_POST['payment_method']);
+		}
+
+		if (isset($args['user_id']) || isset($args['product_ids']) || isset($args['payment_method'])) {
+			$method = 'REDO_ORDERS';
+		}
+		else {
+			$method = 'UPDATE_KEEP_ORDERS';
+		}
+
+		 new EcomhubFiConnectOrder($id,$args,$method);
+		return true;
 	}
 
 	/**
@@ -302,6 +360,7 @@ class EcomhubFiConnectOrder
 					$update_args['is_error'] = 1;
 					$update_args['error_message'] = "Order with Product ID of $product_id has the following error: " . $da_order['error_message'];
 				}
+
 				$total_sum += $sum;
 			}
 			$update_args['order_total'] = $total_sum;
@@ -359,6 +418,7 @@ class EcomhubFiConnectOrder
 				$post_id = $funnel_product_id;
 			}
 
+
 			$ret['post_product_id'] = $post_id;
 			if (empty($post_id)) {throw new Exception("Cannot find post id from funnel code of $funnel_product_id");}
 			if (empty($funnel_product_id)) {throw new Exception("funnel_product_id is empty");}
@@ -373,7 +433,7 @@ class EcomhubFiConnectOrder
 			} catch (Exception $e) {
 				throw new Exception("Could not create order: ". $e->getMessage());
 			} finally {
-				$ret['order_output'] = $woo;
+				$ret['order_output'] = JsonHelpers::toString($woo);
 				if (array_key_exists('order_id',$woo)) {
 					$ret['order_id'] = $woo['order_id'];
 				} else {
@@ -481,7 +541,7 @@ class EcomhubFiConnectOrder
 	 */
 	public static function find_user_by_reference($user_id_reference,$check_against_user_id = null) {
 		global $wpdb;
-		$user_table_name = $wpdb->prefix . 'user';
+		$user_table_name = $wpdb->prefix . 'users';
 		$meta_table_name = $wpdb->prefix . 'usermeta';
 
 

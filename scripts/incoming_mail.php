@@ -57,7 +57,7 @@ try {
 	$mr->send_email     = false;
 // Example of how to add additional allowed mime types to the list
 // $mr->allowed_mime_types[] = 'text/csv';
-    $file = null; //read from standard input
+    $file = 'php://stdin'; //read from standard input
    //  $file= '/home/will/htdocs/wordpress/wp-content/plugins/ecomhub-fi/scripts/email_samples/click_funnel_replay.txt'; //when debugging in debugger
 	$mr->readEmail($file);
 	if ( empty( $mr->body ) ) {

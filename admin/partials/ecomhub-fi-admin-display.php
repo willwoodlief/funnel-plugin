@@ -75,7 +75,7 @@
 
                     <tr class="skip">
                         <td>
-                            <label for="ecomhub-fi-bind-product-id"> Click Funnel Product ID</label>
+                           r/p <label for="ecomhub-fi-bind-product-id"> Click Funnel Product ID</label>
                         </td>
                         <td>
                             <input id="ecomhub-fi-bind-product-id">

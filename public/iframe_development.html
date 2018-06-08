@@ -11,8 +11,15 @@
 
 <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
 <body>
-
-<input type="text" id="user-reference-echo" readonly>
+<form>
+    <input type="text"  name="email" title="test email input" placeholder="email">
+    <input type="text" data-custom-type="user_order_token" readonly title="test read only user reference form" placeholder="reference">
+    <!--suppress HtmlUnknownAnchorTarget -->
+    <a href="#submit-form" class="elButton elButtonSubtle elButtonSize1 elButtonColor1 elButtonFull" style="color: rgb(255, 255, 255); background-color: rgb(14, 141, 199);">
+        <span class="elButtonMain">Complete Order</span>
+        <span class="elButtonSub">Get Instant Access</span>
+    </a>
+</form>
 <!--below here is what is copied into the funnel-->
 <style>
 
@@ -67,9 +74,16 @@
         font-weight: bold;
     }
 
+    /*noinspection CssUnusedSymbol*/
     .ecomhub-fi-dialog-confirm-logout .ecomhub-fi-home-url {
         border: none;
         font-weight: bold;
+    }
+
+    /*noinspection CssUnusedSymbol*/
+    .ecomhub-fi-disable-link {
+        background-color: grey !important;
+        cursor: not-allowed !important;
     }
 </style>
 
@@ -97,6 +111,7 @@
     <!--end of ecomhub-fi-dialog-new-account-->
 
     <div id="ecomhub-fi-dialog-login-account" title="Login To Ecomhub">
+        <div style='width: 100%; text-align: center'  class='alert-danger' ></div>
         <div>
             <p>
                 Connect your existing Ecomhub account to this purchase
@@ -119,6 +134,7 @@
     <!--end of ecomhub-fi-dialog-login-account-->
 
     <div id="ecomhub-fi-dialog-display-new-account" title="Your New Account is Made">
+        <div style='width: 100%; text-align: center'  class='alert-danger' ></div>
         <div>
             <p>
                 Your New Account is Created, and you will be logged in automatically now at
@@ -149,6 +165,7 @@
     <!--end display new account dialog-->
 
     <div id="ecomhub-fi-dialog-confirm-logout" title="Do You Want To Log Out ?">
+        <div style='width: 100%; text-align: center'  class='alert-danger' ></div>
         <div>
             <p>
                 You can Log Out of
@@ -160,6 +177,7 @@
     </div>
 
 </div>
+<!--end dialog templates-->
 
 <div style="display: none" class="ecomhub-fi-div-templates">
     <!--container for status bar messages-->
@@ -221,7 +239,8 @@
 
     function EcomhubFiCallbacks() {
 
-        this.iframeSource = 'http://localhost/wordpress/ecomhub-fi/js_api/';
+        // this.iframeSource = 'http://localhost/wordpress/ecomhub-fi/js_api/';
+        this.iframeSource = 'https://ecomhub.com/ecomhub-fi/js_api/';
         this.home_url = "http://localhost/wordpress";
 
         this.user_id = null; //the user id that is logged into the site
@@ -302,7 +321,31 @@
         }
 
         function set_user_reference_in_form(reference) {
-            $("#user-reference-echo").val(reference);
+            if (reference) {
+                $("[data-custom-type='user_order_token']").val(reference);
+            } else {
+                $("[data-custom-type='user_order_token']").val('');
+            }
+        }
+
+        function enable_submit_button(b_what) {
+            var submit_thing = $('.elButton');
+            if (submit_thing.length === 0) {
+                console.error("Cannot find submit button");
+            }
+            if (b_what) {
+                submit_thing.removeClass("ecomhub-fi-disable-link");
+                submit_thing.attr("title","");
+                submit_thing.off('click.disable_submit');
+
+            } else {
+                submit_thing.addClass("ecomhub-fi-disable-link");
+                submit_thing.attr("title","Sign In First, before ordering");
+                submit_thing.on('click.disable_submit', function (e) {
+                    e.stopPropagation();
+                    e.preventDefault();
+                });
+            }
         }
 
         /**
@@ -318,11 +361,15 @@
             if (!data) {
                 this.user_id = null;
                 fill_in_logged_out_bar(this.home_url);
+                enable_submit_button(false);
+                $("#ecomhub-fi-dialog-new-account").dialog("open");
             } else {
                 //is logged in as user_id
                 this.user_id = data.id;
                 fill_in_logged_in_bar(data,this.home_url);
                 set_user_reference_in_form(data.user_reference);
+                enable_submit_button(true);
+
             }
         };
 
@@ -337,6 +384,8 @@
              */
             var data = msg.data;
             fill_in_logged_out_bar(this.home_url);
+            set_user_reference_in_form(null);
+            enable_submit_button(false);
             if (data.pass_through === 'exists') {
                 $("#ecomhub-fi-dialog-login-account").dialog("open");
             } else if (data.pass_through === 'new') {
@@ -345,8 +394,6 @@
                 console.error("passthrough has a value of " + data.pass_through);
             }
         };
-        this.find_user = function(msg) {};
-
 
         /**
          *
@@ -360,6 +407,7 @@
             this.user_id = data.id;
             fill_in_logged_in_bar(data,this.home_url);
             set_user_reference_in_form(data.user_reference);
+            enable_submit_button(true);
         };
 
 
@@ -488,12 +536,24 @@
             // noinspection JSJQueryEfficiency
             $('.ecomhub-fi-dialog-new-account').find('alert-danger').html('');
 
+            // noinspection JSJQueryEfficiency
+            $('.ecomhub-fi-dialog-login-account').find('.alert-danger').html('');
+
             if (!data.is_valid) {
                 console.warn("Data received not marked as valid ",data);
                 callbacks.showError(data.message);
                 if (data.method === 'create_user') {
+                    // noinspection JSJQueryEfficiency
                     $('.ecomhub-fi-dialog-new-account').find('.alert-danger').html(data.message);
                     $("#ecomhub-fi-dialog-new-account").dialog("open");
+                } else if (data.method === 'login_user') {
+                    // noinspection JSJQueryEfficiency
+                    $('.ecomhub-fi-dialog-login-account').find('.alert-danger').html(data.message);
+                    //convert any links (like password select) to have target blank
+                    // noinspection JSJQueryEfficiency
+                    $('.ecomhub-fi-dialog-login-account').find('.alert-danger').find('a').attr('target', '_blank');
+
+                    $("#ecomhub-fi-dialog-login-account").dialog("open");
                 }
                 return;
             }
@@ -506,10 +566,7 @@
                     callbacks.logout_user(data);
                     break;
                 }
-                case 'find_user': {
-                    callbacks.find_user(data);
-                    break;
-                }
+
                 case 'login_user': {
                     callbacks.login_user(data);
                     break;
@@ -543,7 +600,15 @@
         function initilize_dialogs(){
 
             function sync_email_with_form(email) {
+                var ele = $( "input[name='email']" );
+                if (!ele.val()) {
+                    ele.val(email);
+                }
+            }
 
+            function get_email_set_in_form() {
+                var ele = $( "input[name='email']" );
+                return ele.val();
             }
 
             $("#ecomhub-fi-dialog-new-account").dialog({
@@ -553,7 +618,12 @@
                 open: function() {
                     var that = this;
                     // $(".ecomhub-fi-dialog-new-account").find('.ui-dialog-buttonset button:eq(0)')
-                    $(".ecomhub-fi-dialog-new-account").find('input').focus().onEnter( function() {
+                    var da_email_input = $(".ecomhub-fi-dialog-new-account").find('input');
+                    var form_email_value = get_email_set_in_form();
+                    if (!da_email_input.val() && form_email_value) {
+                        da_email_input.val(form_email_value);
+                    }
+                    da_email_input.focus().onEnter( function() {
                         $(that).dialog("close");
                     });
                 },
@@ -602,7 +672,12 @@
                 open: function() {
                     var that = this;
                     // $(".ecomhub-fi-dialog-new-account").find('.ui-dialog-buttonset button:eq(0)')
-                    $(".ecomhub-fi-dialog-login-account").find('input :first').focus().onEnter( function() {
+                    var da_email_input = $(".ecomhub-fi-dialog-login-account").find('input :first');
+                    var form_email_value = get_email_set_in_form();
+                    if (!da_email_input.val() && form_email_value) {
+                        da_email_input.val(form_email_value);
+                    }
+                    da_email_input.focus().onEnter( function() {
                         $(that).dialog("close");
                     });
                 },

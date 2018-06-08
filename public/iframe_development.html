@@ -8,131 +8,406 @@
         src="https://code.jquery.com/jquery-1.8.1.js"
         integrity="sha256-e6rn3uRMD1/JU+Fd/OYCf2OSFcUOXHQlkCL0rYR/JUM="
         crossorigin="anonymous"></script>
+
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
 <body>
 
-<!--<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/redmond/jquery-ui.css">-->
+<input type="text" id="user-reference-echo" readonly>
+<!--below here is what is copied into the funnel-->
+<style>
 
-<!--<script-->
-        <!--src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"-->
-        <!--integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30="-->
-        <!--crossorigin="anonymous">-->
-
-<!--</script>-->
-
-<button id="opener">open the dialog</button>
-<div id="dialog" title="Dialog Title">I'm a dialog</div>
-
-
-
-<h1>Parent Window</h1>
-<p>
-    Select Message: <br>
-    <label for="message-type">Method</label>
-    <select id="message-type">
-        <option value="is_logged_in">Is Logged In, if so get ID</option>
-        <option value="logout_user">Logout User</option>
-        <option value="find_user">Find User (email) </option>
-        <option value="login_user">Login User (login_name, password)</option>
-        <option value="create_user">Create User (login_name, email, password)</option>
-        <option value="set_user_meta">Set User Meta</option>
-    </select>
-    <label for="param1"></label><input type="text" value="" id="param1">
-    <label for="param2"></label><input type="text" value="" id="param2">
-    <label for="param3"></label><input type="text" value="" id="param3">
-</p>
-<p>Send Message: <button id="message_button">Hi there iframe</button></p>
-<p>Got Message:</p>
-<div id="results"></div>
-<br/>
-
-<script>
-    // addEventListener support for IE8
-    function bindEvent(element, eventName, eventHandler) {
-        if (element.addEventListener){
-            element.addEventListener(eventName, eventHandler, false);
-        } else { // noinspection JSUnresolvedVariable
-            if (element.attachEvent) {
-                        element.attachEvent('on' + eventName, eventHandler);
-                    }
-        }
+    #econhub-fi-error-bar {
+        font-size: larger;
+        text-align: center;
+        font-weight: bold;
+        padding: 0.5em;
+        display: none;
     }
 
-    var iframeSource = 'http://localhost/wordpress/ecomhub-fi/js_api/';
-    //var iframeSource = 'https://ecomhub.com/ecomhub-fi/js_api/';
+    .ecomhub-fi-is-logged-in {
+        font-size: larger;
+        text-align: center;
+    }
 
-    // Create the iframe
-    var iframe = document.createElement('iframe');
-    iframe.setAttribute('src', iframeSource);
-    iframe.setAttribute('id', 'the_iframe');
-    iframe.style.width = 450 + 'px';
-    iframe.style.height = 200 + 'px';
-    iframe.style.display = 'none';
-    document.body.appendChild(iframe);
+    .ecomhub-fi-is-logged-in span {
+        font-weight: bold;
+    }
 
-    // Send a message to the child iframe
-    var iframeEl = document.getElementById('the_iframe'),
-        messageButton = document.getElementById('message_button'),
-        results = document.getElementById('results');
+    .ecomhub-fi-is-logged-in span.ecomhub-fi-link {
+        text-decoration: underline;
+        cursor: pointer;
+    }
+
+    .ecomhub-fi-not-logged-in {
+        font-size: larger;
+        text-align: center;
+    }
+
+    .ecomhub-fi-not-logged-in span {
+        font-weight: bold;
+    }
+
+    .ecomhub-fi-not-logged-in span.ecomhub-fi-link {
+        text-decoration: underline;
+        cursor: pointer;
+    }
+
+    .ecomhub-fi-link {
+        font-weight: bold;
+        text-decoration: underline;
+        cursor: pointer;
+    }
+
+    .ecomhub-fi-login-details td {
+        padding: 1em;
+        text-align: left;
+    }
+
+    .ecomhub-fi-login-details td:nth-child(1) {
+        font-weight: bold;
+    }
+
+    .ecomhub-fi-dialog-confirm-logout .ecomhub-fi-home-url {
+        border: none;
+        font-weight: bold;
+    }
+</style>
+
+<div style="display: none" class="ecomhub-fi-div-dialogs">
+    <!--container for dialog divs, these can be hidden until used-->
+    <div id="ecomhub-fi-dialog-new-account" title="Create A New Ecomhub Account">
+        <div style='width: 100%; text-align: center'  class='alert-danger' ></div>
+        <div>
+            <p>
+                Creating a new Ecomhub account is quite easy. Just enter your email address below,
+                and you will be automatically logged in and your account details emailed to you
+            </p>
+            <p>
+                <span style="font-style: italic">Already have an account ? </span>
+                Just  <span class="ecomhub-fi-link ecomhub-fi-login-link">click here</span> or on the button below
+            </p>
+            <div class="input-group input-group-lg">
+                <span class="input-group-addon ">@</span>
+                <input type="email" class="form-control" placeholder="Your Email Address">
+            </div>
+
+        </div>
+    </div>
+
+    <!--end of ecomhub-fi-dialog-new-account-->
+
+    <div id="ecomhub-fi-dialog-login-account" title="Login To Ecomhub">
+        <div>
+            <p>
+                Connect your existing Ecomhub account to this purchase
+            </p>
+            <p>
+                <span style="font-style: italic">Don't already have an account ? </span>
+                Just  <span class="ecomhub-fi-link ecomhub-fi-new-account-link">click here</span> or on the button below
+            </p>
+            <div class="form-group input-group-lg">
+                <label >Email address</label>
+                <input type="email" class="form-control"  placeholder="Email">
+            </div>
+            <div class="form-group input-group-lg">
+                <label >Password</label>
+                <input type="password" class="form-control"  placeholder="Password">
+            </div>
+
+        </div>
+    </div>
+    <!--end of ecomhub-fi-dialog-login-account-->
+
+    <div id="ecomhub-fi-dialog-display-new-account" title="Your New Account is Made">
+        <div>
+            <p>
+                Your New Account is Created, and you will be logged in automatically now at
+                <a class="ecomhub-fi-home-url" href="" target="_blank"> <span class="ecomhub-fi-home-url"></span></a>
+            </p>
+
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    Below are the details of your account, which will also be emailed to you
+                </div>
+                <div class="panel-body ecomhub-fi-login-details">
+                    <table>
+                        <tr>
+                            <td>Login:</td>
+                            <td><span class="ecomhub-fi-login-name"></span></td>
+                        </tr>
+                        <tr>
+                            <td>Password:</td>
+                            <td><span class="ecomhub-fi-login-password"></span></td>
+                        </tr>
+
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!--end display new account dialog-->
+
+    <div id="ecomhub-fi-dialog-confirm-logout" title="Do You Want To Log Out ?">
+        <div>
+            <p>
+                You can Log Out of
+                <a class="ecomhub-fi-home-url" href="" target="_blank"> <span class="ecomhub-fi-home-url"></span></a>
+                and choose to login to another account or create a new account
+            </p>
+
+        </div>
+    </div>
+
+</div>
+
+<div style="display: none" class="ecomhub-fi-div-templates">
+    <!--container for status bar messages-->
+    <div class="ecomhub-fi-is-logged-in" >
+        Hi <span class="ecomhub-fi-display-name"></span>, You are logged in as <span class="ecomhub-fi-login-name"></span>
+         on <a class="ecomhub-fi-home-url" href="" target="_blank"> <span class="ecomhub-fi-home-url"></span></a>
+         If this is not you, or you need to change accounts ,  <span class="ecomhub-fi-switch-accounts ecomhub-fi-link">click here</span>
+         before checking out
+    </div>
+
+    <div class="ecomhub-fi-not-logged-in">
+        Hi, we can create a new account, and log you in automatically,  for
+         <a class="ecomhub-fi-home-url" href="" target="_blank"> <span class="ecomhub-fi-home-url"></span></a>
+         without leaving this page. <br> Or you can sign into an existing account, also without leaving this page. <br>
+         You do need an account to use your purchase !
+         <span class="ecomhub-fi-start-account ecomhub-fi-link">Click Here</span>
+        before checking out, to connect
+    </div>
+</div>
+
+<script>
 
 
-    // Send a message to the child iframe
-    var sendMessage = function(msg) {
-        // Make sure you are sending a string, and to stringify JSON
-        let json_msg = JSON.stringify(msg);
-        iframeEl.contentWindow.postMessage(json_msg, '*');
-    };
+    /**
+     * The data of a is logout command response that succeeds
+     * @typedef {Object} LogoutResponse
+     * @property {string} pass_through  - a variable
+
+     */
+
+    /**
+     * The data of a is create user command response that succeeds
+     * @typedef {Object} CreateUserResponse
+     * @property {string} user_id  - the id of the new account
+     * @property {string} email - the email of the new account
+     * @property {string} password - the generated password
+     */
 
 
-    bindEvent(messageButton, 'click', function () {
-        var message_type = jQuery("#message-type").val();
-        switch (message_type) {
-            case 'is_logged_in': {
-                sendMessage({method: 'is_logged_in',data: {}});
-                break;
+    /**
+     * The data of a is logged in query, or a login command
+     * @typedef {Object} LoginResponse
+     * @property {string} email  - if true, the response has no errors
+     * @property {string} login_name
+     * @property {string} first_name
+     * @property {string} last_name
+     * @property {integer} id
+     * @property {string} user_reference
+     */
+
+    /**
+     * This is the format of all api returns
+     * @typedef {Object} IframeMessage
+     * @property {boolean} is_valid  - if true, the response has no errors
+     * @property {LogoutResponse|CreateUserResponse|LoginResponse|string|boolean|integer} data - payload
+     * @property {string} method - the name of the call made
+     * @property {array} trace - if error, then the trace of the exception
+     */
+
+    function EcomhubFiCallbacks() {
+
+        this.iframeSource = 'http://localhost/wordpress/ecomhub-fi/js_api/';
+        this.home_url = "http://localhost/wordpress";
+
+        this.user_id = null; //the user id that is logged into the site
+
+        if ($("#econhub-fi-notice").length === 0 ) {
+            var body = $('body');
+            body.prepend("<div style='width: 100%' id='econhub-fi-error-bar' class='alert-danger'></div>");
+            body.prepend("<div style='width: 100%' id='econhub-fi-notice'></div>");
+        }
+
+        this.showError = function(message) {
+            var bar = $("#econhub-fi-error-bar");
+            if (!message) {
+                bar.html("").hide();
+            } else {
+                bar.html(message).show();
             }
-            case 'logout_user': {
-                sendMessage({method: 'logout_user',data: {} });
-                break;
-            }
-            case 'find_user':  {
-                let email = jQuery("#param1").val();
-                sendMessage({method: 'find_user',data: {email: email} });
-                break;
-            }
-            case 'login_user': {
-                let user_login = jQuery("#param1").val();
-                let password =  jQuery("#param2").val();
-                sendMessage({method: 'login_user', data: {user_login: user_login,password: password } });
-                break;
-            }
-            case 'create_user':{
-                let user_name = jQuery("#param1").val();
-                let user_email = jQuery("#param2").val();
-                let password =  jQuery("#param3").val();
-                sendMessage({method: 'create_user', data: {user_name: user_name,user_email: user_email,password2: password }});
-                break;
-            }
-            case 'set_user_meta':{
 
-                sendMessage({method: 'set_user_meta', data: { }});
-                break;
-            }
+        };
 
-            default: {
-                alert("unknown method");
+        function message_bar_notice(style,message) {
+            var bar =  $("#econhub-fi-notice");
+            //clear out bar
+            bar.removeClass('alert-success alert-info alert-warning alert-danger');
+            bar.html('');
+            switch (style) {
+                case 'alert-success':
+                case 'alert-info':
+                case 'alert-warning':
+                case 'alert-danger': {
+                    bar.addClass(style);
+                }
+
+
+                //if a string, set html, if an object append
+                    if (typeof  message === 'string') {
+                        bar.html(message);
+                    } else if(( message === Object(message) )  && ( message instanceof jQuery) ) {
+                        bar.append(message);
+                    } else {
+                        console.error("message is neither a string or jquery object, cannot display:",message);
+                    }
             }
         }
-    });
 
-    // Listen to message from child window
-    bindEvent(window, 'message', function (e) {
-        results.innerHTML = e.data;
-    });
+        /**
+         * @param {LoginResponse} data
+         * @param {string} home_url
+         */
+        function fill_in_logged_in_bar(data,home_url) {
+            var g = $('div.ecomhub-fi-is-logged-in').clone(  true,true  );
 
-    $(function() {
+            var display_name = '';
+            if (data.first_name && data.last_name) {
+                display_name = data.first_name + ' ' +  data.last_name;
+            } else if (data.first_name) {
+                display_name = data.first_name;
+            } else if (data.last_name) {
+                display_name = data.last_name;
+            } else {
+                display_name = '';
+            }
+            g.find('span.ecomhub-fi-display-name').text(display_name);
+
+            var login_name = data.login_name;
+            g.find('span.ecomhub-fi-login-name').text(login_name);
+            g.find('span.ecomhub-fi-home-url').text(home_url);
+            g.find('a.ecomhub-fi-home-url').attr("href", home_url);
+            message_bar_notice('alert-success',g )
+        }
+
+        function fill_in_logged_out_bar(home_url) {
+            var gnot = $('div.ecomhub-fi-not-logged-in').clone(  true,true  );
+            //not logged in
+            gnot.find('span.ecomhub-fi-home-url').text(home_url);
+            gnot.find('a.ecomhub-fi-home-url').attr("href", home_url);
+            message_bar_notice('alert-warning',gnot );
+        }
+
+        function set_user_reference_in_form(reference) {
+            $("#user-reference-echo").val(reference);
+        }
+
+        /**
+         *
+         * @param {IframeMessage} msg
+         */
+        this.is_logged_in = function(msg) {
+            /**
+             * @type {LoginResponse|false} data
+             */
+            var data = msg.data;
+
+            if (!data) {
+                this.user_id = null;
+                fill_in_logged_out_bar(this.home_url);
+            } else {
+                //is logged in as user_id
+                this.user_id = data.id;
+                fill_in_logged_in_bar(data,this.home_url);
+                set_user_reference_in_form(data.user_reference);
+            }
+        };
 
 
-        (function($) {
+        /**
+         * @param {IframeMessage} msg
+         */
+        this.logout_user = function(msg) {
+
+            /**
+             * @type {LogoutResponse} data
+             */
+            var data = msg.data;
+            fill_in_logged_out_bar(this.home_url);
+            if (data.pass_through === 'exists') {
+                $("#ecomhub-fi-dialog-login-account").dialog("open");
+            } else if (data.pass_through === 'new') {
+                $("#ecomhub-fi-dialog-new-account").dialog("open");
+            } else {
+                console.error("passthrough has a value of " + data.pass_through);
+            }
+        };
+        this.find_user = function(msg) {};
+
+
+        /**
+         *
+         * @param {IframeMessage} msg
+         */
+        this.login_user = function(msg) {
+            /**
+             * @type {LoginResponse} data
+             */
+            var data = msg.data;
+            this.user_id = data.id;
+            fill_in_logged_in_bar(data,this.home_url);
+            set_user_reference_in_form(data.user_reference);
+        };
+
+
+        /**
+         *
+         * @param {IframeMessage} msg
+         */
+        this.create_user = function(msg) {
+            /**
+             * @type {CreateUserResponse} data
+             */
+            var data = msg.data;
+
+            $('.ecomhub-fi-login-name').text(data.email);
+            $('.ecomhub-fi-login-password').text(data.password);
+
+            $("#ecomhub-fi-dialog-display-new-account").dialog("open");
+            //show dialog with data
+            //once the dialog is dismissed log in the user automatically
+
+        };
+
+
+
+    }
+
+
+    $(function () {
+
+
+        var callbacks = new EcomhubFiCallbacks();
+        console.debug("generating api iframe");
+
+        // addEventListener support for IE8
+        function bindEvent(element, eventName, eventHandler) {
+            if (element.addEventListener){
+                element.addEventListener(eventName, eventHandler, false);
+            } else { // noinspection JSUnresolvedVariable
+                if (element.attachEvent) {
+                    element.attachEvent('on' + eventName, eventHandler);
+                }
+            }
+        }
+
+
+        //click funnels loads in custom html/js resources after everything else loads in, so an ordinary script and css tag set followed by code
+        //would fail as the code can be executed before the script and css load. Here is a way to load a css file as part of a promise
+        (function ($) {
             $.getStylesheet = function (href) {
                 var $d = $.Deferred();
                 var $link = $('<link/>', {
@@ -143,23 +418,314 @@
                 $d.resolve($link);
                 return $d.promise();
             };
+
+            $.fn.onEnter = function(func) {
+                this.bind('keypress', function(e) {
+                    if (e.keyCode === 13) func.apply(this, [e]);
+                });
+                return this;
+            };
         })(jQuery);
 
-        $.when($.getStylesheet('https://code.jquery.com/ui/1.12.1/themes/redmond/jquery-ui.css'), $.getScript('https://code.jquery.com/ui/1.12.1/jquery-ui.js'))
-            .then(function () {
-                console.log('the css and js loaded successfully and are both ready');
-                $( "#dialog" ).dialog({ autoOpen: true });
-            }, function () {
-                console.log('an error occurred somewhere');
+        // Create the iframe
+        var iframe = document.createElement('iframe');
+        iframe.setAttribute('src', callbacks.iframeSource);
+        iframe.setAttribute('id', 'ecomhub-fi-api-iframe');
+        iframe.style.width = 450 + 'px';
+        iframe.style.height = 200 + 'px';
+        iframe.style.display = 'none';
+        iframe.onload=function(){
+            //when both the js and css loads, then we do our work. But only do this after we load the iframe
+            // because otherwise this fires before the iframe is ready, and nothing will happen
+            $.when($.getStylesheet('https://code.jquery.com/ui/1.12.1/themes/redmond/jquery-ui.css'), $.getScript('https://code.jquery.com/ui/1.12.1/jquery-ui.js'))
+                .then(function () {
+                    console.debug('the css and js loaded successfully and are both ready');
+                    initilize_dialogs();
+
+                    sendMessage({method: 'is_logged_in',data: {}});
+                }, function () {
+                    console.log('an error occurred somewhere');
+                });
+
+        };
+        
+        document.body.appendChild(iframe);
+
+        // Send a message to the child iframe
+        var iframeEl = document.getElementById('ecomhub-fi-api-iframe');
+
+
+
+        // Send a message to the child iframe
+        var sendMessage = function(msg) {
+            // Make sure you are sending a string, and to stringify JSON
+            let json_msg = JSON.stringify(msg);
+            iframeEl.contentWindow.postMessage(json_msg, '*');
+        };
+
+        // Listen to message from child window
+        bindEvent(window, 'message', function (e) {
+
+            var data = null;
+
+            if (typeof  e.data === 'string') {
+                data = JSON.parse(e.data);
+            } else {
+                data = e.data;
+            }
+
+            if (data !== Object(data)) {
+                //not an object
+                console.warn("Data received from the message is not an object ",data);
+                return;
+            }
+            if (!data.hasOwnProperty('method')) {
+                console.warn("Data received from the message does not have a message property ",data);
+                return;
+            }
+
+            callbacks.showError(null);
+            // noinspection JSJQueryEfficiency
+            $('.ecomhub-fi-dialog-new-account').find('alert-danger').html('');
+
+            if (!data.is_valid) {
+                console.warn("Data received not marked as valid ",data);
+                callbacks.showError(data.message);
+                if (data.method === 'create_user') {
+                    $('.ecomhub-fi-dialog-new-account').find('.alert-danger').html(data.message);
+                    $("#ecomhub-fi-dialog-new-account").dialog("open");
+                }
+                return;
+            }
+            switch ( data.method) {
+                case 'is_logged_in': {
+                    callbacks.is_logged_in(data);
+                    break;
+                }
+                case 'logout_user': {
+                    callbacks.logout_user(data);
+                    break;
+                }
+                case 'find_user': {
+                    callbacks.find_user(data);
+                    break;
+                }
+                case 'login_user': {
+                    callbacks.login_user(data);
+                    break;
+                }
+                case 'create_user': {
+                    callbacks.create_user(data);
+                    break;
+                }
+
+                default: {
+                    console.warn("did not understant this message:",data);
+                    break;
+                }
+            }
+        });
+
+
+        $(".ecomhub-fi-switch-accounts").click(function() {
+            $("#ecomhub-fi-dialog-confirm-logout").dialog("open");
+        });
+
+        $(".ecomhub-fi-start-account").click(function() {
+            $("#ecomhub-fi-dialog-new-account").dialog("open");
+        });
+
+
+
+
+
+
+        function initilize_dialogs(){
+
+            function sync_email_with_form(email) {
+
+            }
+
+            $("#ecomhub-fi-dialog-new-account").dialog({
+                modal: false,
+                autoOpen: false,
+                resizable: false,
+                open: function() {
+                    var that = this;
+                    // $(".ecomhub-fi-dialog-new-account").find('.ui-dialog-buttonset button:eq(0)')
+                    $(".ecomhub-fi-dialog-new-account").find('input').focus().onEnter( function() {
+                        $(that).dialog("close");
+                    });
+                },
+                create:function () {
+                    var that = this;
+                    $(".ecomhub-fi-dialog-new-account").find('.ecomhub-fi-login-link').click(function() {
+                        $(that).dialog("close");
+                        $("#ecomhub-fi-dialog-login-account").dialog("open");
+                        var this_email =  $(".ecomhub-fi-dialog-new-account").find('input :first').val();
+                        $(".ecomhub-fi-dialog-login-account").find('input :first').val(this_email);
+                    });
+                },
+                classes: {"ui-dialog": "ecomhub-fi-dialog-new-account"},
+                width: '50%',
+                buttons:
+                    [
+                        {
+                            text:"Create My Account",
+                            class:'',
+                            click: function() {
+                                $(this).dialog("close");
+                                var this_email =  $(".ecomhub-fi-dialog-new-account").find('input :first').val();
+
+                                sync_email_with_form(this_email);
+                                sendMessage({method: 'create_user', data: {user_name: null,user_email: this_email,password2: null }});
+                            }
+                        },
+                        {
+                            text:"I Already Have An Account",
+                            class:'',
+                            click: function() {
+                                $(this).dialog("close");
+                                var this_email =  $(".ecomhub-fi-dialog-new-account").find('input :first').val();
+                                $(".ecomhub-fi-dialog-login-account").find('input :first').val(this_email);
+                                $("#ecomhub-fi-dialog-login-account").dialog("open");
+                            }
+                        }
+                    ],
+            });
+            //
+
+            $("#ecomhub-fi-dialog-login-account").dialog({
+                modal: false,
+                autoOpen: false,
+                resizable: false,
+                open: function() {
+                    var that = this;
+                    // $(".ecomhub-fi-dialog-new-account").find('.ui-dialog-buttonset button:eq(0)')
+                    $(".ecomhub-fi-dialog-login-account").find('input :first').focus().onEnter( function() {
+                        $(that).dialog("close");
+                    });
+                },
+                create:function () {
+                    var that = this;
+                    $(".ecomhub-fi-dialog-login-account").find('.ecomhub-fi-new-account-link').click(function() {
+                        $(that).dialog("close");
+                        var this_email =  $(".ecomhub-fi-dialog-login-account").find('input :first').val();
+                        $(".ecomhub-fi-dialog-new-account").find('input :first').val(this_email);
+                        $("#ecomhub-fi-dialog-new-account").dialog("open");
+                    });
+                },
+                classes: {"ui-dialog": "ecomhub-fi-dialog-login-account"},
+                width: '50%',
+                buttons:
+                    [
+                        {
+                            text:"Login To My Acount",
+                            class:'',
+                            click: function() {
+                                $(this).dialog("close");
+                                var dialog = $(".ecomhub-fi-dialog-login-account");
+                                var this_email =  dialog.find('input :first').val();
+                                var this_password =  dialog.find('input:eq(1)').val();
+                                sync_email_with_form(this_email);
+                                sendMessage({method: 'login_user',data: {user_login: this_email,password: this_password }});
+
+                            }
+                        },
+                        {
+                            text:"Wait, I do not have an account yet",
+                            class:'',
+                            click: function() {
+                                $(this).dialog("close");
+                                $("#ecomhub-fi-dialog-new-account").dialog("open");
+                                var this_email =  $(".ecomhub-fi-dialog-login-account").find('input :first').val();
+                                $(".ecomhub-fi-dialog-new-account").find('input :first').val(this_email);
+                            }
+                        }
+                    ],
             });
 
 
-        // jQuery.getScript("https://code.jquery.com/ui/1.12.1/jquery-ui.js", function() {
-        //     $( "#dialog" ).dialog({ autoOpen: true });
-        //
-        // });
 
+            $("#ecomhub-fi-dialog-display-new-account").dialog({
+                modal: false,
+                autoOpen: false,
+                resizable: false,
+                classes: {"ui-dialog": "ecomhub-fi-dialog-display-new-account"},
+                width: '50%',
+                buttons:
+                    [
+                        {
+                            text:"ok",
+                            class:'',
+                            click: function() {
+                                $(this).dialog("close");
+                                var dialog = $(".ecomhub-fi-dialog-display-new-account");
+                                var this_email =  dialog.find('.ecomhub-fi-login-name').text();
+                                var this_password =  dialog.find('.ecomhub-fi-login-password').text();
+                                sendMessage({method: 'login_user',data: {user_login: this_email,password: this_password }});
+
+                            }
+                        }
+                    ],
+            });
+
+
+
+
+            $("#ecomhub-fi-dialog-confirm-logout").dialog({
+                modal: false,
+                autoOpen: false,
+                resizable: false,
+                classes: {"ui-dialog": "ecomhub-fi-dialog-confirm-logout"}
+                ,
+                open: function() {
+                    $(".ecomhub-fi-dialog-confirm-logout").find('.ui-dialog-buttonset button:eq(1)').focus();
+                },
+                create:function () {
+                    var g = $(".ecomhub-fi-dialog-confirm-logout");
+                    g.find('span.ecomhub-fi-home-url').text(callbacks.home_url);
+                    g.find('a.ecomhub-fi-home-url').attr("href", callbacks.home_url);
+                },
+                width: '50%',
+                buttons:
+                    [
+                        {
+                            text:"Cancel",
+                            class:'',
+                            click: function() {
+                                $(this).dialog("close");
+
+                            }
+                        },
+                        {
+                            text:"Log In As Another User",
+                            class:'',
+                            click: function() {
+                                $(this).dialog("close");
+                                sendMessage({method: 'logout_user',data: {passthrough: 'exists' }});
+
+                            }
+                        },
+                        {
+                            text:"Create A New Acount",
+                            class:'',
+                            click: function() {
+                                $(this).dialog("close");
+                                sendMessage({method: 'logout_user',data: {passthrough: 'new' }});
+
+                            }
+                        }
+                    ],
+            });
+
+
+
+        }
     });
 </script>
+
+<!--above here is what is copied into the funnel-->
+
 </body>
 </html>

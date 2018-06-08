@@ -8,16 +8,45 @@ class EcomhubFiUserHelper
 {
     /**
      * checks if user is logged in here
-     * @return false|integer
+     * @return false|array
      * @throws
      */
     public static function is_logged_in() {
-        $b_what =  is_user_logged_in();
-        if ($b_what) {
-        	return get_current_user_id();
-        } else {
-        	return false;
-        }
+	    $user = wp_get_current_user();
+	    if ( $user->exists() ) {
+
+	    	$code = self::set_user_reference($user->ID);
+		    // do something
+		    return ['email'=> $user->user_email,'id'=> $user->ID, 'first_name' => $user->first_name,
+		            'last_name' => $user->last_name,
+			    'login_name'=>$user->user_login, 'user_reference' => $code];
+	    } else {
+	    	return false;
+	    }
+
+    }
+
+	/**
+	 * sets a user reference only one time, if set returns what was set earlier
+	 * @param integer $user_id
+	 *
+	 * @return string
+	 * @throws Exception
+	 */
+    public static function set_user_reference($user_id) {
+
+	    $key = '_ecomhub_fi_funnel_reference';
+	    //check if meta already exists
+	    $what = get_user_meta( $user_id, $key,  false );
+	    if($what) {return $what;}
+
+
+	    $data = md5(uniqid('use_user_id: '.$user_id , true));
+	    $b_ret = add_user_meta( $user_id, $key, $data,true);
+	    if (!$b_ret) {
+		    throw  new Exception("Key [$key] already exists");
+	    }
+	    return $data;
     }
 
 	/**
@@ -38,17 +67,18 @@ class EcomhubFiUserHelper
     	return true;
     }
 
-    public static function logout_user() {
+    public static function logout_user($passthrough=null) {
 	    wp_logout();
-	    return true;
+	    return ["pass_through"=>$passthrough];
     }
 
 	/**
 	 * @param string $user_login
 	 * @param string $password
 	 *
-	 * @return true
+	 * @return array
 	 * @throws EcomhubFiUserHelperException
+	 * @throws Exception
 	 */
     public static function login_user($user_login,$password) {
 
@@ -68,7 +98,12 @@ class EcomhubFiUserHelper
 		    $error_message =  $user->get_error_message();
 		    throw new EcomhubFiUserHelperException($error_message);
 	    }
-	    return true;
+
+	    $code = self::set_user_reference($user->ID);
+
+	    return ['email'=> $user->user_email,'id'=> $user->ID, 'first_name' => $user->first_name, 'last_name' => $user->last_name,
+	            'login_name'=>$user->user_login, 'user_reference' => $code];
+
     }
 
 	/**
@@ -80,12 +115,25 @@ class EcomhubFiUserHelper
 	 * @param string $user_email
 	 * @param string $password
 	 *
-	 * @return false|int|WP_Error
+	 * @return array
 	 * @throws EcomhubFiUserHelperException
+	 * @throws Exception
 	 */
     public static function create_user($user_name,$user_email,$password) {
     	if (EcomhubFiUserHelper::is_logged_in()) {
     		throw new EcomhubFiUserHelperException("Cannot create user while logged in");
+	    }
+
+	    if (empty($user_email)) {
+		    throw new EcomhubFiUserHelperException("Need an email to create an account");
+	    }
+
+	    if (empty($user_name)) {
+    		$user_name = $user_email;
+	    }
+
+	    if (empty($password)) {
+		    $password = wp_generate_password( 12, true );
 	    }
 
 	    $user_id = username_exists( $user_name );
@@ -103,9 +151,20 @@ class EcomhubFiUserHelper
 		    }
 
 		    $user_id = wp_create_user( $user_name, $password, $user_email );
-		    return $user_id;
+		    if ( is_wp_error( $user_id ) ) {
+			    $error_message =  $user_id->get_error_message();
+			    throw new EcomhubFiUserHelperException($error_message);
+		    }
+
+		    self::associate_user_data($user_id,'new_password',$password);
+		    return ['user_id' =>$user_id,'email'=>$user_email,'password'=>$password];
 	    } else {
-		    throw new EcomhubFiUserHelperException("That user name is already taken");
+	    	if ($user_name == $user_email) {
+	    		$message = "Cannot create new account, $user_email is already being used";
+		    } else {
+			    $message = "Cannot create new account, The user name of $user_name or email of $user_email is already taken";
+		    }
+		    throw new EcomhubFiUserHelperException($message);
 	    }
 
     }
@@ -155,11 +214,11 @@ class EcomhubFiUserHelper
 
 	/**
 	 * @param string $key
-	 *
+	 * @param boolean $optional - default false
 	 * @return string
 	 * @throws Exception
 	 */
-    public static function get_post_key($key) {
+    public static function get_post_key($key,$optional = false) {
 	    if (array_key_exists( $key,$_POST) ) {
 		    $thing = sanitize_text_field($_POST[$key]);
 		    if ($thing) {
@@ -168,6 +227,9 @@ class EcomhubFiUserHelper
 			    }
 		    	return $thing;
 		    } else {
+		    	if ($optional) {
+		    		return null;
+			    }
 			    throw new Exception("$key was set in post, but had no value");
 		    }
 	    } else {
@@ -200,7 +262,8 @@ class EcomhubFiUserHelper
 				    return EcomhubFiUserHelper::is_logged_in();
 			    }
 		    case 'logout_user':{
-				    return EcomhubFiUserHelper::logout_user();
+		    	    $passthrough =  EcomhubFiUserHelper::get_post_key('passthrough',true);
+				    return EcomhubFiUserHelper::logout_user($passthrough);
 			    }
 		    case 'find_user': {
 			    $email = EcomhubFiUserHelper::get_post_key('email');
@@ -213,8 +276,8 @@ class EcomhubFiUserHelper
 		    }
 		    case 'create_user': {
 			    $user_email = EcomhubFiUserHelper::get_post_key('user_email');
-			    $password = EcomhubFiUserHelper::get_post_key('password2');
-			    $user_name = EcomhubFiUserHelper::get_post_key('user_name');
+			    $password = EcomhubFiUserHelper::get_post_key('password2',true);
+			    $user_name = EcomhubFiUserHelper::get_post_key('user_name',true);
 
 			    return EcomhubFiUserHelper::create_user($user_name,$user_email,$password);
 		    }

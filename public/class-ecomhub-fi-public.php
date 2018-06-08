@@ -136,7 +136,7 @@ class Ecomhub_Fi_Public
 		    $method = EcomhubFiUserHelper::get_method_from_post();
 			$response = EcomhubFiUserHelper::do_action_from_post();
 		    $nonce = wp_create_nonce( 'ecombhub_fi_public' ); //changes if the person is logged in vs not
-		    wp_send_json( [ 'is_valid' => true, 'data' => $response, 'method' => $method,'new_nonce' => $nonce] );
+		    wp_send_json( [ 'is_valid' => true, 'data' => $response, 'method' => $method,'new_nonce' => $nonce,'message'=>'ok'] );
 	    }
 	    catch (EcomhubFiUserHelperException $to_user) {
 		    wp_send_json(['method' => $method,'is_valid' => false, 'message' => $to_user->getMessage(), 'trace'=>$to_user->getTrace(), 'post' => $_POST,'for_user' => true ]);

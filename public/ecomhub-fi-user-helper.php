@@ -157,7 +157,7 @@ class EcomhubFiUserHelper
 		    }
 
 		    self::associate_user_data($user_id,'new_password',$password);
-		    wp_mail( $user_email, "Your New Account for Ecomhub.com", "Hello,\nYou have successfully registered for EcomHub.com\nHere are your credentials\n\nLogin:  $user_email \nPassword: $password \n\nPlease to go <a href='https://ecomhub.com/user-dashboard/?user-action=courses' >The User Dashboard</a>" );
+		    wp_mail( $user_email, "Your New Account for Ecomhub.com", "Hello,\nYou have successfully registered for EcomHub.com\nHere are your credentials\n\nLogin:  $user_email \nPassword: $password \n\nPlease to go  The User Dashboard at https://ecomhub.com/user-dashboard/?user-action=courses" );
 
 
 		    return ['user_id' =>$user_id,'email'=>$user_email,'password'=>$password];

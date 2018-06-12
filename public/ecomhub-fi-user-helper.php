@@ -157,6 +157,7 @@ class EcomhubFiUserHelper
 		    }
 
 		    self::associate_user_data($user_id,'new_password',$password);
+		    wp_mail( $user_email, "Your New Account for Ecomhub.com", "Login with  $user_email and $password" );
 		    return ['user_id' =>$user_id,'email'=>$user_email,'password'=>$password];
 	    } else {
 	    	if ($user_name == $user_email) {

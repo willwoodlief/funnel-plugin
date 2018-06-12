@@ -156,7 +156,7 @@ webinar_delay: -63695106683322
 purchase: {&quot;product_ids&quot;=&gt;[&quot;1400064&quot;], &quot;taxamo_transaction_key&quot;=&gt;&quot;&quot;, &quot;payment_method_nonce&quot;=&gt;&quot;&quot;, &quot;stripe_customer_token&quot;=&gt;&quot;tok_1CYQ5iLKRukEIJrMyyQjERWv&quot;}
 </div>
 <div class='info'>
-user_order_token: 80beed67dd7c85a789f8c344c689a583
+user_order_token: 0009d1de45c13709d8415cb3b45bb7ee
 </div>
 <div class='info'>
 wc_product_id: script injected wc test value

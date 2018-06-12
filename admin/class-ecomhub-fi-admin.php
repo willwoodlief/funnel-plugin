@@ -201,6 +201,14 @@ class Ecomhub_Fi_Admin {
 		    'setting_section_id' // Section
 	    );
 
+	    add_settings_field(
+		    'automatic_product_upsell', // ID
+		    'Post ID that will be upsold', // Title
+		    array( $this, 'automatic_product_upsell_callback' ), // Callback
+		    'comhub-fi-funnels', // Page
+		    'setting_section_id' // Section
+	    );
+
 
     }
 
@@ -225,6 +233,11 @@ class Ecomhub_Fi_Admin {
 		if( isset( $input['log_name'] ) ) {
 			$new_input['log_name'] = sanitize_text_field( $input['log_name'] );
 		}
+
+		if( isset( $input['automatic_product_upsell'] ) ) {
+			$new_input['automatic_product_upsell'] = sanitize_text_field( $input['automatic_product_upsell'] );
+		}
+
 
 		if( isset( $input['allowed_senders'] ) ) {
 			$one_string = $input['allowed_senders'];
@@ -306,6 +319,13 @@ class Ecomhub_Fi_Admin {
 		printf(
 			'<input type="text" id="log_name" name="ecomhub_fi_options[log_name]" value="%s" />',
 			isset( $this->options['log_name'] ) ? esc_attr( $this->options['log_name']) : ''
+		);
+	}
+
+	public function automatic_product_upsell_callback() {
+		printf(
+			'<input type="text" id="automatic_product_upsell" name="ecomhub_fi_options[automatic_product_upsell]" value="%s" />',
+			isset( $this->options['automatic_product_upsell'] ) ? esc_attr( $this->options['automatic_product_upsell']) : ''
 		);
 	}
 

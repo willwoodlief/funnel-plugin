@@ -373,7 +373,8 @@ if ( ! function_exists( 'eltdf_lms_course_add_users_to_course' ) ) {
 			//if ( $item['product_id'] == 0 && get_post_type( $product_id ) == 'course' ) {
               if (  get_post_type( $product_id ) == 'course' ) {
                 // end changes by will
-				if ( $users = get_post_meta( $product_id, 'eltdf_course_users_attended', true ) !== '' ) {
+                $users = [];
+				if ( get_post_meta( $product_id, 'eltdf_course_users_attended', true ) !== '' ) {
 					$users[] = get_current_user_id();
 				} else {
 					$users = array( get_current_user_id() );

@@ -157,7 +157,11 @@ class EcomhubFiUserHelper
 		    }
 
 		    self::associate_user_data($user_id,'new_password',$password);
-		    wp_mail( $user_email, "Your New Account for Ecomhub.com", "Login with  $user_email and $password" );
+		    wp_mail( $user_email, "Your New Account for Ecomhub.com", "Hello,\nYou have successfully registered for EcomHub.com\n
+		    Here are your credentials\n\nLogin:  $user_email \n Password: $password \n\n
+		     Please to go <a href='https://ecomhub.com/user-dashboard/?user-action=courses' >The User Dashboard</a>" );
+
+
 		    return ['user_id' =>$user_id,'email'=>$user_email,'password'=>$password];
 	    } else {
 	    	if ($user_name == $user_email) {

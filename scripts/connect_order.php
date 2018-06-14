@@ -531,17 +531,17 @@ class EcomhubFiConnectOrder {
 		$payload = [
 			"customer_note"=> "Paid for through Click Funnels",
 
-			"billing"        => [
-				"first_name" => $data->first_name,
-				"last_name"  => $data->last_name,
-				"address_1"  => $data->street,
-				"city"       => $data->city,
-				"state"      => $data->state,
-				"postcode"   => $data->postal,
-				"country"    => $data->country,
-				"email"      => $data->email,
-				"phone"      => $data->phone
-			],
+//			"billing"        => [
+//				"first_name" => $data->first_name,
+//				"last_name"  => $data->last_name,
+//				"address_1"  => $data->street,
+//				"city"       => $data->city,
+//				"state"      => $data->state,
+//				"postcode"   => $data->postal,
+//				"country"    => $data->country,
+//				"email"      => $data->email,
+//				"phone"      => $data->phone
+//			],
 
 			"payment_method" => $payment_method,
 			"customer_id"    => $user_id,

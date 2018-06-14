@@ -68,6 +68,14 @@ function deactivate_ecomhub_fi() {
 register_activation_hook( __FILE__, 'activate_ecomhub_fi' );
 register_deactivation_hook( __FILE__, 'deactivate_ecomhub_fi' );
 
+
+if ( ! function_exists( 'ecom_fi_log_to_debug_alert' ) ) {
+	function ecom_fi_log_to_debug_alert( $subject, $message ) {
+		require_once plugin_dir_path( __FILE__ ) . "includes/log.php";
+		Ecomhub_Fi_Log::sns_alert($subject,$message);
+	}
+}
+
 /**
  * The core plugin class that is used to define internationalization,
  * admin-specific hooks, and public-facing site hooks.
@@ -90,3 +98,6 @@ function run_ecomhub_fi() {
 
 }
 run_ecomhub_fi();
+
+
+

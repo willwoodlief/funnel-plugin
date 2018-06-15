@@ -159,6 +159,8 @@ class Ecomhub_Fi_Admin {
 		    'setting_section_id' // Section
 	    );
 
+
+
 	    add_settings_field(
 		    'woo_rest_api_key', // ID
 		    'WooCommerce Api Key this Plugin uses (requres read/write key)', // Title
@@ -201,13 +203,15 @@ class Ecomhub_Fi_Admin {
 		    'setting_section_id' // Section
 	    );
 
+
 	    add_settings_field(
-		    'automatic_product_upsell', // ID
-		    'Post ID that will be upsold', // Title
-		    array( $this, 'automatic_product_upsell_callback' ), // Callback
+		    'time_lock_whitelist', // ID
+		    'White List Ignoring Time Locks, when these users are logged in', // Title
+		    array( $this, 'time_lock_whitelist_callback' ), // Callback
 		    'comhub-fi-funnels', // Page
 		    'setting_section_id' // Section
 	    );
+
 
 
     }
@@ -236,6 +240,27 @@ class Ecomhub_Fi_Admin {
 
 		if( isset( $input['automatic_product_upsell'] ) ) {
 			$new_input['automatic_product_upsell'] = sanitize_text_field( $input['automatic_product_upsell'] );
+		}
+
+
+
+		if( isset( $input['time_lock_whitelist'] ) ) {
+			$one_string = $input['time_lock_whitelist'];
+			$allowed_array_raw = preg_split('/\r\n|\r|\n/', $one_string);
+			if ($allowed_array_raw === false) {$allowed_array_raw = [];}
+
+			$lock_whitelist_array = [];
+			foreach ($allowed_array_raw as $allowed_raw) {
+				$allowed_raw = trim($allowed_raw,"\"', \t\n\r\0\x0B");
+				$allowed = preg_replace('/.*<(.*)>.*/',"$1",$allowed_raw);
+				$allowed = sanitize_text_field($allowed);
+				if ($allowed) {
+					$lock_whitelist_array[] = $allowed;
+				}
+
+			}
+
+			$new_input['time_lock_whitelist'] = $lock_whitelist_array;
 		}
 
 
@@ -356,6 +381,27 @@ class Ecomhub_Fi_Admin {
  						<br>
  						<span style="font-size: smaller">One address per line, and can be in three formats: plain email address, bracked notation ,
  						 or regular expression. Regular expressions need to start with / and end with /, and can only match the plain email and not bracketed forms </span>
+                    </div>',
+			$lines_as_one_string
+		);
+
+	}
+
+
+	public function time_lock_whitelist_callback() {
+
+		$array =  isset($this->options['time_lock_whitelist']) ? $this->options['time_lock_whitelist'] : [];
+		if (!is_array($array)) {
+			$array = [$array];
+		}
+		$lines_as_one_string = implode("\n",$array);
+
+		printf(
+			'
+					<div style="display: inline-block">
+ 						<textarea  id="time_lock_whitelist" name="ecomhub_fi_options[time_lock_whitelist]" rows="4" cols="55" >%s</textarea>
+ 						<br>
+ 						<span style="font-size: smaller">One email per line, needs to be the user\'s email to work for them </span>
                     </div>',
 			$lines_as_one_string
 		);

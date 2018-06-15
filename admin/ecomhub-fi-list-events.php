@@ -243,13 +243,14 @@ count(error_message) as total_errors,sum(order_items) as total_items, sum(order_
 	 */
     public static function get_store_funnel_codes() {
 	    global $wpdb;
+
 	    $post_table_name = $wpdb->prefix . 'posts';
 	    $meta_table_name = $wpdb->prefix . 'postmeta';
 
 
 	    $survey_res = $wpdb->get_results( /** @lang text */
 		    "
-				select p.post_title, p.ID as 'id', m.meta_id,m.meta_value as 'product_id' from $post_table_name p
+				select p.post_title, p.ID as 'id', m.meta_id,m.meta_value  from $post_table_name p
 				INNER JOIN $meta_table_name m ON m.post_id = p.ID
 				where m.meta_key = '_funnel_product_id';"
 	    );
@@ -259,16 +260,101 @@ count(error_message) as total_errors,sum(order_items) as total_items, sum(order_
 	    }
 
 	    if (empty($survey_res)) {return [];}
-	    return $survey_res;
+
+	    $ret = [];
+	    foreach ($survey_res as $s) {
+	    	$un = $s->meta_value;
+	    	$s->unserialized = unserialize($un);
+	    	if ($s->unserialized === false) {
+	    		if ($s->meta_value) {
+				    $s->unserialized = $s->meta_value;
+			    }
+		    }
+	    	if (is_array($s->unserialized)) {
+	    		foreach ($s->unserialized as $hm) {
+
+				    $new_cloned = (object)['id'=> $s->id,'product_id'=>$hm,'post_title' => $s->post_title,
+				    'meta_id'=> $s->meta_id,'meta_value' => $s->meta_value];
+				     array_push($ret,$new_cloned);
+			    }
+		    } else {
+
+			    $s->product_id = $s->unserialized;
+	    		array_push($ret,$s);
+
+		    }
+	    }
+	    return $ret;
     }
 
-    public static function unbind_post_from_funnel($post_id_unbind) {
-	    return delete_post_meta( $post_id_unbind, '_funnel_product_id');
+	/**
+	 * @param $post_id_unbind
+	 * @param $product_id
+	 *
+	 * @return bool
+	 * @throws Exception
+	 */
+    public static function unbind_post_from_funnel($post_id_unbind,$product_id) {
+	    $meta_key = '_funnel_product_id';
+
+	    $other_binds = get_post_meta( $post_id_unbind, $meta_key, true );
+	    $b_found = false;
+	    if (is_array($other_binds)) {
+		    //remove $post_id_unbind from the array
+		    foreach ($other_binds as $key => $value) {
+			    if ($product_id == $value) {
+				    unset($other_binds[$key]);
+				    $b_found = true;
+				    break;
+			    }
+		    }
+			if ($b_found) {
+				$updated = update_post_meta( $post_id_unbind, $meta_key, $other_binds );
+				if ($updated) {
+					return $updated;
+				} else {
+					throw new Exception("could not update post $post_id_unbind, removing $product_id from  $meta_key");
+				}
+			}
+
+	    } else {
+	    	if (is_numeric($other_binds)) {
+	    		$what = delete_post_meta($post_id_unbind,$meta_key);
+	    		return $what;
+		    }
+	    }
+
+	    throw new Exception("Could not find find $product_id in $meta_key of $post_id_unbind");
+
     }
 
+	/**
+	 * @param $post_id_bind
+	 * @param $product_id
+	 *
+	 * @return false|int
+	 * @throws Exception
+	 */
     public static function bind_post_to_funnel($post_id_bind,$product_id) {
-	    delete_post_meta( $post_id_bind, '_funnel_product_id');
-    	return add_post_meta( $post_id_bind, '_funnel_product_id', $product_id, true );
+    	$meta_key = '_funnel_product_id';
+
+	    $old_value = get_post_meta( $post_id_bind, $meta_key, true );
+	    if (is_array($old_value)) {
+		    $old_value[] = $product_id;
+		    $other_binds = $old_value;
+	    } else {
+	    	if ($old_value && is_numeric($old_value)) {
+			    $other_binds = array( $product_id, $old_value);
+		    } else {
+			    $other_binds = array( $product_id );
+		    }
+
+	    }
+	    $updated = update_post_meta( $post_id_bind, $meta_key, $other_binds );
+	    if ($updated) {
+		    return $updated;
+	    }
+    	throw new Exception("Could not update meta data $meta_key for binding post $post_id_bind to  _funnel_product_id of values ". print_r($other_binds,true));
     }
 
 

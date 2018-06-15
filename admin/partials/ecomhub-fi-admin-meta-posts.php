@@ -34,7 +34,8 @@ $posts = $ecombhub_fi_posts_array;
         <td><?= $post->post_title?></td>
         <td><?= $post->id?></td>
         <td><?= $post->product_id?></td>
-        <td><span style="cursor: pointer; text-decoration: underline" class="unbind-post" data-post="<?= $post->id ?>">delete</span></td>
+        <td><span style="cursor: pointer; text-decoration: underline" class="unbind-post"
+                  data-post="<?= $post->id ?>"  data-product="<?= $post->product_id ?>">delete</span></td>
     </tr>
     <?php } ?>
     </tbody>
@@ -44,7 +45,8 @@ $posts = $ecombhub_fi_posts_array;
     (function ($) {
         $('table.ecomhub-fi-order-products .unbind-post').click(function(e) {
             var post_id = $(this).data('post');
-            ecomhub_fi_talk_to_backend('x_posts', {unbind: post_id}, options_success);
+            var product_id = $(this).data('product');
+            ecomhub_fi_talk_to_backend('x_posts', {unbind: post_id,product_id:product_id }, options_success);
 
             function options_success(d) {
 

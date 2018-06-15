@@ -649,6 +649,7 @@ class EcomhubFiConnectOrder {
 	 */
 	public static function find_post_by_funnel_id( $funnel_id ) {
 
+
 		global $wpdb;
 		$post_table_name = $wpdb->prefix . 'posts';
 		$meta_table_name = $wpdb->prefix . 'postmeta';
@@ -656,9 +657,9 @@ class EcomhubFiConnectOrder {
 
 		$survey_res = $wpdb->get_results( /** @lang text */
 			"
-				select  p.ID as 'id', m.meta_id,m.meta_value as 'product_id' from $post_table_name p
+				select  p.ID as 'id', m.meta_id,m.meta_value  from $post_table_name p
 				INNER JOIN $meta_table_name m ON m.post_id = p.ID
-				where m.meta_key = '_funnel_product_id' and m.meta_value = '$funnel_id';"
+				where m.meta_key = '_funnel_product_id' ;"
 		);
 
 		if ( $wpdb->last_error ) {
@@ -668,9 +669,29 @@ class EcomhubFiConnectOrder {
 		if ( empty( $survey_res ) ) {
 			return null;
 		}
+		foreach ($survey_res as $s) {
+			$this_funnel_code = null;
+			$un = $s->meta_value;
+			$s->unserialized = unserialize($un);
+			if ($s->unserialized === false) {
+				if ($s->meta_value) {
+					$this_funnel_code = $s->meta_value;
+					if ($this_funnel_code == $funnel_id) {
+						return $s->id;
+					}
+				}
+			}
+			if (is_array($s->unserialized)) {
+				foreach ($s->unserialized as $hm) {
+					$this_funnel_code = $hm;
+					if ($this_funnel_code == $funnel_id) {
+						return $s->id;
+					}
+				}
+			}
+		}
 
-		return $survey_res[0]->id;
-
+		return null;
 	}
 
 	/**

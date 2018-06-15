@@ -454,10 +454,13 @@ class Ecomhub_Fi_Admin {
 		    	$data = [];
 		    	if (isset($_POST['unbind'])) {
 		    		$post_id_unbind = intval($_POST['unbind']);
-		    		if ($post_id_unbind > 0) {
-					    $b_unbind_result = EcomhubFiListEvents::unbind_post_from_funnel($post_id_unbind);
+				    $product_id = sanitize_text_field($_POST['product_id']);
+		    		if ($post_id_unbind > 0 && $product_id) {
+					    $b_unbind_result = EcomhubFiListEvents::unbind_post_from_funnel($post_id_unbind,$product_id);
 					    $data['unbinding_id'] = $post_id_unbind;
 					    $data['unbinding_result'] =$b_unbind_result;
+				    } else {
+		    			throw new Exception("Need both a unbind and a product id to unbind");
 				    }
 			    }
 

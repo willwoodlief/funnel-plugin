@@ -448,10 +448,12 @@ class Ecomhub_Fi_Admin {
 				}
 			}
 		}
+
 		print "<select id=\"woo_payment_type\" name=\"ecomhub_fi_options[woo_payment_type]\">";
 		foreach ($enabled_gateways as $gateway) {
 			$code = $gateway->id;
 			$name = $gateway->title;
+			if (!$name) { $name = $gateway->method_title; }
 			$default = '';
 			if (isset($this->options['woo_payment_type']) ) {
 				if ($code == $this->options['woo_payment_type']) {

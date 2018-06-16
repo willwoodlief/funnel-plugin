@@ -106,6 +106,14 @@ div.ecomhub-fi-admin table.ecomhub-fi-raw-detail tr  td:nth-child(3n){
     visibility: hidden;
 }
 
+div.ecomhub-fi-course-info table {
+    border-spacing: 1em;
+}
+
+div.ecomhub-fi-course-info table tr,td {
+    padding: 1em;
+}
+
 
 
 

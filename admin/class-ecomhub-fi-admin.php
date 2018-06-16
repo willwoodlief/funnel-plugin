@@ -495,6 +495,22 @@ class Ecomhub_Fi_Admin {
                 die();
             }
         }
+        elseif (array_key_exists( 'method',$_POST) && $_POST['method'] == 'update_course_info') {
+        	$collection = [];
+        	if (array_key_exists('course_info',$_POST)) {
+        		$course_array = $_POST['course_info'];
+        		foreach ($course_array as $cin) {
+			        $s = new stdClass();
+			        $s->id = $cin['id'];
+			        $s->associated_shop_membership = $cin['associated_shop_membership'];
+			        $s->membership_base = $cin['membership_base'];
+			        $s->notes = $cin['notes'];
+			        $collection[] = $s;
+		        }
+		        EcomhubFiListEvents::set_course_info($collection);
+	        }
+
+        }
 
 	    elseif (array_key_exists( 'method',$_POST) && $_POST['method'] == 'x_posts') {
 		    global $ecombhub_fi_posts_array;

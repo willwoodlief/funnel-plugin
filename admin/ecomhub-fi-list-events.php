@@ -357,6 +357,43 @@ count(error_message) as total_errors,sum(order_items) as total_items, sum(order_
     	throw new Exception("Could not update meta data $meta_key for binding post $post_id_bind to  _funnel_product_id of values ". print_r($other_binds,true));
     }
 
+	public static function get_courses_info( ) {
+    	$ret = [];
+		$posts = get_posts( ['post_type' => 'course' ]);
+		foreach ($posts as $p) {
+			$s = new stdClass();
+			$s->id = $p->ID;
+			$s->title = $p->post_title;
+			$s->associated_shop_membership = get_post_meta($s->id,'ecomhub_fi_shop_membership_item',true);
+			$s->membership_base = get_post_meta($s->id,'ecomhub_fi_membership_base',true);
+			$s->notes =get_post_meta($s->id,'ecomhub_fi_course_admin_notes',true);
+
+			$ret[] = $s;
+		}
+		return $ret;
+	}
+
+	public static function set_course_info($new_course_info) {
+    	$courses  = EcomhubFiListEvents::get_courses_info();
+    	$map = [];
+    	foreach ($new_course_info as $w) {
+    		$map[$w->id] = $w;
+	    }
+
+	    foreach ($courses as $c) {
+    		if (isset($map[$c->id])) {
+    			$c->associated_shop_membership = $map[$c->id]->associated_shop_membership;
+			    $c->membership_base = $map[$c->id]->membership_base;
+			    $c->notes = $map[$c->id]->notes;
+		    }
+	    }
+
+		foreach ($courses as $s) {
+			update_post_meta($s->id,'ecomhub_fi_shop_membership_item',$s->associated_shop_membership);
+			update_post_meta($s->id,'ecomhub_fi_membership_base',$s->membership_base);
+			update_post_meta($s->id,'ecomhub_fi_course_admin_notes',$s->notes);
+		}
+	}
 
 
 }

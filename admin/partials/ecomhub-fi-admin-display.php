@@ -52,7 +52,11 @@
 			?>
         </form>
     </div>
+    <h2> The next two sections are not saved with the "Save Changes" Button Above</h2>
+    <h4> They are saved in place when you do the actions in each section</h4>
     <div class="ecomhub-fi-admin">
+
+        <?php require_once 'ecomhub-fi-admin-course-info.php' ?>
         <div class="ecomhub-fi-product_ids">
             <span style="margin-bottom: 0.25em;font-weight: bold;font-size: larger"> Click Funnel IDs for Products
                 &nbsp;
@@ -97,6 +101,8 @@
             </div>
         </div>
 
+        <h2>These are the Emails that are processed by this integration</h2>
+        <h4>Click on a row to get more details</h4>
         <div style="clear: both" class="ecomhub-fi-table">
 
             <div class="grid-header" style="width:100%">

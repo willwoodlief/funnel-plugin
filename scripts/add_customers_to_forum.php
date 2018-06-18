@@ -66,16 +66,17 @@ try {
 				print "{$s->user_email} [{$s->ID}] has membership \n";
 			} else {
 				$users_to_add[] = $user_id;
-				print "NO {$s->user_email} [{$s->ID}]  ";
+				print "ADDING  {$s->user_email} [{$s->ID}]  \n";
+				$uid = $user_id;
+				$woo = EcomhubFiConnectOrder::make_woo_order( $uid, $membership_id, 'stripe', $http_code, null );
+				if ( $http_code != 201 ) {
+					throw new Exception( "Did not get 201 code when creating order for id of [$uid] " );
+				}
 			}
 		}
 	}
 
-	$uid = 3;
-	$woo = EcomhubFiConnectOrder::make_woo_order( $uid, $membership_id, 'stripe', $http_code, null );
-	if ( $http_code != 201 ) {
-		throw new Exception( "Did not get 201 code when creating order for id of [$uid] " );
-	}
+
 
 
 

@@ -150,6 +150,7 @@ try {
 
                             <td>
 	                            <?php
+                                if ($order->order_id) {
 	                            $wc_order = wc_get_order( $order->order_id );
 	                            ?>
                                 <a href="<?= $wc_order->get_edit_order_url() ?>" target="_blank">
@@ -158,7 +159,7 @@ try {
                         </span>
                                 </a>
 
-
+                              <?php } ?>
                             </td>
 
                             <td>

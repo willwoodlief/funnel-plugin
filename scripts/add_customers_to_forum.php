@@ -42,7 +42,7 @@ try {
 
 	$user_res = $wpdb->get_results( /** @lang text */
 		"
-        ID,user_email,display_name
+        SELECT ID,user_email,display_name
         from $table_name 
          ;
         ");
@@ -63,16 +63,21 @@ try {
 			$b_has_membership = wc_customer_bought_product(null,$user_id,$membership_id);
 			if ($b_has_membership) {
 				$users_have[] = $user_id;
+				print "{$s->user_email} [{$s->ID}] has membership \n";
 			} else {
 				$users_to_add[] = $user_id;
+				print "NO {$s->user_email} [{$s->ID}]  ";
 			}
 		}
 	}
 
-	echo "users already have\n";
-	print_r($users_have);
-	echo "Users to add \n";
-	print_r($users_to_add);
+	$uid = 3;
+	$woo = EcomhubFiConnectOrder::make_woo_order( $uid, $membership_id, 'stripe', $http_code, null );
+	if ( $http_code != 201 ) {
+		throw new Exception( "Did not get 201 code when creating order for id of [$uid] " );
+	}
+
+
 
 
 }

@@ -30,7 +30,7 @@ class Ecomhub_Fi_Activator {
 	 * @since    1.0.0
 	 */
 
-	const DB_VERSION = 1.6;
+	const DB_VERSION = 1.81;
 	public static function activate() {
         global $wpdb;
 
@@ -88,6 +88,13 @@ class Ecomhub_Fi_Activator {
               comments LONGTEXT DEFAULT NULL,
               error_message LONGTEXT DEFAULT NULL,
               error_trace LONGTEXT DEFAULT NULL,
+              extra_order_product_id int DEFAULT NULL,
+              extra_order_id int DEFAULT NULL,
+              extra_order_output LONGTEXT DEFAULT NULL,
+              extra_order_total DECIMAL(15,5) DEFAULT NULL,
+              extra_order_payment_type varchar(20) DEFAULT NULL,
+              extra_error_message LONGTEXT DEFAULT NULL,
+              extra_error_trace LONGTEXT DEFAULT NULL,
               PRIMARY KEY  (id),
               key (ecombhub_fi_funnel_id),
               key (funnel_product_id),

@@ -76,6 +76,36 @@ if ( ! function_exists( 'ecom_fi_log_to_debug_alert' ) ) {
 	}
 }
 
+
+/**
+ * @param boolean $enabled BY REF
+ * @param WC_Order $order
+ *
+ * @return string
+ * @throws Exception
+ */
+function ecomhub_fi_woo_check_email_enabled( $enabled, $order ) {
+	//ecom_fi_log_to_debug_alert("mail hook called ", "yes");
+	require_once plugin_dir_path( __FILE__ ) . "/scripts/connect_order.php";
+	if (EcomhubFiConnectOrder::check_order_for_shop_membership($order)) {
+		//ecom_fi_log_to_debug_alert("mail hook called ", "returning false");
+		return false;
+	}
+	return $enabled;
+
+}
+
+add_filter( 'woocommerce_email_enabled_new_order', 'ecomhub_fi_woo_check_email_enabled', 10, 2);
+add_filter( 'woocommerce_email_enabled_customer_processing_order', 'ecomhub_fi_woo_check_email_enabled', 10, 2);
+add_filter( 'woocommerce_email_enabled_customer_completed_order', 'ecomhub_fi_woo_check_email_enabled', 10, 2);
+add_filter( 'woocommerce_email_enabled_customer_invoice', 'ecomhub_fi_woo_check_email_enabled', 10, 2);
+add_filter( 'woocommerce_email_enabled_customer_note', 'ecomhub_fi_woo_check_email_enabled', 10, 2);
+add_filter( 'woocommerce_email_enabled_low_stock', 'ecomhub_fi_woo_check_email_enabled', 10, 2);
+add_filter( 'woocommerce_email_enabled_no_stock', 'ecomhub_fi_woo_check_email_enabled', 10, 2);
+add_filter( 'woocommerce_email_enabled_backorder', 'ecomhub_fi_woo_check_email_enabled', 10, 2);
+add_filter( 'woocommerce_email_enabled_customer_new_account', 'ecomhub_fi_woo_check_email_enabled', 10, 2);
+add_filter( 'woocommerce_email_enabled_customer_invoice_paid', 'ecomhub_fi_woo_check_email_enabled', 10, 2);
+
 /**
  * The core plugin class that is used to define internationalization,
  * admin-specific hooks, and public-facing site hooks.

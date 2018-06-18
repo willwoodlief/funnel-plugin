@@ -3,6 +3,9 @@ require_once realpath( dirname( __FILE__ ) ) . '/scrape_email.php';
 require_once realpath( dirname( __FILE__ ) ) . '/../includes/JsonHelpers.php';
 require_once realpath( dirname( __FILE__ ) ) . '/../includes/curl_helper.php';
 
+class EcomhubFiProductAlreadyPurchasedException extends Exception {}
+class EcomhubFiNoAssociatedProductFoundException extends Exception {}
+
 class EcomhubFiConnectOrder {
 	var $user = null;
 	var $completed_orders = [];
@@ -371,6 +374,7 @@ class EcomhubFiConnectOrder {
 				try {
 					$da_order = self::create_funnel_order( $mail_id, $product_id, $b_using_posts, $found_user_id, $payment_method, $sum, $data );
 					self::update_user_fields_if_not_set($found_user_id,$data);
+					self::create_shop_membership_order($mail_id,$da_order['id'],$da_order['post_id'],$found_user_id, $payment_method, $sum_addition, $data );
 				} catch ( Exception $e ) {
 					$update_args['is_error']      = 1;
 					$update_args['error_message'] = "Order with Product ID of $product_id has the following error: " . $e->getMessage();
@@ -409,6 +413,9 @@ class EcomhubFiConnectOrder {
 		}
 	}
 
+	public static function add_access_product($main_product_id) {
+
+	}
 	/**
 	 * @param $mail_id
 	 * @param $funnel_product_id
@@ -456,7 +463,15 @@ class EcomhubFiConnectOrder {
 			}
 			$http_code = 0;
 			$woo       = null;
+			$b_already_bought  = wc_customer_bought_product(null,$user_id,$post_id);
+			if ($b_already_bought) {
+				throw new Exception("$post_id aleady bought by user id of $user_id");
+			}
 			try {
+				//check to see if product already sold, if so then exit with an error
+
+
+
 				$woo = self::make_woo_order( $user_id, $post_id, $payment_type, $http_code, $data );
 				if ( $http_code != 201 ) {
 					throw new Exception( "Did not get 201 code when creating order" );
@@ -465,7 +480,7 @@ class EcomhubFiConnectOrder {
 				throw new Exception( "Could not create order: " . $e->getMessage() );
 			} finally {
 				$ret['order_output'] = JsonHelpers::toString( $woo );
-				if ( array_key_exists( 'order_id', $woo ) ) {
+				if ($woo && array_key_exists( 'order_id', $woo ) ) {
 					$ret['order_id'] = $woo['order_id'];
 				} else {
 					$ret['order_id'] = null;
@@ -504,11 +519,149 @@ class EcomhubFiConnectOrder {
 			}
 
 			$ret['id'] = $wpdb->insert_id;
+			$ret['post_id'] = $post_id;
 		}
 
 		return $ret;
 	}
 
+
+	/**
+	 * @param $mail_id
+	 * @param $funnel_order_id
+	 * @param $parent_post_product_id
+	 * @param $user_id
+	 * @param $payment_type
+	 * @param $order_total
+	 * @param null $data
+	 *
+	 * @return array
+	 * @throws Exception
+	 */
+	public static function create_shop_membership_order( $mail_id,$funnel_order_id,$parent_post_product_id, $user_id, $payment_type, &$order_total, $data = null ) {
+		global $wpdb;
+		$funnel_order_table_name = $wpdb->prefix . 'ecombhub_fi_funnel_orders';
+
+		if ( empty( $mail_id ) ) {
+			throw new Exception( "Mail ID is empty;" );
+		}
+
+		//see if there is a membership item with this post
+		$membership_product_id = get_post_meta($parent_post_product_id,'ecomhub_fi_shop_membership_item',true);
+
+		$ret = [
+			'payment_type'          => $payment_type,
+			'extra_order_output' => null,
+			'extra_order_product_id' => $membership_product_id,
+			'extra_error_message'        => null,
+			'extra_error_trace'          => null
+		];
+		try {
+			if ($membership_product_id) {
+				//check to see if they already have one
+				$b_already_bought  = wc_customer_bought_product(null,$user_id,$membership_product_id);
+				if ($b_already_bought) {
+					throw new EcomhubFiProductAlreadyPurchasedException(" user [$user_id] Already Owns Shop membership post id of $membership_product_id");
+				}
+			}
+
+			if ( empty( $membership_product_id ) ) {
+				throw new EcomhubFiNoAssociatedProductFoundException( "Cannot find a membership product id from product id of [$parent_post_product_id]" );
+			}
+			if ( empty( $funnel_order_id ) ) {
+				throw new Exception( "funnel order id  is empty" );
+			}
+			if ( empty( $user_id ) ) {
+				throw new Exception( "user id is empty" );
+			}
+			$http_code = 0;
+			$woo       = null;
+			try {
+
+				$woo = self::make_woo_order( $user_id, $membership_product_id, $payment_type, $http_code, $data );
+				if ( $http_code != 201 ) {
+					throw new Exception( "Did not get 201 code when creating order" );
+				}
+			} catch ( Exception $e ) {
+				throw new Exception( "Could not create order: " . $e->getMessage() );
+			} finally {
+				$ret['extra_order_output'] = JsonHelpers::toString( $woo );
+				if ( array_key_exists( 'order_id', $woo ) ) {
+					$ret['extra_order_id'] = $woo['order_id'];
+				} else {
+					$ret['extra_order_id'] = null;
+				}
+
+				if ( array_key_exists( 'total', $woo ) ) {
+					$order_total        = $woo['total'];
+					$ret['extra_order_total'] = $order_total;
+				} else {
+					$order_total        = null;
+					$ret['extra_order_total'] = $order_total;
+				}
+			}
+
+
+		}
+		catch (EcomhubFiProductAlreadyPurchasedException $pe) {
+			$ret['is_error']      = 0;
+			$ret['extra_error_message'] = $pe->getMessage();
+			$ret['extra_error_trace']   = $pe->getTraceAsString();
+		}
+		catch(EcomhubFiNoAssociatedProductFoundException $ne) {
+			$ret['is_error']      = 0;
+			$ret['extra_error_message'] = $ne->getMessage();
+			$ret['extra_error_trace']   = $ne->getTraceAsString();
+		}
+		catch ( Exception $e ) {
+			$ret['is_error']      = 1;
+			$ret['extra_error_message'] = $e->getMessage();
+			$ret['extra_error_trace']   = $e->getTraceAsString();
+		} finally {
+
+			$b_check = $wpdb->update($funnel_order_table_name,
+				$ret,
+				array('id' => $funnel_order_id)
+			);
+
+
+			if ( $wpdb->last_error ) {
+				throw new Exception( $wpdb->last_error );
+			}
+
+			if ( $b_check === false ) {
+				throw new Exception( "Could not update $funnel_order_table_name, id of $funnel_order_id" );
+			}
+
+
+			$ret['id'] = $funnel_order_id;
+		}
+
+		return $ret;
+	}
+
+	/**
+	 * @param WC_Order $order
+	 *
+	 * @return string
+	 * @throws Exception
+	 */
+	public static function check_order_for_shop_membership($order) {
+		require_once realpath( dirname( __FILE__ ) ) ."/../admin/ecomhub-fi-list-events.php";
+		$items = $order->get_items();
+		foreach ( $items as $item ) {
+			$product_id = $item['product_id'];
+			//see if this product is part of the ecomhub_fi_shop_membership_item meta for any product
+			$b_is_shop_membership_product = EcomhubFiListEvents::is_post_shop_membership_item($product_id);
+			if ( $b_is_shop_membership_product ) {
+		//		ecom_fi_log_to_debug_alert("looking at product id","$product_id , was seen as target");
+				return true;
+
+			}
+		}
+	//	ecom_fi_log_to_debug_alert("looking at product id","did not find anything for [$product_id]");
+		return false;
+	}
 	/**
 	 *
 	 * creates an order using the woo rest api for this server

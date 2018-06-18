@@ -221,9 +221,11 @@ count(error_message) as total_errors,sum(order_items) as total_items, sum(order_
 		    "
         select f.id, f.ecombhub_fi_funnel_id,f.funnel_product_id,f.post_product_id,f.order_id,
 	    f.is_error,f.payment_type,f.order_output,f.comments,f.error_message,f.user_id,f.order_total,
-	    p.post_title
+	    f.extra_error_message,f.extra_order_id, f.extra_order_product_id,f.extra_order_total,
+	    p.post_title,p_other.post_title as extra_order_post_title
         from $order_table_name f
         LEFT JOIN $post_table_name p ON p.id = f.post_product_id
+        LEFT JOIN $post_table_name p_other ON p_other.id = f.extra_order_product_id
          where f.ecombhub_fi_funnel_id = $funnel_transaction_id;
         ");
 	    $fi = $survey_res[0];
@@ -393,6 +395,34 @@ count(error_message) as total_errors,sum(order_items) as total_items, sum(order_
 			update_post_meta($s->id,'ecomhub_fi_membership_base',$s->membership_base);
 			update_post_meta($s->id,'ecomhub_fi_course_admin_notes',$s->notes);
 		}
+	}
+
+	/**
+	 * returns true if this a shop membership item
+	 * @param integer $product_id
+	 *
+	 * @return bool
+	 * @throws Exception
+	 */
+	public static function is_post_shop_membership_item($product_id) {
+		global $wpdb;
+		$product_id = intval($product_id);
+		$meta_posts_table = $wpdb->base_prefix . 'postmeta';
+
+		$sql = /** @lang text */ "select meta_id from $meta_posts_table 
+		where meta_key = 'ecomhub_fi_shop_membership_item' and meta_value = '$product_id'";
+
+
+		$survey_res = $wpdb->get_results( $sql );
+
+		if ( $wpdb->last_error ) {
+			throw new Exception( $wpdb->last_error );
+		}
+
+		if ( empty( $survey_res ) ) {
+			return false;
+		}
+		return true;
 	}
 
 

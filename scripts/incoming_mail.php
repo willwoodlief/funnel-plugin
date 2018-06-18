@@ -58,8 +58,12 @@ try {
 // Example of how to add additional allowed mime types to the list
 // $mr->allowed_mime_types[] = 'text/csv';
     $file = 'php://stdin'; //read from standard input
-   // $file= '/home/will/htdocs/ecomhub/wp-content/plugins/ecomhub-fi/scripts/email_samples/click_funnel_replay.txt'; //when debugging in debugger
-	$mr->readEmail($file);
+	$test_path = getenv('TEST_SETTING_EMAIL_PATH');
+	if ($test_path) {
+	    //if there is a debugging environmental set, then use that instead of standard in
+		$file = $test_path;
+    }
+    $mr->readEmail($file);
 	if ( empty( $mr->body ) ) {
 		Ecomhub_Fi_Log::log_to( $log_name, 'empty body', Ecomhub_Fi_Log::WARNING, $mr );
 		die();

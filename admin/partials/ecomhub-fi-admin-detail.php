@@ -134,7 +134,7 @@ try {
                     <thead>
                     <tr>
                         <th>Funnel Product ID</th>
-                        <th>Our Product ID</th>
+                        <th>Order</th>
                         <th>Payment Logged As</th>
                         <th>Order Total</th>
                         <th>Delete</th>
@@ -149,13 +149,16 @@ try {
                             </td>
 
                             <td>
-								<?php if ( $order->post_product_id ) { ?>
-                                    <a href="<?= get_edit_post_link( $order->order_id ) ?>" target="_blank">
-                                        <span class="ecomhub-fi-sub-order" data-product="<?= $order->post_product_id ?>">
-                                            <?= $order->post_title ?>
-                                        </span>
-                                    </a>
-								<?php } ?>
+	                            <?php
+	                            $wc_order = wc_get_order( $order->order_id );
+	                            ?>
+                                <a href="<?= $wc_order->get_edit_order_url() ?>" target="_blank">
+                        <span class="ecomhub-fi-sub-order" >
+                             <?= $order->post_title ?>
+                        </span>
+                                </a>
+
+
                             </td>
 
                             <td>
@@ -242,12 +245,43 @@ try {
             <td>Error</td>
             <td colspan="7">
                 <span style="text-align: left; color: #ff2b4d;width:100%">
-                <?= ( $mail->error_message ) ?>
+                <?= ( $mail->error_message ) . ' <br> ' . $mail->extra_error_message ?>
                 </span>
 
             </td>
         </tr>
 	<?php } ?>
+
+    <?php if ( $order->extra_order_id ) { ?>
+        <tr>
+            <td>Membership Product Sold</td>
+            <td>
+
+                <a href="<?= get_edit_post_link( $order->extra_order_product_id ) ?>" target="_blank">
+                        <span class="ecomhub-fi-sub-order" >
+                            <?= $order->extra_order_post_title ?>
+                        </span>
+                </a>
+            </td>
+            <td></td>
+
+            <td>Membership Order ID</td>
+            <td>
+                <?php
+                $wc_order = wc_get_order( $order->extra_order_id );
+                ?>
+                <a href="<?= $wc_order->get_edit_order_url() ?>" target="_blank">
+                        <span class="ecomhub-fi-sub-order" >
+                            Order # <?=  $order->extra_order_id ?>
+                        </span>
+                </a>
+            </td>
+            <td></td>
+
+            <td>Membership Cost on Books</td>
+            <td>$<?= round( ( floatval( $order->extra_order_total ) + 0.00001 ) * 100 ) / 100 ?></td>
+        </tr>
+    <?php } ?>
 
 
     <tr>

@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<!--suppress JSCheckFunctionSignatures -->
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>IFrame Form Development Page</title>
+    <style>
+        form input , form a{
+            padding: 1em; margin: 1em;
+        }
+    </style>
+
+<script
+        src="https://code.jquery.com/jquery-1.8.1.js"
+        integrity="sha256-e6rn3uRMD1/JU+Fd/OYCf2OSFcUOXHQlkCL0rYR/JUM="
+        crossorigin="anonymous"></script>
+
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+</head>
+<body>
+<form style="margin: 6em; padding: 1em; border: 1px black solid; width: 50%">
+    <input type="email" placeholder="Email Address..." name="email" class="elS1Email elInput elInput100 elAlign_left elInputSmall elInputBG1 elInputBR5 elInputI0 elInputIBlack elInputIRight required1 elInputSmall elInputBG2 elInputStyl0 garlic-auto-save" data-type="extra">
+    <br>
+    <input type="text" data-custom-type="user_order_token" readonly title="test read only user reference form" placeholder="reference">
+
+    <br>
+    <br>
+    <!--suppress HtmlUnknownAnchorTarget -->
+    <a href="#submit-form-2step" class="elButton elButtonSubtle elButtonSize1 elButtonColor1 elButtonFull elButtonStep1" style="color: rgb(255, 255, 255); background-color: rgb(14, 141, 199); margin-top: 20px;" title="">
+        <span class="elButtonMain elButtonMainStep1">GO TO STEP #2</span>
+        <span class="elButtonSub elButtonSubStep1">**Create EcomHub.com Account - Read Yellow Banner Up Top**</span>
+    </a>
+    <br>
+    <br>
+
+    <br>
+    <br>
+
+    <!--suppress HtmlUnknownAnchorTarget -->
+    <a href="#submit-form-2step-order" class="elButton elButtonSubtle elButtonSize1 elButtonColor1 elButtonFull elButtonStep1" style="color: rgb(255, 255, 255); background-color: rgb(14, 141, 199); margin-top: 20px;" title="">
+        <span class="elButtonMain elButtonMainStep2">Complete Order</span>
+        <span class="elButtonSub elButtonSubStep2"></span>
+    </a>
+
+</form>
+
+
+<!--below here is what is copied into the funnel-->
+
+<div class="ecomhub-fi-account-status" style=" padding: 1em; border: 2px solid #DDD; width: 100%; ">
+    <div class="ecomhub-fi-login-pane">
+        <div class="ecomhub-fi-login-error"></div>
+        <div class="form-group">
+            <label for="ecomhub-fi-email-login">Email</label>
+            <input type="text" class="form-control" id="ecomhub-fi-email-login" placeholder="Email for new Account">
+        </div>
+
+        <div class="form-group">
+            <label for="ecomhub-fi-password-login">Password  </label>
+            <input type="text" class="form-control" id="ecomhub-fi-password-login" placeholder="Password for new Account">
+        </div>
+
+        <div class="form-group">
+            <button type="button" class="btn btn-success btn-lg btn-block" id="ecomhub-fi-login-button">Login To EcomHub While Staying on this Page</button>
+        </div>
+    </div>
+
+    <div class="ecomhub-fi-status-ok">
+        <h1> <span class="fa fa-check" style="color:green;"></span> You are Logged in Successfully to EcomHub</h1>
+    </div>
+</div>
+
+<style>
+
+    div.ecomhub-fi-login-error {
+        color: red;
+    }
+    div.ecomhub-fi-account-status {
+        display: none;
+    }
+
+    div.ecomhub-fi-login-pane {
+        display: none;
+    }
+
+    div.ecomhub-fi-status-ok {
+        display: none;
+    }
+
+
+    #econhub-fi-error-bar {
+        font-size: larger;
+        text-align: center;
+        font-weight: bold;
+        padding: 0.5em;
+        display: none;
+    }
+
+    .ecomhub-fi-is-logged-in {
+        font-size: larger;
+        text-align: center;
+    }
+
+    .ecomhub-fi-is-logged-in span {
+        font-weight: bold;
+    }
+
+    .ecomhub-fi-is-logged-in span.ecomhub-fi-link {
+        text-decoration: underline;
+        cursor: pointer;
+    }
+
+    .ecomhub-fi-not-logged-in {
+        font-size: larger;
+        text-align: center;
+    }
+
+    .ecomhub-fi-not-logged-in span {
+        font-weight: bold;
+    }
+
+    .ecomhub-fi-not-logged-in span.ecomhub-fi-link {
+        text-decoration: underline;
+        cursor: pointer;
+    }
+
+    .ecomhub-fi-link {
+        font-weight: bold;
+        text-decoration: underline;
+        cursor: pointer;
+    }
+
+    .ecomhub-fi-login-details td {
+        padding: 1em;
+        text-align: left;
+    }
+
+    .ecomhub-fi-login-details td:nth-child(1) {
+        font-weight: bold;
+    }
+
+    /*noinspection CssUnusedSymbol*/
+    .ecomhub-fi-dialog-confirm-logout .ecomhub-fi-home-url {
+        border: none;
+        font-weight: bold;
+    }
+
+    /*noinspection CssUnusedSymbol*/
+    .ecomhub-fi-disable-link {
+        background-color: grey !important;
+        cursor: not-allowed !important;
+    }
+
+    .ecomhub-fi-form-page {
+        display: none;
+    }
+</style>
+
+
+
+
+
+<div style="display: none" class="ecomhub-fi-div-templates">
+    <!--container for status bar messages-->
+    <div class="ecomhub-fi-is-logged-in" >
+        Hi <span class="ecomhub-fi-display-name"></span>, You are logged in as <span class="ecomhub-fi-login-name"></span>
+         on <a class="ecomhub-fi-home-url" href="" target="_blank"> <span class="ecomhub-fi-home-url"></span></a>
+         If this is not you, or you need to change accounts ,  <span class="ecomhub-fi-switch-accounts ecomhub-fi-link">click here</span>
+         before checking out
+    </div>
+
+    <div class="ecomhub-fi-not-logged-in">
+        Hi, we can create a new account, and log you in automatically,  for
+         <a class="ecomhub-fi-home-url" href="" target="_blank"> <span class="ecomhub-fi-home-url"></span></a>
+         without leaving this page. <br> Or you can sign into an existing account, also without leaving this page. <br>
+         You do need an account to use your purchase !
+         <span class="ecomhub-fi-start-account ecomhub-fi-link">Click Here</span>
+        before checking out, to connect
+    </div>
+</div>
+
+<script>
+
+       var sendMessage = null;
+    /**
+     * The data of a is logout command response that succeeds
+     * @typedef {Object} LogoutResponse
+     * @property {string} pass_through  - a variable
+
+     */
+
+    /**
+     * The data of a is create user command response that succeeds
+     * @typedef {Object} CreateUserResponse
+     * @property {string} user_id  - the id of the new account
+     * @property {string} email - the email of the new account
+     * @property {string} password - the generated password
+     */
+
+
+    /**
+     * The data of a is logged in query, or a login command
+     * @typedef {Object} LoginResponse
+     * @property {string} email  - if true, the response has no errors
+     * @property {string} login_name
+     * @property {string} first_name
+     * @property {string} last_name
+     * @property {int} id
+     * @property {string} user_reference
+     */
+
+    /**
+     * This is the format of all api returns
+     * @typedef {Object} IframeMessage
+     * @property {boolean} is_valid  - if true, the response has no errors
+     * @property {LogoutResponse|CreateUserResponse|LoginResponse|string|boolean|int} data - payload
+     * @property {string} method - the name of the call made
+     * @property {array} trace - if error, then the trace of the exception
+     */
+
+    function EcomhubFiCallbacks() {
+
+        this.no_bar_notifications = true;
+       //  this.iframeSource = 'http://localhost/ecomhub/ecomhub-fi/js_api/';
+        this.iframeSource = 'https://ecomhub.com/ecomhub-fi/js_api/';
+        this.home_url = "https://ecomhub.com";
+       // this.home_url = 'http://localhost/ecomhub';
+
+        this.user_id = null; //the user id that is logged into the site
+        this.b_show_box = true;
+        var master = this;
+        this.email_used = null;
+        this.submit_thing = $('a[href*="#submit-form-2step"]').first();
+        this.b_stop_next_step = false;
+        this.submit_thing.click(function(e) {
+            master.email_used = $("input[type='email'][name='email']").val();
+            console.debug("email selected is" + master.email_used);
+            sendMessage({method: 'is_logged_in',data: {}});
+            if (master.b_stop_next_step) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
+        });
+
+        this.login_button = $("#ecomhub-fi-login-button");
+        this.login_button.click(function() {
+            var email = $('#ecomhub-fi-email-login').val();
+            var password = $('#ecomhub-fi-password-login').val();
+            sendMessage({method: 'login_user',data: {user_login: email,password: password }});
+        });
+
+        //if
+        this.set_login_panel = function(data,b_is_error) {
+            //if logged in we do not show a login form, but tell them they are connected
+
+            //hide the two children, show the parent
+            var parent = $("div.ecomhub-fi-account-status");
+            var login_div = $("div.ecomhub-fi-login-pane");
+            var status_div = $("div.ecomhub-fi-status-ok");
+             login_div.hide();
+             status_div.hide();
+             if (!this.b_show_box) {
+                 parent.hide();
+                 return;
+             }
+             parent.show();
+            if (typeof data === 'string' || data instanceof String) {
+                if (b_is_error) {
+                    $("div.ecomhub-fi-login-error").html(data);
+                } else {
+                    $("div.ecomhub-fi-login-error").html('');
+                    $('#ecomhub-fi-email-login').val(data);
+                }
+
+                login_div.show();
+            } else {
+                status_div.show();
+            }
+
+        };
+
+        if ($("#econhub-fi-notice").length === 0 ) {
+            if (!this.no_bar_notifications) {
+                var body = $('body');
+                body.prepend("<div style='width: 100%' id='econhub-fi-error-bar' class='alert-danger'></div>");
+                body.prepend("<div style='width: 100%' id='econhub-fi-notice'></div>");
+            }
+        }
+
+        this.showError = function(message) {
+            var bar = $("#econhub-fi-error-bar");
+            if (!message) {
+                bar.html("").hide();
+            } else {
+                bar.html(message).show();
+            }
+
+        };
+
+        function message_bar_notice(style,message) {
+            var bar =  $("#econhub-fi-notice");
+            //clear out bar
+            bar.removeClass('alert-success alert-info alert-warning alert-danger');
+            bar.html('');
+            switch (style) {
+                case 'alert-success':
+                case 'alert-info':
+                case 'alert-warning':
+                case 'alert-danger': {
+                    bar.addClass(style);
+                }
+
+
+                //if a string, set html, if an object append
+                    if (typeof  message === 'string') {
+                        bar.html(message);
+                    } else if(( message === Object(message) )  && ( message instanceof jQuery) ) {
+                        bar.append(message);
+                    } else {
+                        console.error("message is neither a string or jquery object, cannot display:",message);
+                    }
+            }
+        }
+
+        /**
+         * @param {LoginResponse} data
+         * @param {string} home_url
+         */
+        function fill_in_logged_in_bar(data,home_url) {
+            var g = $('div.ecomhub-fi-is-logged-in').clone(  true,true  );
+
+            var display_name = '';
+            if (data.first_name && data.last_name) {
+                display_name = data.first_name + ' ' +  data.last_name;
+            } else if (data.first_name) {
+                display_name = data.first_name;
+            } else if (data.last_name) {
+                display_name = data.last_name;
+            } else {
+                display_name = '';
+            }
+            g.find('span.ecomhub-fi-display-name').text(display_name);
+
+            var login_name = data.login_name;
+            g.find('span.ecomhub-fi-login-name').text(login_name);
+            g.find('span.ecomhub-fi-home-url').text(home_url);
+            g.find('a.ecomhub-fi-home-url').attr("href", home_url);
+            message_bar_notice('alert-success',g )
+        }
+
+        function fill_in_logged_out_bar(home_url) {
+            var gnot = $('div.ecomhub-fi-not-logged-in').clone(  true,true  );
+            //not logged in
+            gnot.find('span.ecomhub-fi-home-url').text(home_url);
+            gnot.find('a.ecomhub-fi-home-url').attr("href", home_url);
+            message_bar_notice('alert-warning',gnot );
+        }
+
+        function set_user_reference_in_form(reference) {
+            if (reference) {
+                $("[data-custom-type='user_order_token']").val(reference);
+            } else {
+                $("[data-custom-type='user_order_token']").val('');
+            }
+        }
+
+        function enable_submit_button(b_what,index) {
+            var submit_thing = $('a[href*="#submit-form-2step"]').eq(index);
+            if (submit_thing.length === 0) {
+                console.error("Cannot find submit button");
+            }
+            if (b_what) {
+                submit_thing.removeClass("ecomhub-fi-disable-link");
+                submit_thing.attr("title","");
+                submit_thing.off('click.disable_submit');
+                $('a[href*="#submit-form-2step"]').eq(index).find("span.elButtonSubStep2").text('');
+
+            } else {
+                submit_thing.addClass("ecomhub-fi-disable-link");
+                submit_thing.attr("title","Sign In First, before ordering");
+                submit_thing.on('click.disable_submit', function (e) {
+                    e.stopPropagation();
+                    e.preventDefault();
+                });
+            }
+        }
+
+        /**
+         *
+         * @param {IframeMessage} msg
+         */
+        this.is_logged_in = function(msg) {
+            /**
+             * @type {LoginResponse|false} data
+             */
+            var data = msg.data;
+
+            if (!data) {
+
+                this.user_id = null;
+                fill_in_logged_out_bar(this.home_url);
+                enable_submit_button(false,1);
+                //we search to see if email exists,
+                if (master.email_used) {
+                    sendMessage({method: 'find_user',data: {email: this.email_used} });
+                }
+
+                //else we wait for them to come back back and fill it in later
+
+            } else {
+                //is logged in as user_id, nothing else to be done, its okay. make sure they can complete the purchase
+                // by enabling the submit button and setting the reference
+                this.user_id = data.id;
+                fill_in_logged_in_bar(data,this.home_url);
+                set_user_reference_in_form(data.user_reference);
+                enable_submit_button(true,1);
+                this.set_login_panel(data);
+
+            }
+        };
+
+        this.find_user = function(msg) {
+            var data = msg.data;
+
+            if (!data) {
+                //if user does not exist, we create account; when account is created we log them in
+                // create account
+                sendMessage({method: 'create_user', data: {user_name: null,user_email: this.email_used,password2: null }});
+                this.user_id = null;
+                fill_in_logged_out_bar(this.home_url);
+            } else {
+                //there is a user, we ask them to log in
+                this.user_id = data;
+                $('a[href*="#submit-form-2step"]').eq(1).find("span.elButtonSubStep2").text("Please Login to Ecomhub Below To Complete");
+                this.set_login_panel(this.email_used); //
+            }
+        };
+
+
+        /**
+         * @param {IframeMessage} msg
+         */
+        this.logout_user = function(msg) {
+
+            /**
+             * @type {LogoutResponse} data
+             */
+            var data = msg.data;
+            fill_in_logged_out_bar(this.home_url);
+            set_user_reference_in_form(null);
+            enable_submit_button(false,0);
+
+        };
+
+        /**
+         *
+         * @param {IframeMessage} msg
+         */
+        this.login_user = function(msg) {
+            /**
+             * @type {LoginResponse} data
+             */
+            if (msg.is_valid) {
+                var data = msg.data;
+                this.user_id = data.id;
+                fill_in_logged_in_bar(data,this.home_url);
+                set_user_reference_in_form(data.user_reference);
+                enable_submit_button(true,1);
+                this.set_login_panel(msg.data);
+            } else {
+                this.set_login_panel(msg.message,true);
+            }
+
+        };
+
+
+        /**
+         *
+         * @param {IframeMessage} msg
+         */
+        this.create_user = function(msg) {
+            /**
+             * @type {CreateUserResponse} data
+             */
+            var data = msg.data;
+            this.b_show_box = false;
+            sendMessage({method: 'login_user',data: {user_login: data.email,password: data.password }});
+        //    this.set_login_panel(msg.data);
+        };
+    }
+
+
+    $(function () {
+
+
+        var callbacks = new EcomhubFiCallbacks();
+        console.debug("generating api iframe");
+
+        // addEventListener support for IE8
+        function bindEvent(element, eventName, eventHandler) {
+            if (element.addEventListener){
+                element.addEventListener(eventName, eventHandler, false);
+            } else { // noinspection JSUnresolvedVariable
+                if (element.attachEvent) {
+                    element.attachEvent('on' + eventName, eventHandler);
+                }
+            }
+        }
+
+
+        //click funnels loads in custom html/js resources after everything else loads in, so an ordinary script and css tag set followed by code
+        //would fail as the code can be executed before the script and css load. Here is a way to load a css file as part of a promise
+        (function ($) {
+            $.getStylesheet = function (href) {
+                var $d = $.Deferred();
+                var $link = $('<link/>', {
+                    rel: 'stylesheet',
+                    type: 'text/css',
+                    href: href
+                }).appendTo('head');
+                $d.resolve($link);
+                return $d.promise();
+            };
+
+            $.fn.onEnter = function(func) {
+                this.bind('keypress', function(e) {
+                    if (e.keyCode === 13) func.apply(this, [e]);
+                });
+                return this;
+            };
+        })(jQuery);
+
+        // Create the iframe
+        var iframe = document.createElement('iframe');
+        iframe.setAttribute('src', callbacks.iframeSource);
+        iframe.setAttribute('id', 'ecomhub-fi-api-iframe');
+        iframe.style.width = 450 + 'px';
+        iframe.style.height = 200 + 'px';
+        iframe.style.display = 'none';
+        iframe.onload=function(){
+            //when both the js and css loads, then we do our work. But only do this after we load the iframe
+            // because otherwise this fires before the iframe is ready, and nothing will happen
+            $.when($.getStylesheet('https://code.jquery.com/ui/1.12.1/themes/redmond/jquery-ui.css'), $.getScript('https://code.jquery.com/ui/1.12.1/jquery-ui.js'))
+                .then(function () {
+                    console.debug('the css and js loaded successfully and are both ready');
+                 //   initialize_dialogs();
+
+                 //
+                }, function () {
+                    console.log('an error occurred somewhere');
+                });
+
+        };
+        
+        document.body.appendChild(iframe);
+
+        // Send a message to the child iframe
+        var iframeEl = document.getElementById('ecomhub-fi-api-iframe');
+
+
+
+        // Send a message to the child iframe
+         sendMessage = function(msg) {
+            // Make sure you are sending a string, and to stringify JSON
+            let json_msg = JSON.stringify(msg);
+            iframeEl.contentWindow.postMessage(json_msg, '*');
+        };
+
+        // Listen to message from child window
+        bindEvent(window, 'message', function (e) {
+
+            var data = null;
+
+            if (typeof  e.data === 'string') {
+                data = JSON.parse(e.data);
+            } else {
+                data = e.data;
+            }
+
+            if (data !== Object(data)) {
+                //not an object
+                console.warn("Data received from the message is not an object ",data);
+                return;
+            }
+            if (!data.hasOwnProperty('method')) {
+                console.warn("Data received from the message does not have a message property ",data);
+                return;
+            }
+
+            callbacks.showError(null);
+            // noinspection JSJQueryEfficiency
+            $('.ecomhub-fi-dialog-new-account').find('alert-danger').html('');
+
+            // noinspection JSJQueryEfficiency
+            $('.ecomhub-fi-dialog-login-account').find('.alert-danger').html('');
+
+            if (!data.is_valid) {
+                console.warn("Data received not marked as valid ",data);
+                callbacks.showError(data.message);
+                if (data.method === 'create_user') {
+
+                } else if (data.method === 'login_user') {
+
+                }
+                return;
+            }
+            switch ( data.method) {
+                case 'is_logged_in': {
+                    callbacks.is_logged_in(data);
+                    break;
+                }
+                case 'logout_user': {
+                    callbacks.logout_user(data);
+                    break;
+                }
+
+                case 'login_user': {
+                    callbacks.login_user(data);
+                    break;
+                }
+                case 'create_user': {
+                    callbacks.create_user(data);
+                    break;
+                }
+                case 'find_user': {
+                    callbacks.find_user(data);
+                    break;
+                }
+                    //sendMessage({method: 'find_user',data: {email: email} });
+
+                default: {
+                    console.warn("did not understant this message:",data);
+                    break;
+                }
+            }
+        });
+
+    });
+</script>
+
+<!--above here is what is copied into the funnel-->
+
+</body>
+</html>

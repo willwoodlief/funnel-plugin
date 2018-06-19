@@ -79,7 +79,8 @@ try {
 			print "<select class='ecomhub-fi-editable-funnel-fields' data-field='payment_method'>";
 			foreach ( $enabled_gateways as $gateway ) {
 				$code    = $gateway->id;
-				$name    = $gateway->title;
+				$name = $gateway->title;
+				if (!$name) { $name = $gateway->method_title; }
 				$default = '';
 				if ( $mail->payment_type ) {
 					if ( $code == $mail->payment_type ) {

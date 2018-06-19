@@ -235,14 +235,13 @@
      * @property {LogoutResponse|CreateUserResponse|LoginResponse|string|boolean|integer} data - payload
      * @property {string} method - the name of the call made
      * @property {array} trace - if error, then the trace of the exception
-     */
+     */showError
 
     function EcomhubFiCallbacks() {
 
          this.iframeSource = 'http://localhost/ecomhub/ecomhub-fi/js_api/';
         //this.iframeSource = 'https://ecomhub.com/ecomhub-fi/js_api/';
-       // this.home_url = "https://ecomhub.com";
-        this.home_url = 'http://localhost/ecomhub';
+        this.home_url = "https://ecomhub.com";
 
         this.user_id = null; //the user id that is logged into the site
 

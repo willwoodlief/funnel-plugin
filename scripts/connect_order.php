@@ -647,7 +647,9 @@ class EcomhubFiConnectOrder {
 	 * @throws Exception
 	 */
 	public static function check_order_for_shop_membership($order) {
+
 		require_once realpath( dirname( __FILE__ ) ) ."/../admin/ecomhub-fi-list-events.php";
+		if (!$order) {return false;}
 		$items = $order->get_items();
 		foreach ( $items as $item ) {
 			$product_id = $item['product_id'];
